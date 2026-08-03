@@ -12,7 +12,7 @@ jobs:
       run:
         shell: powershell
     env:
-      # Avoid git "dubious ownership" when runner service account changes
+      # Avoid git "dubious ownership" when runner service account change
       GIT_CONFIG_COUNT: 1
       GIT_CONFIG_KEY_0: safe.directory
       GIT_CONFIG_VALUE_0: "*"
