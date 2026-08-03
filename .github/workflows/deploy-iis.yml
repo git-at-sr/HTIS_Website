@@ -1,0 +1,42 @@
+name: Deploy to IIS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: powershell
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to IIS
+        run: |
+          $dest = "C:\inetpub\wwwroot\HTISWebsite"
+
+          if (-not (Test-Path $dest)) {
+            New-Item -ItemType Directory -Path $dest -Force | Out-Null
+          }
+
+          Get-ChildItem $dest -Force | Remove-Item -Recurse -Force
+          Copy-Item -Path "dist\*" -Destination $dest -Recurse -Force
+
+          Write-Host "Deployed to $dest"
