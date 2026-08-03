@@ -1,0 +1,295 @@
+title: System Integration & IT Infrastructure - HTIS
+hero:
+  sectionId: system-integration-hero
+  backgroundImage: src/assets/hero-bg.png
+  title: System Integration & IT Infrastructure
+  subtitle: We don't just deploy hardware; we architect the digital nervous
+    systems of modern enterprises. Our System Integration vertical bridges the
+    gap between high-performance physical infrastructure and cognitive digital
+    operations.
+  ctaLabel: Contact Us
+  ctaUrl: "#contact"
+  carouselImages:
+    - src/assets/oip-2.webp
+    - src/assets/web-analysis-programming-system-with-cloud-server-free-vector.jpg
+    - src/assets/fff-1.jpg
+strategicPillars:
+  sectionId: strategic-pillars
+  backgroundImage: src/assets/team-member-bg.png
+  centerImage: src/assets/geminigeneratedimage8ndeq08ndeq08nde.png
+  heading: Strategic Technical Pillars
+  cards:
+    - iconName: Server
+      title: Converged Infrastructure & Data Centre Stack
+      description: High-availability compute and storage architectures from the core
+        to the edge.
+      content: We deliver end-to-end infrastructure resilience through Hyperconverged
+        Infrastructure (HCI), enterprise-grade server clusters, and scalable
+        storage solutions, ensuring your Data Center stack remains future-ready
+        and virtualization-optimized.
+      column: left
+    - iconName: Network
+      title: Adaptive Networking & Secure Connectivity
+      description: Intelligent LAN, WAN, and Campus fabrics designed for seamless,
+        high-speed data flow.
+      content: Our networking expertise covers the full spectrum of Active (Switches,
+        Routers, IPABX) and Passive (OFC, Rack, Structured Cabling) components,
+        integrated with SD-WAN and SDN technologies for software-defined
+        agility.
+      column: left
+    - iconName: Cloud
+      title: Hybrid Cloud & Digital Workspace
+      description: Transitioning traditional environments into elastic, cloud-native
+        modern workplaces.
+      content: From complex Cloud Migrations (AWS/Azure) to Hybrid Cloud deployments
+        and Virtual Desktop Infrastructure (VDI), we ensure your workforce stays
+        connected and productive through secure, scalable cloud ecosystems.
+      column: left
+    - iconName: Briefcase
+      title: Managed Lifecycle & ICT Projects
+      description: Comprehensive service models ensuring long-term operational continuity.
+      content: Our managed services provide strategic stability through specialized
+        Manpower (L1-L6), customized AMC/CAMC models, and end-to-end ICT project
+        management tailored for large-scale government and private sector
+        rollouts.
+      column: center
+    - iconName: ShieldCheck
+      title: Unified Cyber-Defence & Resilience
+      description: Perimeter-to-Endpoint security frameworks to mitigate modern threat
+        landscapes.
+      content: We deploy robust security architectures including Next-Gen Firewalls,
+        Identity & Access Management (IAM), and advanced EDR/XDR/Email Security
+        solutions to ensure 360-degree data protection and regulatory
+        compliance.
+      column: right
+    - iconName: Cctv
+      title: Environmental Control & Physical Security
+      description: Critical infrastructure protection including surveillance, power,
+        and thermal management.
+      content: We secure the physical layer through integrated Surveillance (CCTV) and
+        Access Control, supported by mission-critical power backups (UPS), fire
+        suppression systems, and specialized refrigeration for high-density IT
+        environments.
+      column: right
+    - iconName: Monitor
+      title: Professional Compute & Visual Systems
+      description: Specialized hardware and immersive AV/VC solutions for the modern
+        enterprise.
+      content: We provide a full suite of high-performance compute, including
+        workstations, notebooks, and peripherals, alongside advanced AV/VC
+        integrations like LED Walls and professional projection systems for
+        high-impact communication.
+      column: right
+partnerEcosystem:
+  sectionId: partner-ecosystem
+  heading: The [HTIS Partner]{color=primary} Ecosystem
+  description: We collaborate with a specialized list of global OEMs to deliver
+    end-to-end IT excellence. This ecosystem ensures that every layer of your
+    infrastructure, from the endpoint to the cloud, is powered by
+    industry-leading technology.
+  tabs:
+    - iconName: Laptop
+      title: Compute & Mobility
+      subtitle: Laptops, Servers, High-End Workstations
+      description: High-performance, secure, and scalable client systems, servers, and
+        workspace solutions.
+      partners:
+        - name: Dell
+          logo: src/assets/dell-2.png
+        - name: HP
+          logo: src/assets/hp-1.png
+        - name: Lenovo
+          logo: src/assets/lenovo-3.png
+        - name: MSi
+          logo: src/assets/msi-logo-removebg-preview.png
+        - name: Acer
+          logo: src/assets/acer.png
+    - iconName: Network
+      title: Networking & Fabric
+      subtitle: Active Switches, Routers, Wireless, SD-WAN
+      description: High-performance, secure and scalable network infrastructure that
+        keeps your business connected.
+      partners:
+        - name: Cisco
+          logo: src/assets/cisco-2.png
+        - name: Aruba (HPE)
+          logo: src/assets/aruba-3.png
+        - name: Juniper Networks
+          logo: src/assets/juniper-2.png
+        - name: Ruckus
+          logo: src/assets/ruckus-networks-1.png
+        - name: D-Link
+          logo: src/assets/d-link-4.png
+    - iconName: ShieldCheck
+      title: Cybersecurity
+      subtitle: Firewalls, EDR/XDR, Identity Management
+      description: Perimeter-to-endpoint security frameworks designed to mitigate
+        threats and protect critical assets.
+      partners:
+        - name: Palo Alto
+          logo: src/assets/paloalto.png
+        - name: Fortinet
+          logo: src/assets/fortinet-2.png
+        - name: Check Point
+          logo: src/assets/check-point-1.png
+        - name: SonicWall
+          logo: src/assets/sonicwall-1.png
+        - name: Sophos
+          logo: src/assets/sophos-2.png
+    - iconName: Cloud
+      title: Cloud & Virtualization
+      subtitle: Hybrid Cloud, VDI, Hyperconverged (HCI)
+      description: Seamless hybrid cloud migration, secure virtual desktops, and
+        scalable virtual environments.
+      partners:
+        - name: AWS
+          logo: src/assets/aws.png
+        - name: Microsoft Azure
+          logo: src/assets/microsoft-azure.webp
+    - iconName: Database
+      title: Storage & Backup
+      subtitle: Enterprise Storage, Data Protection
+      description: Enterprise-grade storage systems and resilient data protection to
+        guarantee business continuity.
+      partners:
+        - name: NetApp
+          logo: src/assets/netapp.webp
+        - name: Pure Storage
+          logo: src/assets/pure-storage.webp
+        - name: Veeam
+          logo: src/assets/veeam.png
+        - name: Commvault
+          logo: src/assets/commvault-1.png
+    - iconName: Zap
+      title: Infra & Power
+      subtitle: Data Centre Racks, UPS, Precision Cooling
+      description: Mission-critical power backup, cooling systems, and racks ensuring
+        maximum datacenter uptime.
+      partners:
+        - name: Schneider Electric
+          logo: src/assets/schneider-electric-2.png
+        - name: APC
+          logo: src/assets/apc.png
+        - name: Vertiv
+          logo: src/assets/vertiv-1.png
+        - name: Eaton
+          logo: src/assets/eaton-2.png
+    - iconName: Cctv
+      title: "Surveillance "
+      subtitle: Physical Security & Surveillance
+      description: Integrated physical security, CCTV surveillance, access control,
+        and intelligent monitoring systems.
+      partners:
+        - name: Bosch
+          logo: src/assets/bosch-1.png
+        - name: Hikvision
+          logo: src/assets/hikvision-3.png
+        - name: Panasonic
+          logo: src/assets/panasonic-2.png
+        - name: Prama
+          logo: src/assets/prama.webp
+        - name: Honeywell
+          logo: src/assets/honeywell.webp
+        - name: Matrix Comsec
+          logo: src/assets/matrix-comsec.png
+        - name: CP Plus
+          logo: src/assets/cp-plus.png
+        - name: Sparsh
+          logo: src/assets/sparsh.png
+    - iconName: Monitor
+      title: Audio Video (AV)
+      subtitle: LED Walls, Displays & VC
+      description: Enterprise LED walls, digital displays, conferencing, and
+        high-impact visual communication systems.
+      partners:
+        - name: Samsung
+          logo: src/assets/samsung-3.png
+        - name: LG
+          logo: src/assets/lg-1.png
+        - name: Sony
+          logo: src/assets/sony.svg
+        - name: JBL
+          logo: src/assets/jbl.webp
+        - name: Crestron
+          logo: src/assets/crestron-5.png
+execution:
+  sectionId: execution
+  heading: |-
+    Built to Execute.
+    Scaled to Deliver.
+  metrics:
+    - target: 1.2
+      showDecimalAnimation: true
+      unit: M
+      suffix: +
+      label: Sites Deployed
+    - target: 250
+      showDecimalAnimation: false
+      unit: K
+      suffix: +
+      label: Routers Deployed
+    - target: 16
+      showDecimalAnimation: false
+      suffix: +
+      label: Telecom Circles (India)
+    - target: 8
+      showDecimalAnimation: false
+      suffix: +
+      label: Countries Served
+      subLabel: India, Bangladesh, Nepal, Sri Lanka, South Africa, UK, Nigeria, CAR
+    - target: 3
+      showDecimalAnimation: false
+      suffix: /4
+      label: Major Indian Operators Served
+  pillars:
+    - iconName: Network
+      title: |-
+        Core Telecom
+        and Network Operations
+      description: Scaling the Experts of Next-Gen Connectivity. Mobilizing
+        mission-critical field and core engineering teams for 4G/5G rollouts and
+        network evolution. We provide the specialized riggers, CCNA/ACI
+        engineers, and operations coordinators required to ensure carrier-grade
+        stability and high-performance network execution.
+      url: "#"
+    - iconName: Users
+      title: |-
+        Specialized Technical Resourcing
+        and Deployment
+      description: Scalable L1-L6 talent solutions engineered for complex,
+        multi-region telecom rollouts. We bridge the technical skill gap by
+        deploying a domain-expert workforce. From high-niche technical
+        architects (L6) to scalable field engineering units (L1), we provide the
+        human capital required for operational excellence.
+      url: "#"
+    - iconName: Code
+      title: |-
+        Enterprise Software Engineering
+        and On-Demand Solutions
+      description: Bespoke digital assets and SaaS platforms tailored for government
+        and corporate scale. We build the intelligence that drives connectivity.
+        Specializing in on-demand software development, we deliver secure,
+        high-compliance digital assets-including our proprietary ERP
+        systems-designed for the most demanding regulatory environments.
+      url: "#"
+deployments:
+  sectionId: integrated-deployments
+  heading: Integrated Infrastructure Deployments
+  image: src/assets/bt-wholesale-2-1.jpg
+  imageAlt: Enterprise Network Infrastructure
+  featured:
+    title: Enterprise Network Infrastructure
+    description: From structured cabling to active network systems, we build
+      reliable connectivity foundations that power enterprise communication and
+      data flow.
+    ctaLabel: Read Case Study
+    ctaUrl: "#"
+  items:
+    - title: Surveillance & Security Integration
+      description: Integrated CCTV, access control, and monitoring infrastructure
+        designed to improve security visibility and operational oversight.
+      ctaLabel: Read Case Study
+      ctaUrl: "#"
+    - title: Data Center & Server Integration
+      ctaLabel: Read Case Study
+      ctaUrl: "#"

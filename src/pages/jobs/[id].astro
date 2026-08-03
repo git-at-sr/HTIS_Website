@@ -1,0 +1,32 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Navbar from '~/components/Navbar.astro';
+import Footer from '~/components/Footer.astro';
+import Contact from '~/components/Contact.astro';
+import { getJobStaticPaths, type HiringApiJob } from '~/data/jobApi';
+import JobDetail from '~/components/jobs/JobDetail.svelte';
+
+export async function getStaticPaths() {
+  return getJobStaticPaths();
+}
+
+const { apiJob } = Astro.props as { apiJob: HiringApiJob };
+const jobId = Astro.params.id ?? String(apiJob.jobId);
+---
+
+<Layout>
+  <div class="relative flex min-h-screen w-full flex-col bg-base-200/30 pt-24 pb-0">
+    <Navbar />
+
+    <main class="z-10 mx-auto w-full max-w-5xl grow px-4 py-12 md:px-6 md:py-20">
+      <JobDetail {jobId} initialJob={apiJob} client:load />
+    </main>
+
+    <div class="mt-auto bg-base-200/50">
+      <div class="pt-16 md:pt-24">
+        <Contact />
+        <Footer overlap={true} />
+      </div>
+    </div>
+  </div>
+</Layout>

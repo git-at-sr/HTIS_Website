@@ -1,0 +1,113 @@
+logo:
+  image: src/assets/htis-logo.png
+  alt: HTIS Logo
+description: HTIS is a thriving community where innovators, professionals, and
+  enthusiasts come together to share knowledge, collaborate, and grow.
+company:
+  heading: Company
+  links:
+    - label: About us
+      url: /about
+    - label: Services
+      url: /#services
+    - label: Community
+      url: /about
+    - label: Testimonial
+      url: /#testimonials
+services:
+  heading: Services
+  links:
+    - label: Telecom
+      url: /telecom
+    - label: System Integration
+      url: /system-integration
+    - label: Software Development
+      url: /software
+    - label: Resource Management
+      url: /resourcing
+socials:
+  links:
+    - label: Facebook
+      url: https://www.facebook.com/htistelecomindia
+      icon: Facebook
+    - label: Instagram
+      url: https://www.instagram.com/htis_telecom/
+      icon: Instagram
+    - label: Youtube
+      url: https://www.youtube.com/@HTISTelecom
+      icon: Youtube
+    - label: Twitter
+      url: https://x.com/Htis_Telecom
+      icon: Twitter
+    - label: LinkedIn
+      url: https://www.linkedin.com/company/htis-telecom/
+      icon: LinkedIn
+contact:
+  heading: Helpline
+  phone: +91 8699954005
+  email: help@htis.in
+offices:
+  heading: Our offices
+  indiaFlagCode: in
+  list:
+    - name: Mohali
+      companyName: HTIS Telecom Private Limited
+      address: E 94, 1st Floor, ELTOP Industrial Area, Phase 8, Mohali - 160055,
+        Punjab, India
+      phone: 0172-5096134
+      email: info@htis.in
+    - name: Gurgaon
+      companyName: HTIS Telecom Private Limited
+      address: PHS Business Center, 353/18, Civil Lines, Gurgaon - 122001 Haryana,
+        India.
+      phone: " 0124-27243598"
+      email: info@htis.in
+    - name: Shimla
+      companyName: HTIS Telecom Private Limited
+      address: Flat A-01, Verma Apartment, near ISBT Tutikandi, Shimla - 171004, India.
+      phone: "9817038008"
+      email: SML@htis.in
+    - name: J&K
+      companyName: HTIS Telecom Private Limited
+      address: Rather Complex, Baba Dharam Dass, Munwarabad, Srinagar - 190001, India.
+      phone: "7006520020"
+      email: JnK@htis.in
+    - name: Dehradun
+      companyName: HTIS Telecom Private Limited
+      address: S-6, Tula Palace Araghar Chowk, Haridwar Road, Dehradun - 248001, India.
+      phone: "9639194590"
+      email: DDN@htis.in
+    - name: Chennai
+      companyName: HTIS Telecom Private Limited
+      address: 2f, 1st Floor, Rajarajan Street, Navarathna Garden Main Road,
+        Ekkattuthangal, Chennai - 600032, India.
+      phone: "9894010885"
+      email: CHN@htis.in
+    - name: Mumbai
+      companyName: HTIS Telecom Private Limited
+      address: UPCOMING
+      phone: "8699954005"
+      email: MUM@htis.in
+globalPresence:
+  heading: Global presence
+  ctaLabel: Know more
+  ctaUrl: /about/#our-presence
+  countries:
+    - name: UAE
+      code: ae
+    - name: UK
+      code: gb
+    - name: South Africa
+      code: za
+    - name: Sri Lanka
+      code: lk
+    - name: Bangladesh
+      code: bd
+    - name: Nigeria
+      code: ng
+copyright: © 2026. All rights reserved.
+legalLinks:
+  - label: Privacy Policy
+    url: /privacy
+  - label: Terms of Use
+    url: /terms

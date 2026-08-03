@@ -1,0 +1,248 @@
+title: About Us - HTIS
+hero:
+  sectionId: about-hero
+  backgroundImage: src/assets/about-hero-bg.png
+  title: The People and Expertise [Behind HTIS]{color=primary}
+  subtitle: Building dependable infrastructure solutions through engineering
+    innovation, deep-rooted experience, and long-term partnerships.
+  ctaLabel: Contact Us
+  ctaUrl: /#contact
+mission:
+  sectionId: mission
+  image: src/assets/1776007843793.jpg
+  imageAlt: Writing vision on boards
+  cards:
+    - title: Our Vision
+      description: To shape the future of global connectivity and digital
+        infrastructure by delivering seamless, next-generation enterprise
+        solutions that empower businesses to scale sustainably.
+    - title: Our Mission
+      description: To deliver dependable, high-performance IT infrastructure and
+        telecom services through continuous engineering innovation, operational
+        excellence, and lasting client partnerships.
+    - title: Our Value
+      description: We are anchored in reliability, professional integrity, and an
+        unyielding commitment to engineering excellence. We believe in
+        collaborative success and creating practical impact.
+lifeAtHtis:
+  sectionId: life-at-htis
+  backgroundImage: src/assets/about-life-at-htis-bg.png
+  image: src/assets/lifeathtis.png
+  imageAlt: Collage of team and office life at HTIS
+  title: Life at [HTIS]{color=primary}
+  body:
+    - At HTIS, our culture thrives on collaboration, continuous growth, and an
+      inclusive community where every voice is valued. We foster an environment
+      of professional excellence combined with creative freedom.
+    - Whether building next-generation telecom networks or integrating complex
+      enterprise IT infrastructures, our teams work together to solve meaningful
+      challenges. We invite you to bring your passion and join our growing team.
+  ctaLabel: See Open Roles
+  ctaUrl: /jobs
+team:
+  sectionId: team
+  title: The Team behind the [HTIS]{color=primary}
+  description: A passionate team of experts collaborating to deliver excellence.
+  members:
+    - name: "Aditya Kaushik "
+      role: Managing Director
+      dept: "HTIS "
+      image: src/assets/ak-2-1.png
+    - name: "Sandeep Aswal "
+      role: Chief Operating Officer
+      dept: HTIS
+      image: src/assets/sandeep-aswal.png
+    - name: "Amit Dhingra "
+      role: "Sr. Vice President "
+      dept: System Integration
+      image: src/assets/amit-dhingra.png
+    - name: Arvind Sharma
+      role: Center of Excellence
+      dept: "HTIS "
+      image: src/assets/arvind-sharma.png
+    - name: Soni Jain
+      role: General Manager
+      dept: Finance
+      image: src/assets/soni-jain.png
+    - name: Kuldeep Singh
+      role: Head of Department
+      dept: Software Development
+      image: src/assets/kuldeep-singh.png
+    - name: Satender Singh
+      role: General Manager Sales
+      dept: System Integration
+      image: src/assets/satender-singh.png
+    - name: Parveen Arya
+      role: General Manager Sales
+      dept: Telecom
+      image: src/assets/parveen-arya.png
+    - name: Rohit Gupta
+      role: Delivery Head
+      dept: Operations
+      image: src/assets/rohit-gupta.png
+    - name: Ram Pal
+      role: General Manager
+      dept: Human Resource
+      image: src/assets/ram-pal-2.png
+    - name: Munish Aggarwal
+      role: Sr. General Manager
+      dept: Adminstration
+      image: src/assets/munish-aggarwal.png
+    - name: Harmeet Kohli
+      role: Sr. Manager Sales
+      dept: System Integration
+      image: src/assets/harmeet-kohli.png
+    - name: Rajeev Sharma
+      role: Manager Sales
+      dept: System Integration
+      image: src/assets/rajeev-sharma.png
+ourPresence:
+  sectionId: our-presence
+  title: Our [Presence]{color=primary}
+  description: With strategically positioned corporate offices and global support
+    locations, HTIS guarantees seamless delivery and telecommunications coverage
+    worldwide.
+  globalTabLabel: Global Presence
+  indiaTabLabel: India Offices
+  globalLocations:
+    - name: India (HQ)
+      address: E 94, 1st Floor, ELTOP Industrial Area, Phase 8, Mohali - 160055,
+        Punjab, India
+      phone: 0172-5096134
+      email: info@htis.in
+      lat: 32.4595
+      lng: 76.7179
+      isHQ: true
+      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+    - name: United Kingdom
+      address: 30 St Mary Axe, London EC3A 8BF, United Kingdom
+      lat: 51.5074
+      lng: -0.1278
+      isHQ: false
+      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+    - name: South Africa
+      address: Sandton City, Johannesburg 2196, South Africa
+      lat: -26.2041
+      lng: 28.0473
+      isHQ: false
+      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+    - name: Nigeria
+      address: Victoria Island, Lagos 101241, Nigeria
+      lat: 6.5244
+      lng: 3.3792
+      isHQ: false
+      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+    - name: Bangladesh
+      address: Gulshan-2, Dhaka 1212, Bangladesh
+      lat: 23.8103
+      lng: 90.4125
+      isHQ: false
+      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+    - name: Sri Lanka
+      address: World Trade Center, Colombo 01, Sri Lanka
+      lat: 6.9271
+      lng: 79.8612
+      isHQ: false
+      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+  indiaOffices:
+    - name: Mohali (HQ)
+      address: E 94, 1st Floor, ELTOP Industrial Area, Phase 8, Mohali - 160055,
+        Punjab, India
+      phone: 0172-5096134
+      email: info@htis.in
+      lat: 30.7046
+      lng: 76.7179
+      isHQ: true
+      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+    - name: Gurgaon
+      address: PHS Business Center, 353/18, Civil Lines, Gurgaon - 122001 Haryana, India
+      phone: 0124-27243598
+      email: info@htis.in
+      lat: 28.4595
+      lng: 77.0266
+      isHQ: false
+      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+    - name: Shimla
+      address: Flat A-01, Verma Apartment, near ISBT Tutikandi, Shimla - 171004, India
+      phone: "9817038008"
+      email: SML@htis.in
+      lat: 31.1048
+      lng: 77.1734
+      isHQ: false
+      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+    - name: J&K
+      address: Rather Complex, Baba Dharam Dass, Munwarabad, Srinagar - 190001, India
+      phone: "7006520020"
+      email: JnK@htis.in
+      lat: 34.0837
+      lng: 74.7973
+      isHQ: false
+      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+    - name: Dehradun
+      address: S-6, Tula Palace Araghar Chowk, Haridwar Road, Dehradun - 248001, India
+      phone: "9639194590"
+      email: DDN@htis.in
+      lat: 30.3165
+      lng: 78.0322
+      isHQ: false
+      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+    - name: Chennai
+      address: 2f, 1st Floor, Rajarajan Street, Navarathna Garden Main Road,
+        Ekkattuthangal, Chennai - 600032, India
+      phone: "9894010885"
+      email: CHN@htis.in
+      lat: 13.0116
+      lng: 80.2039
+      isHQ: false
+      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+    - name: Mumbai
+      address: Mumbai, India (UPCOMING)
+      phone: "8699954005"
+      email: MUM@htis.in
+      lat: 19.076
+      lng: 72.8777
+      isHQ: false
+      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+principles:
+  image: src/assets/about-principles.png
+  imageAlt: Telecom tower and architectural technology elements
+  title: Principles that shape [Every Solution]{color=primary}
+  description: At HTIS, our work is guided by a commitment to reliability,
+    collaboration, and continuous improvement - helping us deliver solutions
+    organizations can depend on.
+  items:
+    - Reliability Across Every Deployment
+    - Accountability in Every Partnership
+    - Innovation with Practical Impact
+    - Collaboration That Drives Results
+    - Commitment to Long-Term Growth
+social:
+  enabled: true
+  sectionId: latest-social
+  eyebrow: Social Updates
+  heading: Latest from our [Social]{color=primary}
+  posts:
+    - platform: facebook
+      embedCode: <iframe
+        src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fhtistelecomindia%2Fposts%2Fpfbid02M1g2gzWy1S14txBiGFrUoF3McS1W6qxbTWJQDKeqsgpjLxoTHDs7CeJPzDyuYxQl&amp;show_text=true&amp;width=500"
+        width="500" height="757" title="HTIS Telecom Facebook post"></iframe>
+      fallbackTitle: View our latest update on Facebook.
+    - platform: facebook
+      embedCode: <iframe
+        src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fhtistelecomindia%2Fposts%2Fpfbid0xTbstPxdDjNBmnQZbSMXkjBT5baEyaD4wNA5ZaN7xaMqWGAKVHPbdoVn4eZx61GVl&amp;show_text=false&amp;width=500"
+        width="500" height="498" title="HTIS Telecom Facebook post"></iframe>
+      fallbackTitle: View this post from HTIS Telecom on Facebook.
+    - platform: instagram
+      embedCode: <iframe
+        src="https://www.instagram.com/p/DZpt1A7gRdn/embed/captioned/"
+        width="540" height="820" title="HTIS Telecom Instagram post"></iframe>
+      fallbackTitle: View this post from HTIS Telecom on Instagram.
+    - platform: instagram
+      embedCode: <iframe
+        src="https://www.instagram.com/p/DYraOxbgSTc/embed/captioned/"
+        width="540" height="820" title="HTIS Telecom Instagram post"></iframe>
+      fallbackTitle: View this post from HTIS Telecom on Instagram.
+    - platform: instagram
+      embedCode: <iframe src="https://www.instagram.com/p/DYZ1ieZlIku/embed/"
+        width="540" height="680" title="HTIS Telecom Instagram post"></iframe>
+      fallbackTitle: View this post from HTIS Telecom on Instagram.

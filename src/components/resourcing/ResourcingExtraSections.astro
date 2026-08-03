@@ -1,0 +1,207 @@
+---
+import { Image } from 'astro:assets';
+import CmsIcon from '~/components/CmsIcon.astro';
+import CmsRichText from '~/components/CmsRichText.astro';
+import type { ImageMetadata } from 'astro';
+import ResourcingWorkforce from './ResourcingWorkforce.svelte';
+import ResourcingMetrics from './ResourcingMetrics.svelte';
+
+type Workforce = {
+  sectionId?: string;
+  heading: string;
+  tabs: Array<{
+    title: string;
+    description: string;
+    image: string;
+    ctaLabel: string;
+    ctaUrl: string;
+    tools: Array<{
+      iconName: string;
+      name: string;
+    }>;
+  }>;
+};
+
+type ResourcingMetric = {
+  target: number;
+  showDecimalAnimation?: boolean;
+  unit?: string;
+  suffix?: string;
+  label: string;
+  subLabel?: string;
+};
+
+type CaseStudy = {
+  image: ImageMetadata;
+  imageAlt: string;
+  description: string;
+  ctaLabel: string;
+  ctaUrl: string;
+};
+
+interface Props {
+  standard: {
+    sectionId?: string;
+    heading: string;
+    description: string;
+    items: Array<{
+      iconName: string;
+      title: string;
+      desc: string;
+    }>;
+    images: Array<{
+      image: ImageMetadata;
+      alt: string;
+    }>;
+  };
+  workforce: Workforce;
+  execution: {
+    sectionId?: string;
+    heading: string;
+    metrics: ResourcingMetric[];
+  };
+  caseStudies: {
+    sectionId?: string;
+    heading: string;
+    items: CaseStudy[];
+  };
+}
+
+const { standard, workforce, execution, caseStudies } = Astro.props as Props;
+const standardImages = standard.images;
+const imageFrames = [
+  'absolute top-0 right-0 z-10 h-48 w-2/3 overflow-hidden rounded-xl border-4 border-base-100 shadow-lg md:h-64',
+  'absolute right-8 bottom-0 z-30 h-48 w-2/3 overflow-hidden rounded-xl border-4 border-base-100 shadow-xl md:right-12 md:h-64',
+  'absolute top-24 left-0 z-20 h-48 w-2/3 overflow-hidden rounded-xl border-4 border-base-100 shadow-md md:top-32 md:h-64',
+];
+---
+
+<!-- 1. Build Amazing Teams, On Demand -->
+<section id={standard.sectionId} class="relative bg-base-200/50 py-24">
+  <div class="container mx-auto px-6">
+    <div class="mb-10">
+      <h2 class="mb-4 text-4xl font-bold text-base-content md:text-5xl">
+        <CmsRichText value={standard.heading} />
+      </h2>
+      <p class="text-lg text-base-content/70">
+        <CmsRichText value={standard.description} />
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
+      <div class="order-2 grid grid-cols-1 gap-10 md:grid-cols-2 lg:order-1">
+        {
+          standard.items.map((item) => {
+            return (
+              <div class="flex flex-col gap-4">
+                <CmsIcon name={item.iconName} className="h-12 w-12 text-primary" />
+                <h3 class="text-2xl font-medium text-base-content">
+                  <CmsRichText value={item.title} />
+                </h3>
+                <p class="text-base-content/90">
+                  <CmsRichText value={item.desc} />
+                </p>
+              </div>
+            );
+          })
+        }
+      </div>
+
+      <div class="relative order-1 h-[400px] w-full md:h-[500px] lg:order-2">
+        {
+          standardImages.slice(0, 3).map((item, index) => (
+            <div class={imageFrames[index]}>
+              <Image src={item.image} alt={item.alt} class="h-full w-full object-cover" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. One modern experience for today's workforce -->
+<section id={workforce.sectionId} class="relative bg-base-100 py-24">
+  <div class="container mx-auto px-6">
+    <ResourcingWorkforce workforce={workforce} client:visible />
+  </div>
+</section>
+
+<!-- 3. Metrics and 4. Case Studies -->
+<div class="relative bg-base-200/30 py-24">
+  <div class="container mx-auto px-6">
+    <ResourcingMetrics
+      sectionId={execution.sectionId}
+      heading={execution.heading}
+      metrics={execution.metrics}
+      client:visible
+    />
+
+    <section
+      id={caseStudies.sectionId}
+      x-data="{
+        scrollProgress: 0,
+        hasScrollable: false,
+        updateScrollState() {
+          const container = this.$refs.scrollContainer;
+          if (!container) return;
+          const { scrollLeft, scrollWidth, clientWidth } = container;
+          const maxScroll = scrollWidth - clientWidth;
+          this.hasScrollable = maxScroll > 0;
+          this.scrollProgress = maxScroll > 0 ? scrollLeft / maxScroll : 0;
+        }
+      }"
+      x-init="
+        updateScrollState();
+        const resizeObserver = new ResizeObserver(() => updateScrollState());
+        resizeObserver.observe($refs.scrollContainer);
+      "
+      @resize.window="updateScrollState()"
+    >
+      <h3 class="mb-10 text-3xl font-bold text-base-content md:text-4xl">
+        <CmsRichText value={caseStudies.heading} />
+      </h3>
+      <div
+        x-ref="scrollContainer"
+        @scroll.passive="updateScrollState()"
+        class="resourcing-case-studies-scroll-container flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth pb-6"
+      >
+        {
+          caseStudies.items.map((study) => (
+            <article class="flex w-[82vw] shrink-0 snap-start flex-col overflow-hidden rounded-lg border border-base-content/10 bg-base-100 shadow-sm sm:w-[390px] lg:w-[410px]">
+              <div class="aspect-[4/3] w-full overflow-hidden bg-base-200 md:aspect-video">
+                <Image
+                  src={study.image}
+                  alt={study.imageAlt}
+                  class="h-full w-full object-cover"
+                />
+              </div>
+              <div class="flex flex-1 flex-col gap-6 p-8">
+                <p class="text-lg font-medium text-base-content/80">
+                  <CmsRichText value={study.description} />
+                </p>
+                <a
+                  href={study.ctaUrl}
+                  class="mt-auto flex items-center gap-1 font-medium text-primary hover:underline"
+                >
+                  <CmsRichText value={study.ctaLabel} />{' '}
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <div x-show="hasScrollable" class="mt-2 flex justify-center md:hidden">
+        <div class="relative h-1 w-48 overflow-hidden rounded-full bg-base-content/20">
+          <div
+            class="absolute top-0 bottom-0 rounded-full bg-primary transition-all duration-75"
+            :style="`width: 30%; left: ${scrollProgress * (100 - 30)}%`"
+          >
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

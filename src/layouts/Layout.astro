@@ -1,0 +1,222 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '~/assets/app.css';
+import WhatsAppButton from '~/components/WhatsAppButton.astro';
+import { getCmsAssetSrc, site } from '~/data/cms';
+
+interface Props {
+  title?: string;
+}
+
+const { title = site.defaultTitle } = Astro.props;
+const globalToastMessage = site.globalToast.message.trim();
+const LIGHT_THEME = 'htis-theme';
+const DARK_THEME = 'htis-theme-dark';
+const defaultTheme = site.defaultTheme === 'dark' ? DARK_THEME : LIGHT_THEME;
+const favicon = site.favicon.startsWith('/')
+  ? site.favicon
+  : getCmsAssetSrc(site.favicon);
+const ogImagePath = getCmsAssetSrc(site.seo.ogImage);
+const siteUrl = site.seo.siteUrl.replace(/\/$/, '');
+const canonicalUrl = new URL(Astro.url.pathname, `${siteUrl}/`).toString();
+const ogImageUrl = new URL(ogImagePath, `${siteUrl}/`).toString();
+---
+
+<!doctype html>
+<html lang={site.language} data-theme={defaultTheme} class="scroll-smooth">
+  <head>
+    <ClientRouter />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href={favicon} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={site.seo.description} />
+    <meta name="robots" content={site.seo.robots} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.seo.siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={site.seo.description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={site.seo.description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="preload"
+      as="style"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+    <script is:inline data-default-theme-mode={site.defaultTheme}>
+      /**
+       * Astro View Transitions (ClientRouter) theme persistence helper.
+       * 
+       * When navigating between pages using Astro's ClientRouter, the DOM is patched/swapped
+       * without a full page reload. This process resets the `<html>` element's attributes
+       * (like `data-theme`) to the default state defined in the next page's static HTML template.
+       * 
+       * To keep the theme persistent:
+       * 1. `applyTheme()` reads and applies the theme from sessionStorage, defaulting to the OS
+       *    color scheme preference (dark vs. light) if not yet set in the session.
+       * 2. It runs synchronously on initial load to prevent Flash of Unstyled Theme (FOUT).
+       * 3. It registers an `astro:after-swap` listener to re-apply the correct theme immediately
+       *    after Astro swaps the DOM, before the new page renders and hydrates.
+       */
+      const DEFAULT_THEME_MODE = document.currentScript.dataset.defaultThemeMode;
+      const LIGHT_THEME = 'htis-theme';
+      const DARK_THEME = 'htis-theme-dark';
+
+      const getDefaultTheme = () => {
+        if (DEFAULT_THEME_MODE === 'dark') {
+          return DARK_THEME;
+        }
+
+        if (DEFAULT_THEME_MODE === 'light') {
+          return LIGHT_THEME;
+        }
+
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        return prefersDark ? DARK_THEME : LIGHT_THEME;
+      };
+
+      const applyTheme = () => {
+        try {
+          let savedTheme = sessionStorage.getItem('theme');
+          if (!savedTheme) {
+            savedTheme = getDefaultTheme();
+            sessionStorage.setItem('theme', savedTheme);
+          }
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        } catch (e) {
+          console.error('SessionStorage access failed:', e);
+        }
+      };
+
+      // Apply saved theme before first paint to avoid flash
+      applyTheme();
+
+      // Re-apply theme after Astro view transition swaps the page
+      document.addEventListener('astro:after-swap', applyTheme);
+      // Fallback: Re-apply theme after the page has fully loaded and hydrated
+      document.addEventListener('astro:page-load', applyTheme);
+    </script>
+  </head>
+  <body class="bg-base-100 text-base-content antialiased">
+    {
+      site.globalToast.enabled && globalToastMessage && (
+        <div
+          id="global-site-toast"
+          class="fixed right-4 top-4 z-70 w-[min(26rem,calc(100vw-2rem))] transition duration-200 ease-out motion-reduce:transition-none"
+          aria-live="polite"
+          role="status"
+        >
+          <div class="rounded-3xl border border-primary/20 bg-base-100 px-5 py-4 text-base-content shadow-sm backdrop-blur-sm">
+            <div class="flex w-full items-start gap-3">
+              <div class="min-w-0 flex-1 text-sm font-medium leading-6">
+                {globalToastMessage}
+              </div>
+              <button
+                type="button"
+                class="grid h-7 w-7 shrink-0 place-items-center rounded-full text-base-content/70 transition-colors hover:bg-base-200 hover:text-base-content"
+                aria-label="Dismiss site notice"
+                data-toast-close
+              >
+                X
+              </button>
+            </div>
+          </div>
+        </div>
+      )
+    }
+    <slot />
+    <WhatsAppButton />
+    <script is:inline>
+      const TOAST_ELEMENT_ID = 'global-site-toast';
+      const TOAST_DISMISSED_KEY = '__htisGlobalToastDismissed';
+      const TOAST_ABORT_KEY = '__htisGlobalToastAbortController';
+
+      const initGlobalSiteToast = () => {
+        const toast = document.getElementById(TOAST_ELEMENT_ID);
+        if (!toast) {
+          return;
+        }
+
+        window[TOAST_ABORT_KEY]?.abort?.();
+
+        if (window[TOAST_DISMISSED_KEY]) {
+          toast.hidden = true;
+          return;
+        }
+
+        toast.hidden = false;
+
+        const controller = new AbortController();
+        window[TOAST_ABORT_KEY] = controller;
+
+        const dismiss = () => {
+          if (toast.hidden) {
+            return;
+          }
+
+          window[TOAST_DISMISSED_KEY] = true;
+          controller.abort();
+          window[TOAST_ABORT_KEY] = undefined;
+          toast.classList.add('pointer-events-none', 'translate-y-[-0.5rem]', 'opacity-0');
+
+          window.setTimeout(() => {
+            toast.hidden = true;
+            toast.classList.remove('pointer-events-none', 'translate-y-[-0.5rem]', 'opacity-0');
+          }, 200);
+        };
+
+        toast
+          .querySelector('[data-toast-close]')
+          ?.addEventListener('click', dismiss, { signal: controller.signal });
+
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener(
+          'scroll',
+          () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY) {
+              dismiss();
+            }
+
+            lastScrollY = currentScrollY;
+          },
+          { passive: true, signal: controller.signal },
+        );
+      };
+
+      initGlobalSiteToast();
+      document.addEventListener('astro:page-load', initGlobalSiteToast);
+    </script>
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+  }
+</style>

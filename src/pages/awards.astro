@@ -1,0 +1,81 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '~/layouts/Layout.astro';
+import Navbar from '~/components/Navbar.astro';
+import Footer from '~/components/Footer.astro';
+import Contact from '~/components/Contact.astro';
+import CmsRichText from '~/components/CmsRichText.astro';
+import AwardsGallery from '~/components/awards/AwardsGallery.svelte';
+import { awards } from '~/data/cms';
+import { optimizeImageSrc } from '~/utils/optimizeImage';
+
+const awardItems = await Promise.all(
+  awards.gallery.items.map(async (item) => ({
+    ...item,
+    thumbnailSrc: await optimizeImageSrc(item.thumbnailSrc),
+    images: await Promise.all(
+      item.images.map(async (image) => ({
+        ...image,
+        src: await optimizeImageSrc(image.src),
+      })),
+    ),
+  })),
+);
+---
+
+<Layout title={awards.title}>
+  <div class="relative w-full overflow-clip">
+    <Navbar />
+
+    <!-- Hero Section -->
+    <section id={awards.hero.sectionId} class="relative pt-28 pb-10">
+      <div class="container mx-auto px-6">
+        <div class="relative w-full overflow-hidden rounded-3xl bg-base-200">
+          <div class="absolute inset-0 z-0 opacity-80">
+            <Image
+              src={awards.hero.backgroundImage}
+              alt=""
+              aria-hidden="true"
+              class="h-full w-full object-cover object-right"
+              style="filter: var(--filter-invert-dark)"
+            />
+          </div>
+          <div
+            class="absolute inset-0 z-0 bg-linear-to-r from-base-200/90 via-base-200/50 to-transparent"
+          >
+          </div>
+          <div
+            class="relative z-10 w-full max-w-2xl px-8 py-12 md:px-12 lg:px-16 lg:py-16"
+          >
+            <CmsRichText
+              value={awards.hero.title}
+              tag="h1"
+              className="mb-4 text-4xl leading-tight font-bold text-base-content md:text-5xl lg:text-[54px]"
+            />
+            <CmsRichText
+              value={awards.hero.subtitle}
+              tag="p"
+              className="text-lg font-medium text-base-content/70 md:text-xl"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id={awards.gallery.sectionId} class="scroll-mt-20 pt-2 pb-8 md:scroll-mt-0">
+      <div class="container mx-auto px-6">
+        <AwardsGallery
+          items={awardItems}
+          gallerySectionId={awards.gallery.sectionId}
+          client:load
+        />
+      </div>
+    </section>
+
+    <div class="pt-16 md:pt-24">
+      <Contact />
+      <Footer overlap={true} />
+    </div>
+  </div>
+</Layout>

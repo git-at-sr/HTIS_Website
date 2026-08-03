@@ -1,0 +1,183 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Navbar from '~/components/Navbar.astro';
+import Footer from '~/components/Footer.astro';
+import Contact from '~/components/Contact.astro';
+import SystemIntegrationHero from '~/components/system-integration/SystemIntegrationHero.astro';
+import StrategicPillars from '~/components/system-integration/StrategicPillars.svelte';
+import PartnerEcosystem from '~/components/system-integration/PartnerEcosystem.svelte';
+import IntegratedDeployments from '~/components/system-integration/IntegratedDeployments.astro';
+import CmsIcon from '~/components/CmsIcon.astro';
+import CmsRichText from '~/components/CmsRichText.astro';
+
+import { Image } from 'astro:assets';
+import { ArrowRight } from '@lucide/astro';
+import TelecomMetrics from '~/components/telecom/TelecomMetrics.svelte';
+import { systemIntegration } from '~/data/cms';
+import { optimizeImageSrc, optimizeImageSrcs } from '~/utils/optimizeImage';
+
+const heroCarouselImages = await optimizeImageSrcs(systemIntegration.hero.carouselImages);
+const strategicPillarsCenterImageSrc = await optimizeImageSrc(
+  systemIntegration.strategicPillars.centerImage,
+);
+const partnerEcosystem = {
+  ...systemIntegration.partnerEcosystem,
+  tabs: await Promise.all(
+    systemIntegration.partnerEcosystem.tabs.map(async (tab) => ({
+      ...tab,
+      partners: await Promise.all(
+        tab.partners.map(async (partner) => ({
+          name: partner.name,
+          logoSrc: partner.logo ? await optimizeImageSrc(partner.logo) : undefined,
+        })),
+      ),
+    })),
+  ),
+};
+---
+
+<Layout title={systemIntegration.title}>
+  <div class="relative w-full overflow-clip">
+    <Navbar />
+
+    <SystemIntegrationHero
+      sectionId={systemIntegration.hero.sectionId}
+      backgroundImage={systemIntegration.hero.backgroundImage}
+      title={systemIntegration.hero.title}
+      subtitle={systemIntegration.hero.subtitle}
+      ctaLabel={systemIntegration.hero.ctaLabel}
+      ctaUrl={systemIntegration.hero.ctaUrl}
+      carouselImages={heroCarouselImages}
+    />
+
+    <!-- Strategic Technical Pillars Section -->
+    <section
+      id={systemIntegration.strategicPillars.sectionId}
+      class="relative overflow-hidden bg-base-100 py-24"
+    >
+      <!-- Background Image -->
+      <div
+        class="pointer-events-none absolute inset-0 z-0 opacity-70 dark:mix-blend-overlay"
+      >
+        <Image
+          src={systemIntegration.strategicPillars.backgroundImage}
+          alt=""
+          aria-hidden="true"
+          class="h-full w-full object-cover object-center"
+          style="filter: var(--filter-invert-dark)"
+        />
+        <div
+          class="absolute inset-0 bg-linear-to-b from-base-100/80 via-transparent to-base-100"
+        >
+        </div>
+      </div>
+
+      <div class="relative z-10 container mx-auto px-6">
+        <div class="mb-10">
+          <CmsRichText
+            value={systemIntegration.strategicPillars.heading}
+            tag="h2"
+            className="text-4xl font-bold text-base-content md:text-5xl"
+          />
+        </div>
+
+        <StrategicPillars
+          centerImageSrc={strategicPillarsCenterImageSrc}
+          cards={systemIntegration.strategicPillars.cards}
+          client:visible
+        />
+      </div>
+    </section>
+
+    <!-- The HTIS Partner Ecosystem Section -->
+    <section
+      id={systemIntegration.partnerEcosystem.sectionId}
+      class="relative bg-base-100 py-16 md:py-24"
+    >
+      <div class="container mx-auto px-6">
+        <PartnerEcosystem partnerEcosystem={partnerEcosystem} client:visible />
+      </div>
+    </section>
+
+    <!-- Built to Execute. Scaled to Deliver. Section (from Telecom) -->
+    <section
+      id={systemIntegration.execution.sectionId}
+      class="relative bg-base-200/50 pt-24"
+    >
+      <div class="container mx-auto px-6">
+        <div class="mb-10">
+          <CmsRichText
+            value={systemIntegration.execution.heading}
+            tag="h2"
+            className="mb-6 text-4xl leading-tight font-bold whitespace-pre-line text-base-content md:text-5xl"
+          />
+        </div>
+
+        <!-- Stats -->
+        <TelecomMetrics metrics={systemIntegration.execution.metrics} client:visible />
+
+        <!-- Pillars -->
+        <div
+          class="mt-16 flex flex-col border-t-2 border-base-content/20 py-12 md:flex-row md:gap-x-6 lg:mt-10 lg:gap-x-10 lg:py-16"
+        >
+          {
+            systemIntegration.execution.pillars.map((pillar, index) => {
+              return (
+                <>
+                  {index > 0 && <div class="hidden w-0.5 bg-base-content/20 md:block" />}
+                  <div
+                    class:list={[
+                      'flex flex-1 flex-col gap-4',
+                      index === 0 && 'pb-12 md:pb-0',
+                      index > 0 &&
+                        index < systemIntegration.execution.pillars.length - 1 &&
+                        'border-y-2 border-base-content/20 py-12 md:border-y-0 md:py-0',
+                      index === systemIntegration.execution.pillars.length - 1 &&
+                        'pt-12 md:pt-0',
+                    ]}
+                  >
+                    <div class="mb-2 flex items-start justify-between">
+                      <CmsIcon
+                        name={pillar.iconName}
+                        className="h-12 w-12 text-primary"
+                      />
+                      <a
+                        href={pillar.url ?? '#'}
+                        aria-label={`View more details about ${pillar.title.replace(/\s+/g, ' ')}`}
+                        class="group flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/5 text-primary transition-all hover:bg-primary hover:text-primary-content hover:shadow-lg hover:shadow-primary/20 active:scale-95"
+                      >
+                        <ArrowRight
+                          class="h-5 w-5 transition-transform group-hover:translate-x-0.5"
+                          stroke-width="2.5"
+                        />
+                      </a>
+                    </div>
+                    <CmsRichText
+                      value={pillar.title.replace(/\n/g, '<br />')}
+                      tag="h3"
+                      className="text-2xl font-medium"
+                    />
+                    <CmsRichText
+                      value={pillar.description}
+                      tag="p"
+                      className="text-justify text-lg text-base-content/70"
+                    />
+                  </div>
+                </>
+              );
+            })
+          }
+        </div>
+      </div>
+    </section>
+
+    <IntegratedDeployments {...systemIntegration.deployments} />
+
+    <div class="bg-base-200/50">
+      <div class="pt-8 md:pt-12">
+        <Contact />
+        <Footer overlap={true} />
+      </div>
+    </div>
+  </div>
+</Layout>

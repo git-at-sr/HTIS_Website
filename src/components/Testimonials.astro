@@ -1,0 +1,140 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { Quote, ArrowRight } from '@lucide/astro';
+import type { TestimonialItem } from '~/data/cms';
+import CmsRichText from './CmsRichText.astro';
+import MarqueePause from './MarqueePause.astro';
+
+interface Props {
+  sectionId?: string;
+  heading: string;
+  ctaUrl: string;
+  ctaLabel: string;
+  awardsImage: ImageMetadata;
+  awardsImageAlt: string;
+  items: TestimonialItem[];
+}
+
+const { sectionId, heading, ctaUrl, ctaLabel, awardsImage, awardsImageAlt, items } =
+  Astro.props;
+
+const testimonialsCol1 = items.filter((_, index) => index % 2 === 0);
+const testimonialsCol2 = items.filter((_, index) => index % 2 === 1);
+---
+
+<section id={sectionId} class="relative overflow-hidden bg-base-200/30 py-24">
+  <div class="container mx-auto px-6">
+    <div
+      class="mb-16 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center lg:mb-10"
+    >
+      <div class="max-w-5xl">
+        <h2 class="text-4xl leading-tight font-bold text-base-content md:text-5xl">
+          <CmsRichText value={heading} />
+        </h2>
+      </div>
+      <a
+        href={ctaUrl}
+        class="btn btn-circle self-start border-primary/20 bg-primary/10 text-primary shadow-sm btn-lg hover:border-primary/30 hover:bg-primary/20"
+        aria-label={ctaLabel}
+      >
+        <ArrowRight class="h-6 w-6" />
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
+      <!-- Left: Awards -->
+      <div class="flex w-full flex-col items-center gap-8 lg:items-start">
+        <a
+          href={ctaUrl}
+          class="block w-full overflow-hidden rounded-2xl border border-base-content/5 bg-base-100 p-6 shadow-xl transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+          aria-label={ctaLabel}
+        >
+          <Image
+            src={awardsImage}
+            alt={awardsImageAlt}
+            class="h-auto w-full object-contain"
+            style="mix-blend-mode: var(--bg-blend); filter: var(--filter-invert-dark);"
+          />
+        </a>
+      </div>
+
+      <!-- Right: Testimonials -->
+      <div
+        class="relative h-[550px] overflow-hidden mask-[linear-gradient(to_bottom,transparent_0,black_64px,black_calc(100%-64px),transparent_100%)]"
+      >
+        <div class="grid grid-cols-1 items-start gap-6 md:grid-cols-2">
+          <!-- Column 1 (Slow) -->
+          <MarqueePause class="group flex flex-col gap-6">
+            <div
+              data-marquee-track
+              class="flex animate-marquee-vertical-slow flex-col gap-6"
+            >
+              {
+                [...testimonialsCol1, ...testimonialsCol1].map((item, i) => (
+                  <div
+                    class={`relative rounded-2xl border ${i % 2 === 0 ? 'border-primary/20 bg-primary/5' : 'border-base-content/10 bg-base-100'} shrink-0 p-8 shadow-sm`}
+                  >
+                    {i % 2 === 0 && (
+                      <Quote class="absolute top-4 right-4 h-10 w-10 fill-current text-primary/10" />
+                    )}
+                    <p class="relative z-10 mb-6 font-medium text-base-content/80">
+                      <CmsRichText value={item.quote} />
+                    </p>
+                    <div class="relative z-10">
+                      <CmsRichText
+                        value={item.name}
+                        tag="p"
+                        className="font-bold text-base-content"
+                      />
+                      <CmsRichText
+                        value={item.title}
+                        tag="p"
+                        className="text-sm text-base-content/60"
+                      />
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </MarqueePause>
+
+          <!-- Column 2 (Fast) -->
+          <MarqueePause class="group mt-0 flex flex-col gap-6 md:mt-12">
+            <div
+              data-marquee-track
+              class="flex animate-marquee-vertical-fast flex-col gap-6"
+            >
+              {
+                [...testimonialsCol2, ...testimonialsCol2].map((item, i) => (
+                  <div
+                    class={`relative rounded-2xl border ${i % 2 === 1 ? 'border-primary/20 bg-primary/5' : 'border-base-content/10 bg-base-100'} shrink-0 p-8 shadow-sm`}
+                  >
+                    {i % 2 === 1 && (
+                      <Quote class="absolute top-4 right-4 h-10 w-10 fill-current text-primary/10" />
+                    )}
+                    <p class="relative z-10 mb-6 font-medium text-base-content/80">
+                      <CmsRichText value={item.quote} />
+                    </p>
+                    <div class="relative z-10">
+                      <CmsRichText
+                        value={item.name}
+                        tag="p"
+                        className="font-bold text-base-content"
+                      />
+                      <CmsRichText
+                        value={item.title}
+                        tag="p"
+                        className="text-sm text-base-content/60"
+                      />
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </MarqueePause>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

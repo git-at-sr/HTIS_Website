@@ -1,0 +1,578 @@
+hero:
+  sectionId: hero
+  backgroundImage: src/assets/hero-bg.png
+  titlePrefix: Delivering Excellence in
+  rotatingWords:
+    - Telecommunication
+    - System Integration
+    - Software Development
+    - Workforce Management
+  subtitle: 16+ years of proven solutions. Delivered through people. Driven by
+    technology.
+  ctaLabel: Contact Us
+  ctaUrl: "#contact"
+  trustedByLabel: Trusted by 50+ Partners
+  partnerLogos:
+    - image: src/assets/logo-legrand.png
+      alt: Legrand
+    - image: src/assets/logo-lifesize.png
+      alt: Lifesize
+    - image: src/assets/logo-honeywell.png
+      alt: Honeywell
+    - image: src/assets/logo-nokia.png
+      alt: Nokia
+    - image: src/assets/ericsson-1.png
+      alt: Ericsson
+    - image: src/assets/aruba-2.png
+      alt: Aruba
+    - image: src/assets/belden-2.png
+      alt: Belden
+    - image: src/assets/benq.png
+      alt: BenQ
+    - image: src/assets/bosch-2.png
+      alt: Bosch
+    - image: src/assets/bpe.webp
+      alt: BPE
+    - image: src/assets/canon.png
+      alt: Canon
+    - image: src/assets/check-point.png
+      alt: "Check Point "
+    - image: src/assets/cisco.png
+      alt: "Cisco "
+    - image: src/assets/commscope.png
+      alt: Commscope
+    - image: src/assets/cpplus-1.png
+      alt: cpplus
+    - image: src/assets/crestron-2.png
+      alt: Crestron
+    - image: src/assets/dell-1.png
+      alt: DELL
+    - image: src/assets/delta-2.png
+      alt: DELTA
+    - image: src/assets/derwiser.webp
+      alt: Derwiser
+    - image: src/assets/d-link-2.png
+      alt: D-link
+    - image: src/assets/eaton-1.png
+      alt: Eaton
+    - image: src/assets/epson-1.png
+      alt: Epson
+    - image: src/assets/extreme-networks-1.png
+      alt: Extreme networks
+    - image: src/assets/fortinet.png
+      alt: Fortinet
+    - image: src/assets/harman-kardon-1.png
+      alt: Harman kardon
+    - image: src/assets/hikvision-1.png
+      alt: Hik vision
+    - image: src/assets/hp.png
+      alt: hp
+    - image: src/assets/hpe-1.png
+      alt: HPE
+    - image: src/assets/ibm.png
+      alt: IBM
+    - image: src/assets/juniper-1.png
+      alt: Juniper Networks
+    - image: src/assets/lenovo.png
+      alt: Lenovo
+    - image: src/assets/lg.png
+      alt: LG
+    - image: src/assets/logitech.png
+      alt: Logitech
+    - image: src/assets/matrix-1.png
+      alt: Matrix
+    - image: src/assets/microsoft.png
+      alt: Microsoft
+    - image: src/assets/molex.png
+      alt: molex
+    - image: src/assets/netgear-1.png
+      alt: Netgear
+    - image: src/assets/panasonic-1.png
+      alt: Panasonic
+    - image: src/assets/peoplelink.png
+      alt: People link
+    - image: src/assets/poly-1.png
+      alt: Poly
+    - image: src/assets/polycom.png
+      alt: Polycom
+    - image: src/assets/randm.png
+      alt: R&M
+    - image: src/assets/ruckus-networks.png
+      alt: Ruckus networks
+    - image: src/assets/schneider-electric.png
+      alt: Schneider Electric
+    - image: src/assets/sonicwall.png
+      alt: Sonic wall
+    - image: src/assets/samsung-1.png
+      alt: Samsung
+    - image: src/assets/sophos.png
+      alt: Sophos
+    - image: src/assets/trendmicro.png
+      alt: Trend Micro
+    - image: src/assets/vertiv.png
+      alt: Vertiv
+services:
+  sectionId: services
+  headingHtml: Our<br/>Services
+  backgroundImage: src/assets/our-services-bg.png
+  items:
+    - id: telecom
+      titleHtml: Tele&shy;communica&shy;tions
+      href: /telecom
+      features:
+        - iconName: Wifi
+          label: 5G Core & IMS
+          description: Service-Based Architecture (SBA) and VoLTE/VoNR cloud-native
+            deployment.
+        - iconName: ShieldCheck
+          label: Packet Core Ops
+          description: Management of EPC, PCRF, and GI-LAN for high-throughput user-plane
+            traffic.
+        - iconName: Cable
+          label: IP/MPLS Transport
+          description: Advanced routing, segment routing (SRv6), and high-capacity
+            backhaul engineering.
+        - iconName: Radio
+          label: RF & Wireless Design
+          description: Precision radio frequency planning, 4G/5G site surveys, and
+            coverage optimization.
+        - iconName: Headset
+          label: Compliance & IPDR
+          description: Automated IP Detail Record generation and regulatory data retention
+            systems.
+        - iconName: Wrench
+          label: Managed Maintenance
+          description: 24/7 proactive NOC support and comprehensive AMC for multi-vendor
+            hardware.
+      metrics:
+        - value: 100+
+          label: Network<br/>Deployment
+        - value: 11+
+          label: Years of<br/>Experience
+        - value: 99%
+          label: Guaranteed<br/>Network<br/>Uptime
+        - value: 500+
+          label: Critical Network<br/>Nodes Managed
+    - id: resourcing
+      titleHtml: Resourcing
+      href: /resourcing
+      features:
+        - iconName: Users
+          label: L1-L6 Talent Hub
+          description: Full-spectrum resourcing from field technicians to senior system
+            architects.
+        - iconName: Clock
+          label: Niche Engineering
+          description: Sourcing specialized experts for Packet Core, Cybersecurity, and
+            Cloud migration.
+        - iconName: UserSearch
+          label: Project-Task Units
+          description: Ready-to-deploy technical teams for task-based execution and site
+            rollouts.
+        - iconName: FileSignature
+          label: Executive Search
+          description: Targeted leadership hiring for high-stakes digital transformation
+            projects.
+        - iconName: CircleDollarSign
+          label: Staff Augmentation
+          description: Flexible, scalable technical manpower to bridge immediate skill gaps.
+        - iconName: Network
+          label: Managed Compliance
+          description: End-to-end payroll, insurance, and regulatory management for
+            workforce stability.
+      metrics:
+        - value: 500+
+          label: Technical Professionals<br/>Deployed
+        - value: 50+
+          label: Tier-1<br /> Corporate Partners
+        - value: 98%
+          label: Resource<br /> Retention Rate
+        - value: 10K+
+          label: Technical Man-Hours<br/>Managed Monthly
+    - id: software
+      titleHtml: Software<br class="hidden md:block" /> Development
+      href: /software
+      features:
+        - iconName: Code
+          label: UI/UX Strategy
+          description: Human-centric interface design for high-complexity enterprise
+            systems.
+        - iconName: Smartphone
+          label: Backend & API
+          description: Scalable, high-performance architectures for real-time data
+            processing.
+        - iconName: Cloud
+          label: Enterprise ERP
+          description: Integrated resource planning ecosystems (wfms) for operational
+            control.
+        - iconName: Database
+          label: On-Demand SaaS
+          description: Cloud-native, multi-tenant platforms built for industrial scale.
+        - iconName: Monitor
+          label: Sovereign Portals
+          description: High-compliance digital assets tailored for Government & Public
+            Sector.
+        - iconName: CheckSquare
+          label: DevSecOps
+          description: Automated QA and secure deployment pipelines for zero-vulnerability
+            code.
+      metrics:
+        - value: 500+
+          label: Technical Modules<br/>Deployed
+        - value: 1.2M+
+          label: End-Users Supported
+        - value: 99.99%
+          label: System Availability
+        - value: 20+
+          label: Dedicated<br/>Govt/Public Sector Platforms
+    - id: system
+      titleHtml: System<br class="hidden md:block" /> Integrations
+      href: /system-integration
+      features:
+        - iconName: Blocks
+          label: Hybrid Cloud
+          description: Orchestrating elastic workloads across private and public cloud
+            fabrics.
+        - iconName: Cpu
+          label: Cyber-Defense
+          description: Next-gen perimeter security, XDR, and Zero-Trust architectures.
+        - iconName: RefreshCw
+          label: Data Center Stack
+          description: End-to-end turnkey engineering from compute to virtualization.
+        - iconName: Server
+          label: IP Surveillance
+          description: Integrated high-definition monitoring and AI-driven access control.
+        - iconName: Shield
+          label: Fire & Power
+          description: Mission-critical fire suppression and UPS/Power backup ecosystems.
+        - iconName: Building2
+          label: Sovereign Security
+          description: National-level compliance and data residency infrastructure
+            solutions.
+      metrics:
+        - value: 50+
+          label: High-Density Data Centers<br/>Integrated
+        - value: 10 PB+
+          label: Data Managed<br/>& Orchestrated
+        - value: 24/7
+          label: Proactive SOC/NOC<br/>Monitoring
+        - value: 100%
+          label: Compliance with Regulatory Standards
+journey:
+  sectionId: journey-section
+  title: Our [Journey]{color=primary}
+  subtitle: A timeline of innovation, milestones, and achievements that shaped
+  milestones:
+    - year: "2008"
+      title: HTIS Founded
+      description: Established Horizon Telecom Infrastructure Services and secured
+        initial telecom infrastructure projects with Vodafone and Bharti.
+      image: src/assets/untitled-22-june-2026-at-151852-2.png
+    - year: "2010"
+      title: Major Telecom Customer Expansion
+      description: Added major customers including Idea and Ericsson, expanding
+        nationwide telecom delivery capabilities.
+      image: src/assets/geminigeneratedimageno004jno004jno00.png
+    - year: "2012"
+      title: HTIS Telecom Pvt. Ltd. Incorporated
+      description: Formal incorporation of HTIS Telecom Private Limited, laying the
+        foundation for future growth.
+      image: src/assets/geminigeneratedimage8k8gkr8k8gkr8k8g.png
+    - year: "2013"
+      title: Cisco Service Partner
+      description: Empanelled as a Cisco Service Partner, enabling HTIS to participate
+        in large-scale enterprise networking and service provider projects.
+      image: src/assets/geminigeneratedimage7ijrrl7ijrrl7ijr.png
+    - year: "2014"
+      title: Jio 4G Rollout Program
+      description: Supported large-scale Jio 4G network deployments across North and
+        West India.
+      image: src/assets/geminigeneratedimagew05k6fw05k6fw05k.png
+    - year: "2017"
+      title: Cisco Global Partnership
+      description: Signed a Global PSSA agreement with Cisco in the Service Provider domain.
+      image: src/assets/chatgpt-image-jun-24-2026-103047-am.png
+    - year: "2017"
+      title: International Expansion
+      description: Expanded operations beyond India to support projects in Sri Lanka,
+        Bangladesh, South Africa, and other international markets.
+      image: src/assets/geminigeneratedimagexq8lrxq8lrxq8lrx.png
+    - year: "2018"
+      title: WFMS Foundation
+      description: Initiated development of WFMS, HTIS's proprietary workforce
+        management platform.
+      image: src/assets/geminigeneratedimagev7jy8bv7jy8bv7jy.png
+    - year: "2018"
+      title: NTT Data UK Partnership
+      description: Partnered with NTT Data UK and deployed dedicated resources in
+        London to support telecom testing and network service programs.
+      image: src/assets/2018-2.png
+    - year: "2019"
+      title: United Nations Peacekeeping Project
+      description: Delivered critical infrastructure solutions for a UN Peacekeeping
+        Mission in the Central African Republic.
+      image: src/assets/chatgpt-image-jun-24-2026-114757-am.png
+    - year: "2020"
+      title: System Integration (SI) Business Launch
+      description: Expanded into System Integration and IT Infrastructure solutions
+        across North India.
+      image: src/assets/2020.png
+    - year: "2021"
+      title: ₹100 Crore Business Milestone
+      description: Crossed ₹100 Crore business revenue within a year of entering
+        System Integration.
+      image: src/assets/geminigeneratedimageb1i47ob1i47ob1i4.png
+    - year: "2021"
+      title: 400+ NHM Health Centres Digitized
+      description: Enabled IT infrastructure deployment across 400+ NHM Primary Health
+        Centres in Himachal Pradesh during COVID-19.
+      image: src/assets/2021-2.png
+    - year: "2021"
+      title: Employee Development Initiative (OBT)
+      description: Launched annual Outbound Training (OBT) programs focused on
+        leadership and team development.
+      image: src/assets/htis-team-1.jpg
+    - year: "2022"
+      title: Dell Titanium Partner
+      description: Achieved Dell Titanium Partner accreditation, one of the highest
+        levels of recognition within Dell's partner ecosystem.
+      image: src/assets/untitled-24-june-2026-at-125424.png
+    - year: 2022-24
+      title: Jio 5G Swap Program
+      description: Contributed to nationwide 5G modernization through the Jio 5G Swap
+        Program.
+      image: src/assets/untitled-24-june-2026-at-131013.png
+    - year: "2024"
+      title: 5000+ Smart Classrooms
+      description: Delivered over 5,000 smart classrooms powered by Samsung hardware
+        and HTIS software solutions.
+      image: src/assets/2024.png
+    - year: "2024"
+      title: Industry Recognition
+      description: Received prestigious recognition from Samsung and Cisco ecosystem
+        partners for excellence in project execution and customer success.
+      image: src/assets/2024-2.png
+    - year: "2025"
+      title: Environment Health and Safety (EHS) Recognition
+      description: " Invited for safety show case to Vodafone Inc -Cisco global summit."
+      image: src/assets/2025.png
+    - year: "2026"
+      title: WFMS 2.0 AI Launch
+      description: Introducing AI-powered automation, analytics, and intelligent
+        workforce management capabilities.
+      image: src/assets/img-20260331-wa0037.jpg
+team:
+  sectionId: team
+  backgroundImage: src/assets/team-member-bg.png
+  meetTeamImage: src/assets/htis-team.jpg
+  heading: The Visionary Core
+  description: Our leadership team brings together decades of experience in
+    telecommunications, software engineering, and systems integration, guiding
+    HTIS toward continuous innovation and excellence.
+  ctaTitle: Meet the Team
+  ctaLabel: Learn More
+  ctaUrl: /about#team
+  members:
+    - name: Aditya Kaushik
+      role: Managing Director
+      desc: Sets the company’s long-term goals and ensures we stay a leader in the
+        technology industry.
+      image: src/assets/edited-photo-1.png
+    - name: Sandeep Aswal
+      role: Chief Operating Officer
+      desc: Manages daily business tasks to make sure all large projects are completed
+        successfully and on time.
+      image: src/assets/edited-photo-3.png
+    - name: Amit Dhingra
+      role: Senior Vice President
+      desc: Leads major company projects and manages relationships with our most
+        important partners.
+      image: src/assets/edited-photo-1-1.png
+    - name: Arvind Sharma
+      role: Head - Centre of Excellence
+      desc: Sets the high technical standards for our services and finds new ways to
+        solve technology problems.
+      image: src/assets/edited-photo-2.png
+footprint:
+  sectionId: footprint
+  heading: Global Footprint
+  metrics:
+    - value: "8"
+      suffix: +
+      label: Countries Served
+    - value: "28"
+      suffix: +
+      label: States & Union Territories Served
+    - value: Pan-India
+      label: Delivery Network
+  globe:
+    markers:
+      - name: India
+        latitude: 28.4595
+        longitude: 77.0266
+        size: 0.07
+      - name: Bangladesh
+        latitude: 23.8103
+        longitude: 90.4125
+        size: 0.04
+      - name: Sri Lanka
+        latitude: 6.9271
+        longitude: 79.8612
+        size: 0.04
+      - name: South Africa
+        latitude: -26.2041
+        longitude: 28.0473
+        size: 0.05
+      - name: United Kingdom
+        latitude: 51.5074
+        longitude: -0.1278
+        size: 0.05
+      - name: Nigeria
+        latitude: 6.5244
+        longitude: 3.3792
+        size: 0.04
+clients:
+  sectionId: clients
+  heading: Some of our valuable Clients
+  ctaUrl: "#contact"
+  ctaLabel: Contact Us
+  logos:
+    - image: src/assets/logo-hartron.png
+      alt: Hartron
+    - image: src/assets/logo-aiims.png
+      alt: AIIMS
+    - image: src/assets/logo-airtel.png
+      alt: Airtel
+    - image: src/assets/logo-ceasefire-industries.jpeg
+      alt: Ceasefire Industries
+    - image: src/assets/logo-cisco.png
+      alt: Cisco
+    - image: src/assets/logo-dda.png
+      alt: DDA
+    - image: src/assets/logo-dgtahc.jpg
+      alt: Directorate General of Training
+    - image: src/assets/logo-dite.jpeg
+      alt: DITE
+    - image: src/assets/logo-fccb.png
+      alt: FCCB
+    - image: src/assets/logo-gmrl.png
+      alt: GMRL
+    - image: src/assets/logo-hpgic.jpg
+      alt: HPGIC
+    - image: src/assets/logo-hpsedc.png
+      alt: HPSEDC
+    - image: src/assets/logo-hpsldc.jpg
+      alt: HPSLDC
+    - image: src/assets/logo-hvpn.jpeg
+      alt: HVPN
+    - image: src/assets/logo-immacule-lifesciences.png
+      alt: Immacule Lifesciences
+    - image: src/assets/logo-indus-towers.jpeg
+      alt: Indus Towers
+    - image: src/assets/logo-kuantum_papers.jpeg
+      alt: Kuantum Papers
+    - image: src/assets/logo-lovely-international-trust.jpeg
+      alt: Lovely International Trust
+    - image: src/assets/logo-new-India-assurance.png
+      alt: New India Assurance
+    - image: src/assets/logo-punjab_and_haryana_high_court_logo.png
+      alt: Punjab & Haryana High Court
+    - image: src/assets/logo-radisys-india.jpeg
+      alt: Radisys India
+    - image: src/assets/logo-reliance-industries-limited.png
+      alt: Reliance Industries Limited
+    - image: src/assets/logo-rhef.png
+      alt: RHEF
+    - image: src/assets/cooperative-bank.jpg
+      alt: Ropar Central Cooperative Bank
+    - image: src/assets/logo-supreme-industries.jpeg
+      alt: Supreme Industries
+    - image: src/assets/logo-tech-mahindra.jpg
+      alt: Tech Mahindra
+    - image: src/assets/logo-thapar-institute-of-engineering-&-technology.png
+      alt: Thapar Institute
+    - image: src/assets/logo-UJVN.png
+      alt: UJVN
+    - image: src/assets/logo-vodafone-Idea.png
+      alt: Vodafone Idea
+testimonials:
+  sectionId: testimonials
+  heading: Loved by [100+]{color=primary} Clients,<br />backed by
+    [100+]{color=primary} awards and certificates
+  ctaUrl: /awards
+  ctaLabel: View awards
+  awardsImage: src/assets/edited-photo.png
+  awardsImageAlt: Awards and Certificates
+  items:
+    - quote: “Thanks to Ankush Ji and the entire team for their outstanding efforts.
+        Your dedication and hard work are truly inspiring.” [Know
+        more](/awards?popup=aarohan-award)
+      name: Bharat Sharma
+      title: HP Para Veterinary Council
+    - quote: “The Dashboard/Reports Menu is exceptionally well-designed and visually
+        appealing. It comprehensively covers all key reporting parameters and
+        demonstrates remarkable attention to detail. Great work by the team.”
+      name: Vinod
+      title: IT Head | Municipal Corporation Shimla
+    - quote: “The website is getting better day by day. On behalf of the Principal, we
+        are thankful to the team. The data was submitted and updated perfectly
+        as per our requirements, reflecting the team's excellent work,
+        commitment, and dedication.”
+      name: Kushal Kumar Bansal
+      title: Government College Sulah
+    - quote: “The team was well prepared, demonstrated strong compliance, and no real
+        areas of concern were identified during the assessment. Thank you for
+        your unwavering commitment to Health & Safety. Your support has been
+        great—please keep up the good work.”
+      name: Ralf Schmidt
+      title: CX Delivery – Vodafone & UKI Service Providers, Cisco
+    - quote: “HTIS Telecom's Health & Safety Management System was found to be aligned
+        with Vodafone's Absolute Rules and Cisco Health & Safety standards. The
+        maturity of processes, consistency of records, and visible management
+        commitment reflect a strong foundation for a robust safety culture.”
+      name: Cyril G.
+      title: Health & Safety Assessor | Avacend Solutions India Pvt. Ltd.
+    - quote: “We appreciate the outstanding work delivered during the Ahmedabad PCRF
+        Installation and Commissioning Project. The team's professionalism and
+        execution were commendable. Keep up the good work!”
+      name: "Madhuraj Pramod kumar "
+      title: Vodafone Idea Limited
+    - quote: “Outstanding support and seamless integration. The team demonstrated deep
+        technical expertise throughout the entire project lifecycle.”
+      name: Emily Rodriguez
+      title: Nexus Systems | Director
+    - quote: “From planning to execution, their professionalism is unmatched. The
+        customized network deployment exceeded all our expectations.”
+      name: Robert Taylor
+      title: InnovaTech | CEO
+articles:
+  enabled: false
+  sectionId: articles
+  eyebrow: Insights
+  heading: Latest from our LinkedIn
+  ctaLabel: View all posts
+  ctaUrl: https://www.linkedin.com/company/htis-telecom/posts/
+  posts:
+    - embedCode: <iframe
+        src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7472671513486184448?collapsed=1"
+        height="567" width="504" frameborder="0" allowfullscreen=""
+        title="Embedded post"></iframe>
+      fallbackTitle: 𝐖𝐨𝐮𝐥𝐝 𝐲𝐨𝐮𝐫 𝐨𝐫𝐠𝐚𝐧𝐢𝐬𝐚𝐭𝐢𝐨𝐧 𝐫𝐞𝐜𝐨𝐠𝐧𝐢𝐬𝐞
+        𝐚 𝐩𝐡𝐢𝐬𝐡𝐢𝐧𝐠 𝐞𝐦𝐚𝐢𝐥 𝐛𝐞𝐟𝐨𝐫𝐞 𝐢𝐭'𝐬 𝐭𝐨𝐨 𝐥𝐚𝐭𝐞?
+    - embedCode: <iframe
+        src="https://www.linkedin.com/embed/feed/update/urn:li:share:7461429421330182144?collapsed=1"
+        height="670" width="504" frameborder="0" allowfullscreen=""
+        title="Embedded post"></iframe>
+      fallbackTitle: Why does your network work perfectly at 11 AM... and struggle by 3 PM?
+    - embedCode: <iframe
+        src="https://www.linkedin.com/embed/feed/update/urn:li:share:7458505761942319104?collapsed=1"
+        height="670" width="504" frameborder="0" allowfullscreen=""
+        title="Embedded post"></iframe>
+      fallbackTitle: How often do your teams struggle with slow systems or
+        inconsistent performance?
+    - embedCode: <iframe
+        src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7454530227554361344?collapsed=1"
+        height="567" width="504" frameborder="0" allowfullscreen=""
+        title="Embedded post"></iframe>
+      fallbackTitle: Is your telecom and IT infrastructure aligned where enterprises
+        are heading in 2026?

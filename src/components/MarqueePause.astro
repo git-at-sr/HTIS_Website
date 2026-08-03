@@ -1,0 +1,60 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = HTMLAttributes<'div'>;
+
+const { class: className, ...attributes } = Astro.props;
+---
+
+<div {...attributes} data-marquee-pause class={className}>
+  <slot />
+</div>
+
+<script>
+  type MarqueePauseWindow = Window & {
+    __marqueePauseInitialized?: boolean;
+  };
+
+  const marqueeWindow = window as MarqueePauseWindow;
+
+  if (!marqueeWindow.__marqueePauseInitialized) {
+    marqueeWindow.__marqueePauseInitialized = true;
+
+    const pausedAnimations = new WeakMap<Element, Animation[]>();
+
+    const getWrapper = (target: EventTarget | null) =>
+      target instanceof Element ? target.closest('[data-marquee-pause]') : null;
+
+    document.addEventListener('mouseover', (event) => {
+      const wrapper = getWrapper(event.target);
+      if (
+        !wrapper ||
+        (event.relatedTarget instanceof Node && wrapper.contains(event.relatedTarget))
+      ) {
+        return;
+      }
+
+      const animations = Array.from(wrapper.querySelectorAll('[data-marquee-track]'))
+        .flatMap((track) => track.getAnimations())
+        .filter((animation) => animation.playState === 'running');
+
+      animations.forEach((animation) => animation.pause());
+      pausedAnimations.set(wrapper, animations);
+    });
+
+    document.addEventListener('mouseout', (event) => {
+      const wrapper = getWrapper(event.target);
+      if (
+        !wrapper ||
+        (event.relatedTarget instanceof Node && wrapper.contains(event.relatedTarget))
+      ) {
+        return;
+      }
+
+      pausedAnimations.get(wrapper)?.forEach((animation) => {
+        if (animation.playState === 'paused') animation.play();
+      });
+      pausedAnimations.delete(wrapper);
+    });
+  }
+</script>

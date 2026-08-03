@@ -1,0 +1,125 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '~/layouts/Layout.astro';
+import Navbar from '~/components/Navbar.astro';
+import Footer from '~/components/Footer.astro';
+import Contact from '~/components/Contact.astro';
+import CmsRichText from '~/components/CmsRichText.astro';
+import ResourcingCapabilities from '~/components/resourcing/ResourcingCapabilities.astro';
+
+import ResourcingExtraSections from '~/components/resourcing/ResourcingExtraSections.astro';
+import ResourcingHeroCarousel from '~/components/resourcing/ResourcingHeroCarousel.svelte';
+import { resourcing } from '~/data/cms';
+import { optimizeImageSrc, optimizeImageSrcs } from '~/utils/optimizeImage';
+
+const heroCarouselImages = await optimizeImageSrcs(resourcing.hero.carouselImages);
+const workforce = {
+  ...resourcing.workforce,
+  tabs: await Promise.all(
+    resourcing.workforce.tabs.map(async (tab) => ({
+      ...tab,
+      image: await optimizeImageSrc(tab.image),
+    })),
+  ),
+};
+---
+
+<Layout title={resourcing.title}>
+  <div class="relative w-full overflow-clip">
+    <Navbar />
+
+    <!-- Hero Section -->
+    <section id={resourcing.hero.sectionId} class="relative pt-20 pb-5 sm:pt-32 sm:pb-16">
+      <div class="container mx-auto px-6">
+        <div class="flex flex-col gap-6 lg:flex-row lg:gap-8">
+          <!-- Left part -->
+          <div
+            class="relative flex w-full items-center overflow-hidden rounded-4xl bg-base-200 lg:w-1/2"
+          >
+            <div class="absolute inset-0 z-0 opacity-40">
+              <Image
+                src={resourcing.hero.backgroundImage}
+                alt=""
+                aria-hidden="true"
+                class="h-full w-full object-cover object-bottom"
+                style="filter: var(--filter-invert-dark)"
+              />
+            </div>
+            <div
+              class="absolute inset-0 bg-linear-to-r from-base-200/50 to-transparent lg:hidden"
+            >
+            </div>
+            <div class="relative z-10 w-full px-8 py-16 md:px-12 lg:px-16 lg:py-24">
+              <h1
+                class="mb-6 max-w-lg text-4xl leading-tight font-bold text-base-content md:text-5xl lg:text-[54px]"
+              >
+                <CmsRichText value={resourcing.hero.title} />
+              </h1>
+              <p class="mb-10 max-w-lg text-xl font-medium text-base-content/80">
+                <CmsRichText value={resourcing.hero.subtitle} />
+              </p>
+              <a
+                href={resourcing.hero.ctaUrl}
+                class="btn w-full rounded-lg px-12 text-xl text-primary-content shadow-lg shadow-primary/20 btn-lg btn-primary lg:w-auto"
+              >
+                <CmsRichText value={resourcing.hero.ctaLabel} />
+              </a>
+            </div>
+          </div>
+          <!-- Right part -->
+          <ResourcingHeroCarousel images={heroCarouselImages} client:load />
+        </div>
+      </div>
+    </section>
+
+    <!-- Capabilities Section -->
+    <section
+      id={resourcing.capabilities.sectionId}
+      class="relative overflow-hidden bg-base-100 py-24"
+    >
+      <!-- Background Image -->
+      <div
+        class="pointer-events-none absolute inset-0 z-0 opacity-70 dark:mix-blend-overlay"
+      >
+        <Image
+          src={resourcing.capabilities.backgroundImage}
+          alt=""
+          aria-hidden="true"
+          class="h-full w-full object-cover object-center"
+          style="filter: var(--filter-invert-dark)"
+        />
+        <div
+          class="absolute inset-0 bg-linear-to-b from-base-100/80 via-transparent to-base-100"
+        >
+        </div>
+      </div>
+
+      <div class="relative z-10 container mx-auto px-6">
+        <div class="mb-10 max-w-3xl md:mb-6">
+          <h2 class="mb-6 text-4xl font-bold text-base-content md:text-5xl">
+            <CmsRichText value={resourcing.capabilities.heading} />
+          </h2>
+          <p class="text-xl font-medium text-base-content/70">
+            <CmsRichText value={resourcing.capabilities.description} />
+          </p>
+        </div>
+
+        <ResourcingCapabilities capabilities={resourcing.capabilities.items} />
+      </div>
+    </section>
+
+    <ResourcingExtraSections
+      standard={resourcing.standard}
+      workforce={workforce}
+      execution={resourcing.execution}
+      caseStudies={resourcing.caseStudies}
+    />
+
+    <div class="bg-base-200/40">
+      <div class="pt-8 md:pt-16">
+        <Contact />
+        <Footer overlap={true} />
+      </div>
+    </div>
+  </div>
+</Layout>

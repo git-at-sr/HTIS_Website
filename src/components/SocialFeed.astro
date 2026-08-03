@@ -1,0 +1,157 @@
+---
+import CmsRichText from './CmsRichText.astro';
+import type { SocialPost } from '~/data/cms';
+
+interface Props {
+  sectionId?: string;
+  eyebrow: string;
+  heading: string;
+  posts: SocialPost[];
+}
+
+const { sectionId = 'latest-social', eyebrow, heading, posts } = Astro.props;
+
+const platformDetails = {
+  facebook: { label: 'Facebook', badgeClass: 'badge-primary' },
+  instagram: { label: 'Instagram', badgeClass: 'badge-secondary' },
+  linkedin: { label: 'LinkedIn', badgeClass: 'badge-info' },
+} as const;
+---
+
+<section id={sectionId} class="bg-base-100 py-16 md:py-24">
+  <div
+    class="container mx-auto px-6"
+    x-data="{
+      scrollProgress: 0,
+      hasScrollable: false,
+      updateScrollState() {
+        const container = this.$refs.scrollContainer;
+        if (!container) return;
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        this.hasScrollable = maxScroll > 0;
+        this.scrollProgress = maxScroll > 0 ? container.scrollLeft / maxScroll : 0;
+      }
+    }"
+    x-init="
+      updateScrollState();
+      const resizeObserver = new ResizeObserver(() => updateScrollState());
+      resizeObserver.observe($refs.scrollContainer);
+    "
+    @resize.window="updateScrollState()"
+  >
+    <div class="mb-10 text-center md:mb-14">
+      <CmsRichText
+        value={eyebrow}
+        tag="p"
+        className="mb-2 text-sm font-semibold tracking-widest text-primary uppercase"
+      />
+      <CmsRichText
+        value={heading}
+        tag="h2"
+        className="text-3xl font-extrabold tracking-tight text-base-content md:text-4xl"
+      />
+    </div>
+
+    <div
+      x-ref="scrollContainer"
+      @scroll.passive="updateScrollState()"
+      class="social-scroll-container flex snap-x snap-mandatory items-start gap-6 overflow-x-auto scroll-smooth pb-5"
+    >
+      {
+        posts.map((post) => (
+          <article
+            class="social-embed-wrapper relative w-[calc(100vw-3rem)] max-w-[500px] shrink-0 snap-start overflow-hidden rounded-xl border border-base-content/10 bg-base-100 shadow-sm"
+            style={`height:${post.height}px;`}
+          >
+            <a
+              href={post.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-fallback absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center transition-colors hover:bg-base-200/50"
+            >
+              <span class={`badge badge-lg ${platformDetails[post.platform].badgeClass}`}>
+                {platformDetails[post.platform].label}
+              </span>
+              <CmsRichText
+                value={post.fallbackTitle}
+                tag="p"
+                className="max-w-xs text-base font-medium text-base-content/75"
+              />
+              <span class="link text-sm font-semibold text-primary link-hover">
+                View post
+              </span>
+            </a>
+
+            <iframe
+              src={post.src}
+              width={post.width}
+              height={post.height}
+              title={post.title}
+              loading="lazy"
+              scrolling="no"
+              frameborder="0"
+              allow={
+                post.platform === 'linkedin'
+                  ? undefined
+                  : 'autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share'
+              }
+              sandbox={
+                post.platform === 'linkedin'
+                  ? 'allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms'
+                  : undefined
+              }
+              allowfullscreen
+              referrerpolicy={
+                post.platform === 'linkedin'
+                  ? 'no-referrer'
+                  : 'strict-origin-when-cross-origin'
+              }
+              class="social-iframe pointer-events-none relative z-10 opacity-0 transition-opacity duration-300"
+              style={`width:100%;height:${post.height}px;border:0;`}
+            />
+          </article>
+        ))
+      }
+    </div>
+
+    <div x-show="hasScrollable" class="mt-2 flex justify-center md:hidden">
+      <div class="relative h-1 w-48 overflow-hidden rounded-full bg-base-content/20">
+        <div
+          class="absolute inset-y-0 rounded-full bg-primary transition-all duration-75"
+          :style="`width: 30%; left: ${scrollProgress * 70}%`"
+        >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupSocialEmbeds() {
+    document.querySelectorAll<HTMLIFrameElement>('.social-iframe').forEach((iframe) => {
+      if (iframe.dataset.initialized) return;
+      iframe.dataset.initialized = 'true';
+      iframe.addEventListener(
+        'load',
+        () => {
+          try {
+            if (iframe.contentDocument && !iframe.contentDocument.body?.childElementCount)
+              return;
+          } catch {
+            // A cross-origin document confirms that the provider embed loaded.
+          }
+
+          const wrapper = iframe.closest('.social-embed-wrapper');
+          const fallback = wrapper?.querySelector<HTMLElement>('.social-fallback');
+          if (fallback) fallback.style.display = 'none';
+          iframe.classList.remove('opacity-0', 'pointer-events-none');
+          iframe.classList.add('opacity-100');
+        },
+        { once: true },
+      );
+    });
+  }
+
+  setupSocialEmbeds();
+  document.addEventListener('astro:page-load', setupSocialEmbeds);
+</script>

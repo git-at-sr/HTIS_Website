@@ -1,0 +1,333 @@
+---
+import { Image } from 'astro:assets';
+import { footer, getCmsAsset } from '~/data/cms';
+import TwitterIcon from './icons/TwitterIcon.astro';
+import InstagramIcon from './icons/InstagramIcon.astro';
+import LinkedInIcon from './icons/LinkedInIcon.astro';
+import FacebookIcon from './icons/FacebookIcon.astro';
+import YoutubeIcon from './icons/YoutubeIcon.astro';
+import PhoneIcon from './icons/PhoneIcon.astro';
+import EnvelopeIcon from './icons/EnvelopeIcon.astro';
+import ArrowRightIcon from './icons/ArrowRightIcon.astro';
+import CmsRichText from './CmsRichText.astro';
+
+interface Props {
+  overlap?: boolean;
+}
+
+const { overlap = false } = Astro.props;
+
+const footerLogo = getCmsAsset(footer.logo.image);
+const socialIconMap = {
+  Twitter: TwitterIcon,
+  Instagram: InstagramIcon,
+  LinkedIn: LinkedInIcon,
+  Facebook: FacebookIcon,
+  Youtube: YoutubeIcon,
+} as const;
+
+const resolveSocialIcon = (iconName: string) =>
+  socialIconMap[iconName as keyof typeof socialIconMap] ?? LinkedInIcon;
+
+const offices = footer.offices?.list || [];
+const companySection = footer.company;
+const servicesSection = footer.services;
+
+const emptyCellsCount = (4 - (offices.length % 4)) % 4;
+const totalRows = (offices.length + emptyCellsCount) / 4;
+---
+
+<div class={overlap ? '' : 'pt-12'}>
+  <footer
+    class={`relative z-10 rounded-t-3xl md:rounded-t-[4rem] bg-base-100 px-6 pb-8 md:px-12 border-t border-base-content/5 shadow-[0_-15px_30px_-5px_rgba(0,0,0,0.06)] dark:shadow-[0_-20px_40px_-5px_rgba(0,0,0,0.4)] transition-all duration-300 ${
+      overlap ? '-mt-20 pt-32 md:-mt-32 md:pt-48' : 'pt-16'
+    }`}
+  >
+    <div class="mx-auto max-w-7xl">
+      <div
+        class="grid grid-cols-1 gap-8 pb-10 text-base-content/80 md:grid-cols-6 lg:grid-cols-12"
+      >
+        <!-- Logo and Description -->
+        <aside class="col-span-1 flex flex-col items-center text-center md:items-start md:text-left space-y-6 md:col-span-6 lg:col-span-3">
+          <Image
+            src={footerLogo}
+            alt={footer.logo.alt}
+            width={120}
+            loading="lazy"
+            decoding="async"
+            class="object-contain"
+          />
+          <p class="mt-4 max-w-sm text-[15px] leading-[1.85] text-base-content/70">
+            <CmsRichText value={footer.description} />
+          </p>
+
+          <!-- Social Links (Horizontal row of icons below logo details) -->
+          <div class="flex items-center gap-3 pt-4">
+            {
+              footer.socials.links.map((link) => {
+                const Icon = resolveSocialIcon(link.icon);
+
+                return (
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex h-8 w-8 items-center justify-center rounded-full border border-base-content/15 text-base-content/70 transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary"
+                    aria-label={link.label}
+                  >
+                    <Icon class="h-4.5 w-4.5" />
+                  </a>
+                );
+              })
+            }
+          </div>
+        </aside>
+
+        <!-- Company, Services, and Contact Columns -->
+        <div
+          class="col-span-1 flex flex-col justify-between gap-8 sm:flex-row sm:gap-4 md:col-span-6 lg:col-span-6 lg:gap-8"
+        >
+          <div class="grid grid-cols-2 gap-4 sm:contents">
+            <!-- Company Column -->
+            {
+              companySection && (
+                <nav>
+                  <h6 class="mb-5 text-[17px] font-semibold text-base-content">
+                    <CmsRichText value={companySection.heading} />
+                  </h6>
+                  {companySection.links.map((link) => (
+                    <a
+                      href={link.url}
+                      class="mb-3.5 block text-[15px] text-base-content/80 transition-all duration-200 hover:translate-x-1 hover:text-primary"
+                    >
+                      <CmsRichText value={link.label} />
+                    </a>
+                  ))}
+                </nav>
+              )
+            }
+
+            <!-- Services Column -->
+            {
+              servicesSection && (
+                <nav>
+                  <h6 class="mb-5 text-[17px] font-semibold text-base-content">
+                    <CmsRichText value={servicesSection.heading} />
+                  </h6>
+                  {servicesSection.links.map((link) => (
+                    <a
+                      href={link.url}
+                      class="mb-3.5 block text-[15px] text-base-content/80 transition-all duration-200 hover:translate-x-1 hover:text-primary"
+                    >
+                      <CmsRichText value={link.label} />
+                    </a>
+                  ))}
+                </nav>
+              )
+            }
+          </div>
+
+          <!-- Contact Links -->
+          <nav class="shrink-0">
+            <h6 class="mb-5 text-[17px] font-semibold text-base-content">
+              <CmsRichText value={footer.contact.heading} />
+            </h6>
+            <div class="space-y-4">
+              <div
+                class="flex items-center gap-3.5 rounded-2xl border border-base-200 bg-base-100 p-3.5 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md dark:border-base-300/30 dark:bg-base-200/10"
+              >
+                <div
+                  class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-content"
+                >
+                  <PhoneIcon class="h-4 w-4" />
+                </div>
+                <span class="truncate text-[14px] font-semibold text-base-content"
+                  ><CmsRichText value={footer.contact.phone} /></span
+                >
+              </div>
+              <div
+                class="flex items-center gap-3.5 rounded-2xl border border-base-200 bg-base-100 p-3.5 shadow-sm transition-all duration-300 hover:border-primary/30 hover:shadow-md dark:border-base-300/30 dark:bg-base-200/10"
+              >
+                <div
+                  class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-content"
+                >
+                  <EnvelopeIcon class="h-4 w-4" />
+                </div>
+                <span
+                  class="truncate text-[14px] font-semibold text-base-content"
+                  title={footer.contact.email}><CmsRichText value={footer.contact.email} /></span
+                >
+              </div>
+            </div>
+          </nav>
+        </div>
+
+        <!-- Offices & Global Presence -->
+        <div class="col-span-1 space-y-6 md:col-span-6 lg:col-span-3">
+          <div>
+            <div class="mb-3 flex items-center justify-between">
+              <h6 class="text-[17px] font-semibold text-base-content">
+                <CmsRichText value={footer.offices.heading} />
+              </h6>
+            </div>
+
+            <div class="relative">
+              <!-- India flag overlapping the top-right corner of the table -->
+              <div class="pointer-events-none absolute -top-3.5 -right-4 z-20">
+                <img
+                  src={`https://flagcdn.com/w80/${footer.offices.indiaFlagCode}.png`}
+                  alt="India flag"
+                  loading="lazy"
+                  decoding="async"
+                  class="h-auto w-[38px] rounded-xs border border-base-200 object-contain shadow-md dark:border-base-300/40"
+                />
+              </div>
+
+              <div
+                x-data="{ selected: 0 }"
+                class="flex flex-col overflow-hidden rounded-2xl border border-base-200 bg-base-100 shadow-sm dark:border-base-300/35 dark:bg-base-200/5"
+              >
+                <!-- Buttons Grid (Table layout with cells border) -->
+                <div
+                  class="bg-base-50/50 grid grid-cols-4 border-b border-base-200 text-center text-xs font-semibold select-none dark:border-base-300/35 dark:bg-base-200/10"
+                >
+                  {
+                    offices.map((office, idx) => (
+                      <button
+                        @click={`selected = ${idx}`}
+                        class="flex cursor-pointer items-center justify-center py-2.5 transition-all duration-200 focus:outline-none"
+                        class:list={[
+                          // Right border except for last column
+                          (idx + 1) % 4 !== 0
+                            ? 'border-r border-base-200 dark:border-base-300/35'
+                            : '',
+                          // Bottom border except for last row
+                          Math.floor(idx / 4) < totalRows - 1
+                            ? 'border-b border-base-200 dark:border-base-300/35'
+                            : '',
+                        ]}
+                        x-bind:class={`selected === ${idx} ? 'bg-base-100 text-primary font-bold' : 'bg-base-200/35 text-base-content/75 hover:bg-base-200/60 hover:text-base-content'`}
+                      >
+                        <CmsRichText value={office.name} />
+                      </button>
+                    ))
+                  }
+                  {
+                    /* Empty cells to fill the 4-column grid dynamically to complete the last row */
+                  }
+                  {
+                    Array.from({ length: emptyCellsCount }).map((_, i) => {
+                      const idx = offices.length + i;
+                      return (
+                        <div
+                          class="bg-base-200/35 py-2.5 dark:bg-base-300/5"
+                          class:list={[
+                            // Right border except for last column
+                            (idx + 1) % 4 !== 0
+                              ? 'border-r border-base-200 dark:border-base-300/35'
+                              : '',
+                            // Bottom border except for last row
+                            Math.floor(idx / 4) < totalRows - 1
+                              ? 'border-b border-base-200 dark:border-base-300/35'
+                              : '',
+                          ]}
+                        />
+                      );
+                    })
+                  }
+                </div>
+
+                <!-- Details Box (SEO friendly static elements conditionally toggled by Alpine) -->
+                <div
+                  class="flex min-h-[140px] flex-col justify-center bg-base-100 p-4 text-center dark:bg-base-200/10"
+                >
+                  {
+                    offices.map((office, idx) => (
+                      <div
+                        x-show={`selected === ${idx}`}
+                        style={idx !== 0 ? 'display: none;' : ''}
+                        class="transition-all duration-200"
+                      >
+                        <h5 class="text-[13px] font-bold text-base-content">
+                          <CmsRichText value={office.companyName} />
+                        </h5>
+                        <p class="mt-2 text-xs leading-relaxed text-base-content/75">
+                          <CmsRichText value={office.address} />
+                        </p>
+
+                        <div class="mt-3 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-t border-base-200/50 pt-2.5 text-xs text-base-content/60 dark:border-base-300/20">
+                          <CmsRichText value={office.phone} className="font-medium" />
+                          <span class="hidden text-base-content/30 sm:inline">|</span>
+                          <a
+                            href={`mailto:${office.email}`}
+                            class="font-medium text-primary hover:underline"
+                          >
+                            <CmsRichText value={office.email} />
+                          </a>
+                        </div>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Global Presence -->
+          <div>
+            <div class="mb-3 flex items-center justify-between gap-3">
+              <h6 class="text-[17px] font-semibold text-base-content">
+                <CmsRichText value={footer.globalPresence.heading} />
+              </h6>
+              {
+                footer.globalPresence.ctaLabel && footer.globalPresence.ctaUrl && (
+                  <a
+                    href={footer.globalPresence.ctaUrl}
+                    class="flex items-center text-sm font-medium text-primary decoration-2 hover:underline"
+                  >
+                    <CmsRichText value={footer.globalPresence.ctaLabel} />
+                    <ArrowRightIcon class="ml-1 h-4 w-4" />
+                  </a>
+                )
+              }
+            </div>
+            <div class="flex items-center gap-3">
+              {
+                footer.globalPresence.countries.map((country) => (
+                  <img
+                    src={`https://flagcdn.com/w40/${country.code}.png`}
+                    alt={`${country.name} flag`}
+                    title={country.name}
+                    loading="lazy"
+                    decoding="async"
+                    class="filter h-auto w-7 cursor-pointer rounded-xs border border-base-content/5 object-contain drop-shadow-[0_2px_3px_rgba(0,0,0,0.15)] transition-transform duration-200 hover:scale-125"
+                  />
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div
+        class="flex flex-col items-center justify-between gap-4 border-t border-base-200 pt-6 pb-2 text-sm text-base-content/60 md:flex-row"
+      >
+        <CmsRichText value={footer.copyright} tag="p" />
+
+        <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 md:justify-end">
+          {
+            footer.legalLinks.map((link) => (
+              <a
+                href={link.url}
+                class="cursor-pointer transition-colors duration-200 hover:text-primary"
+              >
+                <CmsRichText value={link.label} />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>

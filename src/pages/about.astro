@@ -1,0 +1,262 @@
+---
+import { Image } from 'astro:assets';
+import { CircleCheck } from '@lucide/astro';
+import Layout from '~/layouts/Layout.astro';
+import Navbar from '~/components/Navbar.astro';
+import Footer from '~/components/Footer.astro';
+import Contact from '~/components/Contact.astro';
+import CmsRichText from '~/components/CmsRichText.astro';
+import AboutTeam from '~/components/AboutTeam.svelte';
+import OurPresence from '~/components/OurPresenceMapLibre.svelte';
+import SocialFeed from '~/components/SocialFeed.astro';
+import { about } from '~/data/cms';
+import { optimizeImageSrc } from '~/utils/optimizeImage';
+
+const aboutTeam = await Promise.all(
+  about.team.members.map(async (member) => ({
+    ...member,
+    img: await optimizeImageSrc(member.img),
+  })),
+);
+---
+
+<Layout title={about.title}>
+  <div class="relative w-full overflow-clip">
+    <Navbar />
+
+    <!-- Section 1: Hero Section -->
+    <section
+      id={about.hero.sectionId}
+      class="relative flex min-h-[420px] w-full items-center overflow-hidden bg-base-200/50 pt-20 pb-0 md:pt-32 md:pb-20"
+    >
+      <!-- Background with dot-grid pattern and theme-aware filter -->
+      <div class="absolute inset-0 z-0 opacity-90">
+        <Image
+          src={about.hero.backgroundImage}
+          alt=""
+          aria-hidden="true"
+          class="h-full w-full object-cover object-center"
+          style="filter: var(--filter-invert-dark)"
+        />
+      </div>
+      <!-- Radial overlay to focus attention and blend seamlessly -->
+      <div
+        class="absolute inset-0 z-0 bg-radial from-transparent via-base-100/35 to-base-100"
+      >
+      </div>
+
+      <!-- Hero Content -->
+      <div class="relative z-10 mx-auto w-full max-w-7xl px-6 py-6 text-center md:py-16">
+        <CmsRichText
+          value={about.hero.title}
+          tag="h1"
+          className="mb-6 text-4xl leading-tight font-extrabold tracking-tight text-base-content md:text-5xl lg:text-[56px]"
+        />
+        <CmsRichText
+          value={about.hero.subtitle}
+          tag="p"
+          className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed font-medium text-base-content/85 md:text-xl"
+        />
+        <div>
+          <a
+            href={about.hero.ctaUrl}
+            class="btn w-full rounded-lg px-12 text-xl text-primary-content shadow-lg shadow-primary/20 btn-lg btn-primary md:w-auto"
+          >
+            <CmsRichText value={about.hero.ctaLabel} />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Mission, Vision, and Values -->
+    <section id={about.mission.sectionId} class="bg-base-100 py-16 md:py-24">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-12">
+          <!-- Left Column: Layered Premium Cards -->
+          <div class="space-y-4 lg:col-span-7">
+            {
+              about.mission.cards.map((card) => (
+                <div class="group rounded-2xl border border-base-200/60 bg-base-100 p-5 shadow-xs transition-all duration-300 hover:border-primary/20 hover:shadow-md md:p-6">
+                  <CmsRichText
+                    value={card.title}
+                    tag="h3"
+                    className="mb-1 text-lg font-bold text-base-content transition-colors"
+                  />
+                  <CmsRichText
+                    value={card.description}
+                    tag="p"
+                    className="text-sm leading-relaxed text-base-content/75 md:text-base"
+                  />
+                </div>
+              ))
+            }
+          </div>
+
+          <!-- Right Column: Visual Element -->
+          <div
+            class="relative order-first flex justify-center lg:order-none lg:col-span-5"
+          >
+            <div class="group relative w-full max-w-md lg:max-w-none">
+              <!-- Aesthetic outline wrapper -->
+              <div
+                class="absolute -inset-4 rounded-xl bg-linear-to-tr from-primary/10 to-transparent opacity-75 blur-md"
+              >
+              </div>
+              <Image
+                src={about.mission.image}
+                alt={about.mission.imageAlt}
+                class="relative z-10 w-full rounded-xl border border-base-200 object-cover shadow-xl transition-all duration-500 hover:scale-[1.01]"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Life at HTIS -->
+    <section
+      id={about.lifeAtHtis.sectionId}
+      class="relative overflow-hidden bg-base-200/30 py-16 md:py-24"
+    >
+      <!-- Background elements for visual complexity -->
+      <div class="absolute inset-0 z-0 opacity-90">
+        <Image
+          src={about.lifeAtHtis.backgroundImage}
+          alt=""
+          aria-hidden="true"
+          class="h-full w-full object-cover"
+          style="filter: var(--filter-invert-dark)"
+        />
+      </div>
+      <div
+        class="absolute inset-0 z-0 bg-linear-to-r from-base-100/90 via-base-100/50 to-transparent"
+      >
+      </div>
+
+      <div class="relative z-10 container mx-auto px-6">
+        <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-12">
+          <!-- Left Column: Collage -->
+          <div class="flex justify-center lg:col-span-6">
+            <div
+              class="relative w-full max-w-md transition-transform duration-500 hover:scale-[1.01] lg:max-w-lg"
+            >
+              <Image
+                src={about.lifeAtHtis.image}
+                alt={about.lifeAtHtis.imageAlt}
+                class="w-full rounded-xl border border-base-200 object-cover shadow-xl"
+              />
+            </div>
+          </div>
+
+          <!-- Right Column: Description -->
+          <div class="space-y-6 lg:col-span-6">
+            <CmsRichText
+              value={about.lifeAtHtis.title}
+              tag="h2"
+              className="text-3xl font-extrabold tracking-tight text-base-content md:text-4xl"
+            />
+            <div class="h-1.5 w-20 rounded-full bg-primary"></div>
+            {
+              about.lifeAtHtis.body.map((paragraph, index) => (
+                <CmsRichText
+                  value={paragraph}
+                  tag="p"
+                  className={`text-base leading-relaxed text-base-content/80 md:text-lg${
+                    index === 0 ? 'pt-2' : ''
+                  }`}
+                />
+              ))
+            }
+            <div class="w-full pt-4">
+              <a
+                href={about.lifeAtHtis.ctaUrl}
+                class="btn w-full rounded-lg px-8 text-base font-semibold shadow-md transition-all duration-300 btn-primary hover:shadow-primary/20 md:w-auto"
+              >
+                <CmsRichText value={about.lifeAtHtis.ctaLabel} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Team Section -->
+    <AboutTeam
+      sectionId={about.team.sectionId}
+      title={about.team.title}
+      description={about.team.description}
+      team={aboutTeam}
+      client:visible
+    />
+
+    <!-- Section: Our Presence -->
+    <OurPresence {...about.ourPresence} client:visible />
+
+    <!-- Section 4: Principles Section -->
+    <section id={about.principles.sectionId} class="bg-base-200/50 py-16 md:py-24">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-12">
+          <!-- Left Column: Content and List -->
+          <div class="space-y-8 lg:col-span-7">
+            <div>
+              <CmsRichText
+                value={about.principles.title}
+                tag="h2"
+                className="text-3xl font-extrabold tracking-tight text-base-content md:text-4xl"
+              />
+              <CmsRichText
+                value={about.principles.description}
+                tag="p"
+                className="mt-4 text-base leading-relaxed text-base-content/75 md:text-lg"
+              />
+            </div>
+
+            <!-- Custom Checklist Stack (Single Column as in Figma) -->
+            <div class="flex max-w-lg flex-col gap-3">
+              {
+                about.principles.items.map((item) => (
+                  <div class="group flex items-center gap-3.5 rounded-xl border border-base-200/40 p-3 transition-all duration-300 hover:border-primary/20 hover:bg-primary/5">
+                    <CircleCheck class="h-5 w-5 shrink-0 text-primary transition-transform duration-300 group-hover:scale-110" />
+                    <CmsRichText
+                      value={item}
+                      className="text-base font-semibold text-base-content/90 transition-colors group-hover:text-primary"
+                    />
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <!-- Right Column: Visual -->
+          <div class="flex justify-center lg:col-span-5">
+            <div
+              class="relative w-full max-w-md transition-transform duration-500 hover:scale-[1.01] lg:max-w-none"
+            >
+              <!-- Aesthetic subtle outline backdrop -->
+              <div
+                class="absolute -inset-4 rounded-[2.5rem] bg-linear-to-bl from-primary/10 to-transparent opacity-75 blur-md"
+              >
+              </div>
+              <Image
+                src={about.principles.image}
+                alt={about.principles.imageAlt}
+                class="relative z-10 w-full rounded-4xl object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Latest from our Social -->
+    {about.social.enabled && <SocialFeed {...about.social} />}
+
+    <!-- Footer block -->
+    <div class="bg-base-200/50">
+      <div class="pt-0">
+        <Contact />
+        <Footer overlap={true} />
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,319 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '~/layouts/Layout.astro';
+import Navbar from '~/components/Navbar.astro';
+import Footer from '~/components/Footer.astro';
+import Contact from '~/components/Contact.astro';
+import CmsIcon from '~/components/CmsIcon.astro';
+import CmsRichText from '~/components/CmsRichText.astro';
+import SoftwarePortfolio from '~/components/software/SoftwarePortfolio.svelte';
+import SoftwareEngineeringStack from '~/components/software/SoftwareEngineeringStack.astro';
+import SoftwareArchitecturalPrinciples from '~/components/software/SoftwareArchitecturalPrinciples.svelte';
+
+import { ArrowRight } from '@lucide/astro';
+
+// New Section Imports
+import SoftwareOnboarding from '~/components/software/SoftwareOnboarding.astro';
+import SoftwareCaseStudies from '~/components/software/SoftwareCaseStudies.svelte';
+import SoftwareMetrics from '~/components/software/SoftwareMetrics.svelte';
+import { software } from '~/data/cms';
+import { optimizeImageSrc } from '~/utils/optimizeImage';
+
+const portfolioCapabilities = await Promise.all(
+  software.portfolio.capabilities.map(async (capability) => ({
+    ...capability,
+    items: await Promise.all(
+      capability.items.map(async (item) => ({
+        ...item,
+        image: await optimizeImageSrc(item.image),
+      })),
+    ),
+  })),
+);
+const architecturalPrinciplesBackgroundImageSrc = await optimizeImageSrc(
+  software.architecturalPrinciples.backgroundImage,
+);
+const softwareCaseStudies = await Promise.all(
+  software.caseStudies.items.map(async (item) => ({
+    ...item,
+    image: await optimizeImageSrc(item.image),
+  })),
+);
+---
+
+<Layout title={software.title}>
+  <div class="relative w-full overflow-clip">
+    <Navbar />
+
+    <section
+      id={software.hero.sectionId}
+      class="relative flex min-h-[85vh] items-start pt-32 pb-16 lg:items-center lg:pt-36 lg:pb-0"
+    >
+      <!-- Background Graphic Layer -->
+      <div class="absolute inset-0 z-0">
+        <Image
+          src={software.hero.backgroundImage}
+          alt=""
+          aria-hidden="true"
+          class="h-full w-full object-cover object-center opacity-15"
+          style="filter: var(--filter-invert-dark)"
+        />
+        <!-- Custom gradient masks to blend container and typography readability -->
+        <!-- <div class="absolute inset-0 bg-base-100/50 lg:bg-transparent"></div> -->
+        <!-- <div
+          class="absolute inset-0 bg-linear-to-r from-base-100/98 via-base-100/80 to-transparent lg:w-2/3"
+        >
+        </div> -->
+        <!-- <div
+          class="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-base-100"
+        >
+        </div> -->
+      </div>
+
+      <!-- Mobile-only Background Foreground Image -->
+      <div
+        class="pointer-events-none absolute inset-0 z-1 flex items-center justify-center opacity-30 lg:hidden"
+      >
+        <Image
+          src={software.hero.foregroundImage!}
+          alt="HTIS Software Mockup Showcase background"
+          class="animate-float h-auto w-full max-w-md object-contain drop-shadow-2xl"
+          loading="eager"
+        />
+      </div>
+
+      <!-- Core Content -->
+      <div class="relative z-10 container mx-auto w-full px-6">
+        <div class="flex flex-col gap-12 lg:flex-row lg:items-center">
+          <!-- Text Column -->
+          <div
+            class="z-20 flex flex-col items-start gap-6 text-left max-lg:rounded-2xl max-lg:bg-base-100/20 max-lg:backdrop-blur-sm lg:w-1/2 lg:pr-8"
+          >
+            <!-- <span
+              class="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold tracking-wider text-primary uppercase"
+            >
+              Proprietary SaaS & Engineering
+            </span> -->
+
+            <h1
+              class="text-4xl leading-tight font-extrabold tracking-tight text-base-content md:text-5xl lg:text-6xl"
+            >
+              <CmsRichText value={software.hero.title} /><br />
+              <span
+                class="bg-linear-to-r from-primary to-[#60B68C] bg-clip-text text-transparent"
+                ><CmsRichText value={software.hero.highlight} /></span
+              >
+            </h1>
+
+            <p
+              class="max-w-2xl text-lg leading-relaxed font-medium text-base-content/85 md:text-xl"
+            >
+              <CmsRichText value={software.hero.subtitle} />
+            </p>
+
+            <div class="mt-4 flex w-full flex-col gap-4 sm:w-auto sm:flex-row">
+              <a
+                href={software.hero.ctaUrl}
+                class="btn w-full rounded-lg px-6 text-xl whitespace-nowrap text-primary-content shadow-lg shadow-primary/20 btn-lg btn-primary sm:w-60"
+              >
+                <CmsRichText value={software.hero.ctaLabel} />
+              </a>
+              <a
+                href={software.hero.secondaryCtaUrl}
+                class="btn w-full rounded-lg border-base-content/50 btn-ghost px-6 text-xl font-semibold tracking-wide whitespace-nowrap text-base-content btn-lg hover:bg-base-200/50 sm:w-60"
+              >
+                <CmsRichText value={software.hero.secondaryCtaLabel} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Image — absolutely positioned on right side (desktop only), like SystemIntegrationHero -->
+      <div
+        class="pointer-events-none absolute inset-y-0 right-0 z-1 hidden w-[50%] lg:block"
+      >
+        <!-- Subtle backlighting flare -->
+        <div
+          class="absolute right-10 bottom-20 z-0 h-[450px] w-[450px] rounded-full bg-primary/10 blur-3xl"
+        >
+        </div>
+        <!-- Wrapping container to handle the float animation safely on desktop while preserving horizontal centering -->
+        <div
+          class="animate-float absolute bottom-0 left-1/2 z-10 h-[90%] -translate-x-1/2"
+        >
+          <Image
+            src={software.hero.foregroundImage!}
+            alt="HTIS Software Mockup Showcase"
+            class="h-full w-auto max-w-none object-contain drop-shadow-2xl"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- 2nd Section: Converged Software Portfolio -->
+    <section
+      id={software.portfolio.sectionId}
+      class="relative overflow-hidden bg-base-100 py-24"
+    >
+      <!-- Background Subtle Grid Mesh -->
+      <div
+        class="pointer-events-none absolute inset-0 z-0 opacity-20 mix-blend-luminosity dark:mix-blend-overlay"
+      >
+        <Image
+          src={software.portfolio.backgroundImage}
+          alt=""
+          aria-hidden="true"
+          class="h-full w-full object-cover object-center"
+          style="filter: var(--filter-invert-dark)"
+        />
+        <div
+          class="absolute inset-0 bg-linear-to-b from-base-100/90 via-transparent to-base-100"
+        >
+        </div>
+      </div>
+
+      <div class="relative z-10 container mx-auto px-6">
+        <!-- Title Info -->
+        <div class="mb-10 max-w-3xl text-left lg:mb-6">
+          <!-- <span
+            class="mb-2 block text-xs font-bold tracking-wider text-primary uppercase"
+          >
+            Product & Engineering Matrix
+          </span> -->
+          <CmsRichText
+            value={software.portfolio.heading}
+            tag="h2"
+            className="mb-6 text-4xl font-extrabold tracking-tight text-base-content md:text-5xl"
+          />
+          <CmsRichText
+            value={software.portfolio.description}
+            tag="p"
+            className="text-lg font-medium text-base-content/70"
+          />
+        </div>
+
+        <!-- Svelte 5 Interactive Tabbed Showcase Island -->
+        <SoftwarePortfolio capabilities={portfolioCapabilities} client:visible />
+      </div>
+    </section>
+
+    <!-- 3rd Section: Modern Engineering Stack -->
+    <SoftwareEngineeringStack {...software.engineeringStack} />
+
+    <!-- 4th Section: Architectural Principles -->
+    <SoftwareArchitecturalPrinciples
+      sectionId={software.architecturalPrinciples.sectionId}
+      backgroundImageSrc={architecturalPrinciplesBackgroundImageSrc}
+      heading={software.architecturalPrinciples.heading}
+      description={software.architecturalPrinciples.description}
+      items={software.architecturalPrinciples.items}
+      client:visible
+    />
+
+    <!-- 5th Section: Built to Execute & Synergy Pillars -->
+    <section id={software.execution.sectionId} class="relative bg-base-200/50 pt-24">
+      <div class="container mx-auto px-6">
+        <div class="mb-10">
+          <CmsRichText
+            value={software.execution.heading}
+            tag="h2"
+            className="mb-6 text-4xl leading-tight font-bold whitespace-pre-line text-base-content md:text-5xl"
+          />
+        </div>
+
+        <SoftwareMetrics metrics={software.execution.metrics} client:visible />
+
+        <!-- Pillars Layout from system-integration with LOB anchors and Lucide icons -->
+        <div
+          class="mt-16 flex flex-col border-t-2 border-base-content/20 py-12 md:flex-row md:gap-x-6 lg:mt-10 lg:gap-x-10 lg:py-16"
+        >
+          {
+            software.execution.pillars.map((pillar, index) => {
+              return (
+                <>
+                  {index > 0 && (
+                    <div class="hidden w-[2px] bg-base-content/20 md:block" />
+                  )}
+                  <div
+                    class:list={[
+                      'flex flex-1 flex-col gap-4',
+                      index === 0 && 'pb-12 md:pb-0',
+                      index > 0 &&
+                        index < software.execution.pillars.length - 1 &&
+                        'border-y-2 border-base-content/20 py-12 md:border-y-0 md:py-0',
+                      index === software.execution.pillars.length - 1 && 'pt-12 md:pt-0',
+                    ]}
+                  >
+                    <div class="mb-2 flex items-start justify-between">
+                      <CmsIcon
+                        name={pillar.iconName}
+                        className="h-12 w-12 text-primary"
+                      />
+                      <a
+                        href={pillar.url ?? '#'}
+                        aria-label={`View more details about ${pillar.title}`}
+                        class="group flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/5 text-primary transition-all hover:bg-primary hover:text-primary-content hover:shadow-lg hover:shadow-primary/20 active:scale-95"
+                      >
+                        <ArrowRight
+                          class="h-5 w-5 transition-transform group-hover:translate-x-0.5"
+                          stroke-width="2.5"
+                        />
+                      </a>
+                    </div>
+                    <CmsRichText
+                      value={pillar.title}
+                      tag="h3"
+                      className="text-2xl font-medium"
+                    />
+                    <CmsRichText
+                      value={pillar.description}
+                      tag="p"
+                      className="text-justify text-lg text-base-content/70"
+                    />
+                  </div>
+                </>
+              );
+            })
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- 6th Section: Engagement Lifecycle & Deployment Roadmap -->
+    <SoftwareOnboarding {...software.onboarding} />
+
+    <!-- 7th Section: Strategic Case Studies & Technical Impact -->
+    <SoftwareCaseStudies
+      sectionId={software.caseStudies.sectionId}
+      heading={software.caseStudies.heading}
+      items={softwareCaseStudies}
+      client:visible
+    />
+
+    <!-- Footer Section -->
+    <div class="bg-base-200/50">
+      <div class="pt-8 md:pt-16">
+        <Contact />
+        <Footer overlap={true} />
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  /* Subtle dynamic floating animation for hero mockups */
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+</style>

@@ -1,0 +1,72 @@
+---
+import { home } from '~/data/cms';
+import { optimizeImageSrc } from '~/utils/optimizeImage';
+import Layout from '~/layouts/Layout.astro';
+import Navbar from '~/components/Navbar.astro';
+import Hero from '~/components/Hero.astro';
+import Services from '~/components/Services.astro';
+import Journey from '~/components/Journey.svelte';
+import Footprint from '~/components/Footprint.astro';
+import Articles from '~/components/Articles.astro';
+import Contact from '~/components/Contact.astro';
+import Footer from '~/components/Footer.astro';
+import Team from '~/components/Team.svelte';
+import Clients from '~/components/Clients.astro';
+import Testimonials from '~/components/Testimonials.astro';
+
+const journeyMilestones = await Promise.all(
+  home.journey.milestones.map(async ({ image, ...milestone }) => ({
+    ...milestone,
+    imageSrc: await optimizeImageSrc(image),
+  })),
+);
+
+const team = await Promise.all(
+  home.team.members.map(async (member) => ({
+    ...member,
+    img: await optimizeImageSrc(member.img),
+  })),
+);
+
+const bgImageSrc = await optimizeImageSrc(home.team.backgroundImage);
+const meetTeamImageSrc = await optimizeImageSrc(home.team.meetTeamImage);
+---
+
+<Layout>
+  <div class="relative w-full overflow-hidden">
+    <Navbar />
+    <Hero sectionId={home.hero.sectionId} />
+    <Services services={home.services} />
+    <div class="bg-linear-to-b from-transparent to-base-200/50">
+      <Journey
+        sectionId={home.journey.sectionId}
+        milestones={journeyMilestones}
+        title={home.journey.title}
+        subtitle={home.journey.subtitle}
+        client:visible
+      />
+      <Team
+        sectionId={home.team.sectionId}
+        team={team}
+        bgImageSrc={bgImageSrc}
+        meetTeamImageSrc={meetTeamImageSrc}
+        heading={home.team.heading}
+        description={home.team.description}
+        ctaTitle={home.team.ctaTitle}
+        ctaLabel={home.team.ctaLabel}
+        ctaUrl={home.team.ctaUrl}
+        client:visible
+      />
+      <Footprint {...home.footprint} />
+      <Clients {...home.clients} />
+      <Testimonials {...home.testimonials} />
+    </div>
+    <div class="bg-base-200/50">
+      {home.articles.enabled && <Articles {...home.articles} />}
+      <div class="pt-16 md:pt-24">
+        <Contact />
+        <Footer overlap={true} />
+      </div>
+    </div>
+  </div>
+</Layout>

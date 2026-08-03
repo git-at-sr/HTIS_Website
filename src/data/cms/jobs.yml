@@ -1,0 +1,6 @@
+api:
+  jobListEndpoint: https://wfmsv2api.htistelecom.in/api/Hiring/JobList
+  jobDetailEndpoint: https://wfmsv2api.htistelecom.in/api/Hiring/JobDetail
+  applyJobEndpoint: https://wfmsv2api.htistelecom.in/api/Hiring/ApplyJob
+  noticePeriodDdlEndpoint: https://wfmsv2api.htistelecom.in/api/Hiring/NoticePeriodDdl
+  technicalSkillAutoFillEndpoint: https://wfmsv2api.htistelecom.in/api/Hiring/TechnicalSkillAutoFill

@@ -1,0 +1,71 @@
+logo:
+  image: src/assets/htis-logo.png
+  alt: HTIS Logo
+primary:
+  home:
+    title: Home
+    url: /
+  career:
+    title: Career
+    url: /jobs
+  contact:
+    title: Contact Us
+    url: "#contact"
+solutions:
+  label: Solutions
+  heading: Our Solutions
+  card:
+    image: src/assets/lob-resourcing-construction-1.png
+    alt: Solutions
+    title: Build the future
+    description: Discover our full range of enterprise solutions tailored for scale.
+    ctaLabel: Explore Solutions
+    ctaUrl: /industry
+  items:
+    - title: Telecom Services
+      desc: Connectivity and network operations
+      url: /telecom
+      icon: Phone
+    - title: System Integration
+      desc: End-to-end IT infrastructure
+      url: /system-integration
+      icon: Server
+    - title: Software Development
+      desc: Custom applications and platforms
+      url: /software
+      icon: Code
+    - title: Resource Management
+      desc: Skilled workforce solutions
+      url: /resourcing
+      icon: Users
+industries:
+  label: Industries
+  heading: Industries We Serve
+  viewAll:
+    title: View all Industries
+    desc: Explore all our industry solutions
+    url: /industry
+    icon: ArrowRight
+resources:
+  label: Resources
+  heading: Knowledge Hub
+  card:
+    image: src/assets/lob-resourcing-case-study-1.png
+    alt: Resources
+    title: Our impact
+    description: Explore case studies and learn how we empower success globally.
+    ctaLabel: View Case Studies
+    ctaUrl: /case-study
+  items:
+    - title: Awards & Achievements
+      desc: Our recognition and accolades
+      url: /awards
+      icon: Award
+    - title: About us
+      desc: Company overview and vision
+      url: /about
+      icon: Info
+    - title: Case Studies
+      desc: Success stories and implementations
+      url: /case-study
+      icon: Briefcase

@@ -1,0 +1,59 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Navbar from '~/components/Navbar.astro';
+import Footer from '~/components/Footer.astro';
+import Contact from '~/components/Contact.astro';
+import CaseStudyList from '~/components/case-study/CaseStudyList.svelte';
+import { caseStudiesData, industriesData } from '~/data/cms';
+import { optimizeImageSrc } from '~/utils/optimizeImage';
+
+const caseStudyIndustryFilters = industriesData.map(
+  ({ shortTitle, title, iconName }) => ({
+    shortTitle,
+    title,
+    iconName,
+  }),
+);
+
+const caseStudies = await Promise.all(
+  caseStudiesData.map(async (study) => ({
+    ...study,
+    thumbnailSrc: await optimizeImageSrc(study.thumbnailSrc),
+  })),
+);
+---
+
+<Layout title="Case Studies - HTIS">
+  <div class="relative w-full overflow-clip bg-base-200/50">
+    <Navbar />
+
+    <!-- Header Section -->
+    <section class="mx-auto w-full max-w-7xl px-6 pt-32 pb-8">
+      <div class="mb-4">
+        <h1
+          class="mb-2 text-4xl font-extrabold tracking-tight text-base-content md:text-[2.75rem]"
+        >
+          Case Studies
+        </h1>
+        <p class="text-lg font-medium text-base-content/50 md:text-xl">
+          Real-World Solutions. Proven outcomes
+        </p>
+      </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="mx-auto w-full max-w-7xl px-6 pb-24">
+      <CaseStudyList
+        caseStudies={caseStudies}
+        industries={caseStudyIndustryFilters}
+        client:load
+      />
+    </section>
+
+    <!-- Footer block -->
+    <div class="pt-8 md:pt-16">
+      <Contact />
+      <Footer overlap={true} />
+    </div>
+  </div>
+</Layout>

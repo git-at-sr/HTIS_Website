@@ -1,0 +1,140 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '~/layouts/Layout.astro';
+import Navbar from '~/components/Navbar.astro';
+import Footer from '~/components/Footer.astro';
+import Contact from '~/components/Contact.astro';
+import CmsIcon from '~/components/CmsIcon.astro';
+
+import { industriesData, industry } from '~/data/cms';
+
+import { ArrowUpRight } from '@lucide/astro';
+---
+
+<Layout title="Industries - HTIS">
+  <div class="relative w-full overflow-clip">
+    <Navbar />
+
+    <!-- Section 1: Hero Section -->
+    <section
+      id={industry.hero.sectionID}
+      class="relative flex min-h-0 w-full items-start overflow-hidden bg-base-100 pt-20 pb-6 sm:min-h-[85vh] sm:pt-32 sm:pb-20 lg:min-h-[600px] lg:items-center"
+    >
+      <!-- Background -->
+      <div class="absolute inset-0 z-0 opacity-35 lg:opacity-100">
+        <Image
+          src={industry.hero.heroBackground}
+          alt=""
+          aria-hidden="true"
+          class="h-full w-full object-cover object-center"
+          style="filter: var(--filter-invert-dark)"
+        />
+      </div>
+      <!-- Radial overlay for text readability -->
+      <!-- <div class="absolute inset-0 z-0 bg-gradient-to-r from-base-100/35 via-base-100/80 to-transparent"></div> -->
+      <div
+        class="absolute inset-0 z-0 bg-linear-to-b from-base-100/95 via-base-100/70 to-base-100/95 lg:hidden"
+      >
+      </div>
+
+      <!-- Mobile-only Background Foreground Image -->
+      <div
+        class="pointer-events-none absolute inset-x-0 top-1/2 z-1 flex -translate-y-1/2 justify-center opacity-35 lg:hidden"
+      >
+        <Image
+          src={industry.hero.heroImage}
+          alt=""
+          aria-hidden="true"
+          class="h-auto w-[115%] max-w-lg object-contain drop-shadow-2xl"
+          loading="eager"
+        />
+      </div>
+      <div
+        class="absolute inset-x-0 bottom-0 z-1 h-56 bg-linear-to-t from-base-200/80 via-base-100/80 to-transparent lg:hidden"
+      >
+      </div>
+
+      <!-- Hero Content -->
+      <div
+        class="relative z-10 container mx-auto w-full px-6 sm:absolute sm:inset-x-0 sm:top-1/2 sm:-translate-y-1/2 lg:relative lg:top-auto lg:translate-y-0"
+      >
+        <div class="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+          <!-- Text Content -->
+          <div
+            class="z-20 mx-auto max-w-md space-y-5 rounded-2xl border border-base-content/10 bg-base-100/35 p-6 text-left shadow-2xl shadow-base-content/10 backdrop-blur-lg lg:mx-0 lg:max-w-none lg:space-y-6 lg:border-0 lg:bg-transparent lg:p-0 lg:pr-10 lg:shadow-none lg:backdrop-blur-0"
+          >
+            <h1
+              class="text-4xl leading-tight font-extrabold tracking-tight text-base-content md:text-5xl lg:text-[56px]"
+            >
+              {industry.hero.title}
+            </h1>
+            <p
+              class="max-w-xl text-base leading-relaxed font-medium text-base-content/80 md:text-xl"
+            >
+              {industry.hero.description}
+            </p>
+            <div class="pt-2 lg:pt-4">
+              <a
+                href={industry.hero.ctaUrl}
+                class="btn w-full rounded-lg border-primary/70 bg-primary/95 px-6 text-lg whitespace-nowrap text-primary-content shadow-lg shadow-primary/25 backdrop-blur-sm btn-lg hover:bg-primary sm:w-auto sm:px-12 lg:text-xl"
+              >
+                {industry.hero.ctaBtn}
+              </a>
+            </div>
+          </div>
+
+          <!-- Image -->
+          <div class="relative hidden justify-center lg:flex lg:justify-end">
+            <Image
+              src={industry.hero.heroImage}
+              alt={industry.hero.title}
+              class="relative z-10 w-full max-w-lg object-contain transition-transform duration-500 hover:scale-[1.02] lg:max-w-xl"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Industries Grid -->
+    <section class="bg-base-200/50 py-20 md:py-28">
+      <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {
+            industriesData.map((item) => (
+              <a
+                href={`/industry/${item.slug}`}
+                class="group relative flex flex-col rounded-4xl border border-base-content/30 bg-base-100 p-8 transition-all duration-500 hover:border-primary/30 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]"
+              >
+                {/* Top Right Decorative Arrow */}
+                <div class="btn pointer-events-none absolute top-4 right-4 flex btn-circle items-center justify-center border border-primary/30 text-primary btn-ghost transition-all duration-300 btn-sm group-hover:rotate-45 group-hover:border-primary group-hover:bg-primary group-hover:text-primary-content">
+                  <ArrowUpRight class="h-4 w-4" />
+                </div>
+
+                {/* Icon + Content (centered) */}
+                <div class="mt-2 flex flex-col items-center text-center">
+                  <div class="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary transition-transform duration-500 group-hover:scale-110">
+                    <CmsIcon name={item.iconName} className="h-10 w-10" />
+                  </div>
+                  <h3 class="mb-4 text-xl font-bold text-base-content transition-colors group-hover:text-primary md:text-2xl">
+                    {item.title}
+                  </h3>
+                  <p class="text-sm leading-relaxed text-base-content/75 md:text-base">
+                    {item.heroSubtitle}
+                  </p>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer block -->
+    <div class="bg-base-200/50">
+      <div class="pt-8 md:pt-16">
+        <Contact />
+        <Footer overlap={true} />
+      </div>
+    </div>
+  </div>
+</Layout>

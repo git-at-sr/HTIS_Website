@@ -1,0 +1,369 @@
+title: Telecom - HTIS
+hero:
+  sectionId: telecom-hero
+  backgroundImage: src/assets/lob-telecom-hero-bg.png
+  title: Connecting the next billion-intelligent Network for tomorrow
+  subtitle: Seamlessly integrating turnkey physical infrastructure and cognitive
+    network intelligence to build hyper-scale, future-ready networks.
+  ctaLabel: Contact Us
+  ctaUrl: /#contact
+capabilities:
+  sectionId: telecom-capabilities
+  backgroundImage: src/assets/team-member-bg.png
+  heading: Our Capabilities
+  description: A structured approach to deploying, optimizing, and supporting
+    telecom networks across every stage.
+  items:
+    - label: Turnkey Data Centre Infrastructure (Physical Layer)
+      shortLabel: Physical Layer
+      image: src/assets/physical-layer-1.png
+      invertImageInDarkMode: false
+      items:
+        - title: End-to-end engineering
+          desc: From site acquisition to facility commissioning.
+        - title: Civil & Structural Works
+          desc: Site preparation, specialized floor loading, and internal architectural
+            fit outs.
+        - title: Power & Electrical Distribution
+          desc: High-availability UPS systems, DG sets, and intelligent PDU deployment.
+        - title: Precision Cooling & Refrigeration
+          desc: Cold-aisle/Hot-aisle containment and high-density liquid cooling
+            solutions.
+        - title: Fire Detection & Suppression
+          desc: VESDA (Very Early Smoke Detection) and Novec 1230/FM200 gas-based systems.
+        - title: Cable Containment & Management
+          desc: Overhead/under-floor fibre raceways, intelligent Racking and high-density
+            cable tray engineering.
+        - title: Building Management Systems (BMS)
+          desc: Centralized IoT monitoring for temperature, humidity, and power leakage.
+        - title: Physical Security & Access Control
+          desc: Multi-tier biometric security, IP-CCTV surveillance, and perimeter
+            protection.
+    - label: Telco Cloud & Virtualized Infrastructure (NFVi)
+      shortLabel: NFVi
+      image: src/assets/geminigeneratedimagene8e3mne8e3mne8e.png
+      invertImageInDarkMode: false
+      items:
+        - title: Software-defined foundation
+          desc: For modern virtualized network functions.
+        - title: Cloud-Native NFVi Architecture
+          desc: Implementation of high-performance compute and storage clusters.
+        - title: Container-as-a-Service (CaaS)
+          desc: Enterprise-grade Kubernetes deployment for Telco microservices.
+        - title: Virtual Infrastructure Management (VIM)
+          desc: OpenStack orchestration and resource isolation for multi-tenancy.
+        - title: Hardware Acceleration & Offloading
+          desc: Deployment of Smart NICs, FPGAs, and GPUs for edge computing.
+        - title: Software-Defined Storage (SDS)
+          desc: Distributed storage solutions (Ceph/vSAN) for high-availability workloads.
+        - title: Orchestration & MANO
+          desc: Management and Network Orchestration for automated VNF/CNF lifecycle.
+        - title: Edge Cloud Deployment
+          desc: Localized compute clusters for Low-Latency (URLLC) application support.
+    - label: Next-Gen Core Network & Voice Systems
+      shortLabel: Next-Gen Network
+      image: src/assets/geminigeneratedimageh5c9nnh5c9nnh5c9.png
+      invertImageInDarkMode: false
+      items:
+        - title: Mobile connectivity foundation
+          desc: Deploying the heart of mobile connectivity for 4G and 5G Standalone (SA)
+            environments.
+        - title: 5G Standalone (SA) Core
+          desc: Service-Based Architecture (SBA) deployment and UPF optimization.
+        - title: Evolved Packet Core (EPC)
+          desc: MME, SGW, and PGW implementation for legacy-to-next-gen transitions.
+        - title: IMS Ecosystem Deployment
+          desc: VoLTE and VoNR (Voice over New Radio) core infrastructure.
+        - title: Virtualized Vo-WiFi (ePDG)
+          desc: Secure untrusted access gateway integration for seamless indoor coverage.
+        - title: Policy & Charging (PCRF/PCF)
+          desc: Real-time policy control and dynamic charging rule implementation.
+        - title: Subscriber Data Management
+          desc: Unified Data Management (UDM) and Home Subscriber Server (HSS).
+        - title: 4G/5G Convergence
+          desc: Seamless interworking and mobility management between network generations.
+    - label: High-Capacity Transport & Transmission
+      shortLabel: T&T
+      image: src/assets/geminigeneratedimageo6zzwwo6zzwwo6zz.png
+      invertImageInDarkMode: false
+      items:
+        - title: Backbone engineering
+          desc: For high-speed, low-latency data transport.
+        - title: IP/MPLS Segment Routing (SRv6)
+          desc: Advanced traffic engineering for simplified, scalable routing.
+        - title: Optical Transport (DWDM/OTN)
+          desc: 400G/800G interface deployment for high capacity backhaul.
+        - title: Data Center Interconnect (DCI)
+          desc: High-speed dark fiber and active transport between distributed DCs.
+        - title: Network Disaggregation
+          desc: Open-networking integration using White-box switches and NOS.
+        - title: Carrier Ethernet 3.0
+          desc: Standards-based MEF services for metro and wide-area connectivity.
+        - title: Timing & Synchronization
+          desc: Implementation of PTP (IEEE 1588v2) and SyncE for 5G precision.
+        - title: Automated Traffic Engineering
+          desc: Real-time path computation and bandwidth-on-demand services.
+    - label: Enterprise Connectivity & LAN/WAN Services
+      shortLabel: Connectivity
+      image: src/assets/geminigeneratedimaget7yifgt7yifgt7yi.png
+      invertImageInDarkMode: false
+      items:
+        - title: Professional deployment services
+          desc: For large-scale campus and industrial environments.
+        - title: SD-WAN Architecture
+          desc: Software-defined edge solutions for centralized enterprise management.
+        - title: Campus LAN/WAN Design
+          desc: High-availability core, distribution, and access layer engineering.
+        - title: Passive Fiber Deployment
+          desc: End-to-end OSP/ISP fiber laying, splicing, and OTDR testing.
+        - title: Industrial Wi-Fi 7 Integration
+          desc: High-throughput, low-latency wireless for smart factories.
+        - title: Private LTE/5G Networks
+          desc: Dedicated on-premises cellular infrastructure for mission-critical apps.
+        - title: Structured Cabling (I&C)
+          desc: International standard Cat6A/Fiber-to-the-Desk installation and
+            certification.
+        - title: Multi-site VPN & SASE Edge
+          desc: Secure site-to-site connectivity for distributed enterprise offices.
+    - label: Packet Core Specialized Services & Compliance
+      shortLabel: PACO
+      image: src/assets/geminigeneratedimageuq8d9juq8d9juq8d.png
+      invertImageInDarkMode: false
+      items:
+        - title: Optimization and regulatory services
+          desc: Tailored for the Indian Telecom landscape.
+        - title: GI-LAN & Traffic Steering
+          desc: Advanced steering of user-plane traffic through specialized service
+            chains.
+        - title: Deep Packet Inspection (DPI)
+          desc: Granular traffic analysis for QoS management and content filtering.
+        - title: Regulatory IPDR Management
+          desc: Automated IP Detail Record generation and secure storage compliance.
+        - title: Lawful Interception (LI) Systems
+          desc: Integration of regulatory-mandated monitoring and capture systems.
+        - title: DC Gateway & VPCDI
+          desc: High-throughput gateway management for virtualized packet core data
+            interfaces.
+        - title: Video & Header Enrichment
+          desc: Optimization techniques for video delivery and billing transparency.
+        - title: AAA & Identity Management
+          desc: RADIUS/Diameter-based authentication and subscriber accounting.
+    - label: Managed Services & Strategic Support (AMC)
+      shortLabel: Managed Services
+      image: src/assets/geminigeneratedimagegcxf97gcxf97gcxf.png
+      invertImageInDarkMode: false
+      items:
+        - title: Operational excellence
+          desc: To maintain 99.999% network uptime.
+        - title: 24/7 Network Operations (NOC)
+          desc: Proactive monitoring, fault management, and Tier-3 technical support.
+        - title: Multi-Vendor AMC
+          desc: Comprehensive maintenance for multi-brand hardware and software stacks.
+        - title: On-Site Field Engineering
+          desc: Pan-India presence for rapid hardware replacement and L1/L2 support.
+        - title: Spares & Warehouse Management
+          desc: Critical FRU (Field Replaceable Unit) inventory and logistics.
+        - title: Proactive Network Audits
+          desc: Periodic health checks, vulnerability scans, and performance tuning.
+        - title: Lifecycle Management
+          desc: End-to-end tracking of equipment from deployment to decommission.
+        - title: SLA-Driven Service Delivery
+          desc: Guaranteed response and resolution times for mission-critical services.
+processes:
+  sectionId: telecom-processes
+  heading: |-
+    Telecom Processes -
+    Blueprint to Reality.
+  items:
+    - title: Strategic Planning & Site Acquisition (SAQ)
+      description: The foundational phase where the network's physical and regulatory
+        footprint is defined.
+      image: src/assets/strategic-planning-and-site-acquisition-saq.png
+      details:
+        - name: RF Nominal Planning
+          desc: Defining coverage targets and capacity requirements for 4G/5G rollout.
+        - name: Technical Feasibility & TSSR
+          desc: Conducting Technical Site Survey Reports to evaluate structural and power
+            readiness.
+        - name: Regulatory & Compliance
+          desc: Managing SACFA clearances, spectrum coordination, and local authority
+            permissions.
+        - name: Site Acquisition
+          desc: Negotiating and securing land, rooftops, or tower space for the Points of
+            Presence (PoP).
+    - title: Network Architecture & Detailed Engineering (HLD/LLD)
+      description: Translating the blueprint into granular, executable technical designs.
+      image: src/assets/geminigeneratedimagelblfyflblfyflblf.png
+      details:
+        - name: High-Level Design (HLD)
+          desc: Defining end-to-end topology, including core integration and backhaul
+            strategy.
+        - name: Low-Level Design (LLD)
+          desc: Detailed port mapping, IP addressing schemes, and rack layouts for the
+            Data Center.
+        - name: Link Budgeting
+          desc: Calculation of signal gains and losses to ensure seamless transmission
+            quality.
+        - name: Fiber Route Engineering
+          desc: Designing the path for high-capacity backhaul through trenching or aerial
+            fiber.
+    - title: Technical Procurement & BoQ Management (BOQ)
+      description: Ensuring the right multi-vendor hardware is sourced according to
+        engineering specs.
+      image: src/assets/geminigeneratedimage7dnd1x7dnd1x7dnd.png
+      details:
+        - name: BoQ (Bill of Quantities) Finalization
+          desc: Detailed listing of every active and passive component needed.
+        - name: Vendor Ecosystem Integration
+          desc: Coordinating with OEMs like Ericsson, Nokia, or Cisco for specialized
+            hardware.
+        - name: Logistics & Spares Management
+          desc: Ensuring "Just-in-Time" delivery of critical components to remote sites.
+    - title: Passive & Active Installation & Commissioning (I&C)
+      description: The ground-level execution where the physical network is built.
+      image: src/assets/geminigeneratedimagepjf5ckpjf5ckpjf5.png
+      details:
+        - name: Civil & Structural Works
+          desc: Execution of tower foundations, earthing systems, and Data Center civil
+            fit-outs.
+        - name: Active Equipment I&C
+          desc: Mounting antennas, installing RRUs (Remote Radio Units), and configuring
+            Core routers.
+        - name: Power & Utility Setup
+          desc: Integration of Rectifiers, Battery Banks, and Green Energy (Solar/DG)
+            solutions.
+    - title: Network Integration & Core Connectivity
+      description: Connecting the physical site to the global telecom heartbeat.
+      image: src/assets/geminigeneratedimage7goezc7goezc7goe.png
+      details:
+        - name: Core Network Integration
+          desc: Mapping the local site into the operator's PCRF, EPC, or 5G Core.
+        - name: Call Flow Testing
+          desc: Verifying end-to-end voice and data paths (VoLTE/VoNR) through the newly
+            deployed nodes.
+        - name: Cross-Connect Management
+          desc: Establishing high-speed fiber interconnects between the DC and the Telco
+            backbone.
+    - title: Quality Assurance & Acceptance Testing (ATP)
+      description: Rigorous benchmarking to ensure the network meets Tier-1
+        performance standards.
+      image: src/assets/geminigeneratedimagemy5ptumy5ptumy5p.png
+      details:
+        - name: ATP (Acceptance Test Procedure)
+          desc: Executing client-approved test cases to ensure the site is ready for
+            traffic.
+        - name: KPI Benchmarking
+          desc: Measuring Latency, Throughput, and Handover success rates against target
+            thresholds.
+        - name: Regulatory Compliance Audit
+          desc: Final verification of EMF (Electromagnetic Field) radiation and safety
+            standards.
+    - title: Lifecycle Managed Services & NOC Operations
+      description: Shifting from deployment to 24/7 proactive stability and optimization.
+      image: src/assets/geminigeneratedimage52u2sx52u2sx52u2.png
+      details:
+        - name: NOC Operations
+          desc: Real-time monitoring of network health through a centralized Network
+            Operations Centre.
+        - name: Preventive & Corrective Maintenance
+          desc: Managing MTTR (Mean Time to Repair) through skilled field technical teams.
+        - name: Ongoing Optimization
+          desc: Continuous tuning of RF parameters and software patches to maintain peak
+            performance.
+deployments:
+  sectionId: telecom-deployments
+  heading: Proven Network Deployments
+  description: Explore how we design, deploy, and transform networks across
+    hundreds of sites and thousands of devices.
+  href: /case-study
+  items:
+    - title: Vodafone Idea Packet Core Rollout
+      description: Fastest rollout of 3TB Packet Core Solution for Vodafone Idea in 2023.
+      badges:
+        - 20+ Core Hubs PAN India
+    - title: VIL CEN Transport
+      description: CEN Transport 15K+ router deployed for 5G Network VIL in 2025.
+      href: /case-study/vil-cen-transport
+      badges:
+        - 15K+ Routers
+        - 5G Network
+    - title: Taxnet 2.0
+      description: Nationwide government network transformation project.
+      href: /case-study/data-center-modernisation
+      badges:
+        - 750+ locations
+        - SD-WAN
+        - MPLS hybrid architecture
+    - title: Jio 4G Roll-out
+      description: Cisco Delivery Jio 4G Roll-out started, delivering across over half
+        of North and West India.
+      href: /case-study/airport-security-enhancement
+      badges:
+        - Cisco Delivery
+        - Half India North & West
+    - title: Jio 5G Swap
+      description: Successfully executed the Jio 5G Swap project.
+      href: /case-study/jio-5g-swap
+      badges:
+        - 25K+ Sites
+        - 5G Swap
+        - Jio
+    - title: United Nations Peace Keeping Project
+      description: Delivered Project in Central Africa Republic partnered with Cisco.
+      href: /case-study/united-nation-peace-keeping-project
+      badges:
+        - Partnered with Cisco
+execution:
+  sectionId: telecom-execution
+  heading: |-
+    Built to Execute.
+    Scaled to Deliver.
+  metrics:
+    - target: 1.2
+      showDecimalAnimation: true
+      unit: M
+      suffix: +
+      label: Sites Deployed
+    - target: 250
+      showDecimalAnimation: false
+      unit: K
+      suffix: +
+      label: Routers Deployed
+    - target: 16
+      showDecimalAnimation: false
+      suffix: +
+      label: Telecom Circles (India)
+    - target: 8
+      showDecimalAnimation: false
+      suffix: +
+      label: Countries Served
+      subLabel: India, Bangladesh, Nepal, Sri Lanka, South Africa, UK, Nigeria, CAR
+    - target: 3
+      showDecimalAnimation: false
+      suffix: /4
+      label: Major Indian Operators Served
+  pillars:
+    - iconName: Network
+      title: Converged IT Infrastructure & Systems Integration
+      description: Architecting the high-availability IT fabrics that power
+        mission-critical network operations. We provide the end-to-end IT
+        backbone for modern Telcos, ranging from Tier III/IV Data Center
+        engineering and virtualization to software-defined networking (SDN) and
+        high-density compute environments.
+      url: '#'
+    - iconName: Users
+      title: Specialized Technical Resourcing & Deployment
+      description: Scalable L1-L6 talent solutions engineered for complex,
+        multi-region telecom rollouts. We bridge the technical skill gap by
+        deploying a domain-expert workforce. From high-niche technical
+        architects (L6) to scalable field engineering units (L1), we provide the
+        human capital required for operational excellence.
+      url: '#'
+    - iconName: Code
+      title: Enterprise Software Engineering & On-Demand Solutions
+      description: Bespoke digital assets and SaaS platforms tailored for government
+        and corporate scale. We build the intelligence that drives connectivity.
+        Specializing in on-demand software development, we deliver secure,
+        high-compliance digital assets-including our proprietary ERP
+        systems-designed for the most demanding regulatory environments.
+      url: '#'

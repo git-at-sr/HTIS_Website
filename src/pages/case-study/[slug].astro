@@ -1,0 +1,607 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '~/layouts/Layout.astro';
+import Navbar from '~/components/Navbar.astro';
+import Footer from '~/components/Footer.astro';
+import Contact from '~/components/Contact.astro';
+import CmsIcon from '~/components/CmsIcon.astro';
+import CmsRichText from '~/components/CmsRichText.astro';
+import Template6ScrollCard from '~/components/case-study/Template6ScrollCard.svelte';
+import { caseStudiesData, type CaseStudyData } from '~/data/cms';
+import { renderCmsInlineMarkdown } from '~/utils/cmsMarkdown';
+
+import { ArrowLeft, Zap } from '@lucide/astro';
+
+// Generate static routes at build time for all case studies
+export async function getStaticPaths() {
+  return caseStudiesData.map((study) => ({
+    params: { slug: study.slug },
+    props: { study },
+  }));
+}
+
+const { study } = Astro.props as { study: CaseStudyData };
+const MarkdownContent = study.MarkdownContent;
+
+function getSectionTone(studySection: CaseStudyData['sections'][number]) {
+  const tones = {
+    blue: {
+      icon: 'border-info/25 bg-info/10 text-info shadow-info/5',
+      eyebrow: 'text-info',
+      card: 'border-info/20 bg-info/5',
+      description: 'text-info',
+      link: 'text-info hover:text-info/80',
+      bullet: 'bg-info',
+      check: 'text-info',
+    },
+    green: {
+      icon: 'border-success/25 bg-success/10 text-success shadow-success/5',
+      eyebrow: 'text-success',
+      card: 'border-success/20 bg-success/5',
+      description: 'text-success',
+      link: 'text-success hover:text-success/80',
+      bullet: 'bg-success',
+      check: 'text-success',
+    },
+    yellow: {
+      icon: 'border-warning/25 bg-warning/10 text-warning shadow-warning/5',
+      eyebrow: 'text-warning',
+      card: 'border-warning/20 bg-warning/5',
+      description: 'text-warning',
+      link: 'text-warning hover:text-warning/80',
+      bullet: 'bg-warning',
+      check: 'text-warning',
+    },
+    red: {
+      icon: 'border-error/25 bg-error/10 text-error shadow-error/5',
+      eyebrow: 'text-error',
+      card: 'border-error/20 bg-error/5',
+      description: 'text-error',
+      link: 'text-error hover:text-error/80',
+      bullet: 'bg-error',
+      check: 'text-error',
+    },
+  };
+
+  return tones[studySection.accentColor];
+}
+---
+
+<Layout title={`${study.title} - HTIS Case Study`}>
+  <div class="relative flex min-h-screen w-full flex-col overflow-clip bg-base-200/50">
+    <Navbar />
+
+    <!-- Section 1: Hero Block (Top) -->
+    <section
+      id={study.heroId}
+      class="relative flex min-h-[70vh] w-full items-center overflow-hidden pt-32 pb-20 border-b border-base-content/20"
+    >
+      <!-- Background Image -->
+      <div class="pointer-events-none absolute inset-0 z-0">
+        <Image
+          src={study.heroBackgroundImage}
+          alt=""
+          aria-hidden="true"
+          class="h-full w-full object-cover object-right lg:object-center"
+          style="filter: var(--filter-invert-dark)"
+        />
+        <div class="absolute inset-0 bg-base-100/40 lg:bg-transparent"></div>
+        <div
+          class="absolute inset-0 bg-linear-to-r from-base-100/95 via-base-100/80 to-transparent lg:w-2/3"
+        >
+        </div>
+        <div
+          class="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-base-100"
+        >
+        </div>
+      </div>
+
+      <div class="relative z-10 container mx-auto px-6">
+        <!-- Back Navigation Link -->
+        <div class="mb-8">
+          <a
+            href="/case-study"
+            class="hover:text-primary-focus group inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors"
+            id="btn-back-to-case-studies"
+          >
+            <ArrowLeft class="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+            Back to Case Studies
+          </a>
+        </div>
+
+        <div class="max-w-3xl space-y-6 text-left">
+          <div
+            class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-semibold tracking-wide text-primary uppercase md:text-sm"
+          >
+            Case Study: <CmsRichText value={study.solution} />
+          </div>
+
+          <!-- Client / project label -->
+          {
+            study.heroEyebrow && (
+              <CmsRichText
+                tag="div"
+                value={study.heroEyebrow}
+                className="text-xs font-bold tracking-widest text-base-content/50 uppercase md:text-sm"
+              />
+            )
+          }
+
+          <!-- Outcome-focused Title -->
+          <CmsRichText
+            tag="h1"
+            value={study.heroTitle}
+            className="text-3xl leading-tight font-extrabold tracking-tight text-base-content md:text-4xl lg:text-5xl"
+          />
+
+          <!-- 1-2 line summary -->
+          <div x-data="{ expanded: false }" class="max-w-2xl">
+            <p
+              x-ref="summary"
+              class="line-clamp-2 text-justify text-lg leading-relaxed font-medium text-base-content/85 md:line-clamp-none md:text-left md:text-xl"
+              set:html={renderCmsInlineMarkdown(study.heroSummary)}
+            />
+            <button
+              type="button"
+              class="mt-1 inline-flex text-base font-bold text-primary underline underline-offset-4 md:hidden"
+              x-show="!expanded"
+              x-on:click="expanded = true; $refs.summary.classList.remove('line-clamp-2')"
+            >
+              Read more
+            </button>
+          </div>
+
+          <!-- Key metrics chips -->
+          {
+            study.heroMetrics?.length ? (
+              <div class="flex flex-wrap gap-3 pt-2">
+                {study.heroMetrics.map((metric, idx) => (
+                  <div
+                    class="flex items-center gap-2 rounded-xl border border-base-content/10 bg-base-100/60 px-4 py-2 text-sm font-semibold text-primary shadow-sm backdrop-blur-md"
+                    id={`hero-metric-chip-${idx}`}
+                  >
+                    <Zap class="h-3.5 w-3.5 shrink-0" />
+                    <CmsRichText value={metric} />
+                  </div>
+                ))}
+              </div>
+            ) : null
+          }
+
+          <!-- CTA buttons -->
+          <div class="flex flex-col gap-4 pt-6 sm:flex-row sm:flex-wrap">
+            <a
+              href={study.heroCtaUrl}
+              class="btn w-full rounded-lg px-8 text-base font-semibold shadow-lg transition-all duration-300 btn-primary hover:shadow-primary/30 sm:w-auto"
+              id="hero-cta-btn"
+            >
+              <CmsRichText value={study.heroCtaLabel} />
+            </a>
+            {
+              study.heroSecondaryCtaLabel && study.heroSecondaryCtaUrl ? (
+                <a
+                  href={study.heroSecondaryCtaUrl}
+                  class="btn w-full rounded-lg border-base-content/20 btn-outline px-8 text-base font-semibold transition-all duration-300 hover:border-primary sm:w-auto"
+                  id="hero-secondary-cta-btn"
+                >
+                  <CmsRichText value={study.heroSecondaryCtaLabel} />
+                </a>
+              ) : null
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {
+      study.sections.map((section, sectionIndex) => {
+        const tone = getSectionTone(section);
+        const isImageLeft = section.layout === 'image-left';
+        const isMetrics = section.content.variant === 'template4-metrics';
+        const isIconCards = section.content.variant === 'template5-icon-card';
+        const isScrollCards = section.content.variant === 'template6-scroll-card';
+        const isFullWidthContent = isMetrics || isIconCards || isScrollCards;
+        const sectionBg =
+          sectionIndex % 2 === 0
+            ? 'border-y border-base-content/5 bg-base-200/50'
+            : 'bg-base-100';
+        const supportsImage = !isScrollCards;
+        const hasImage = Boolean(
+          section.heroImage && section.layout !== 'no-image' && supportsImage,
+        );
+        const contentAlignment = hasImage
+          ? 'items-start text-left'
+          : 'items-center text-center';
+        const contentWidth = hasImage
+          ? 'lg:col-span-6'
+          : isFullWidthContent
+            ? 'mx-auto w-full'
+            : 'mx-auto max-w-4xl';
+        const contentOrder = hasImage && isImageLeft ? 'lg:order-2' : 'lg:order-1';
+        const imageOrder = isImageLeft ? 'lg:order-1' : 'lg:order-2';
+        const sectionOverflow = isScrollCards ? 'overflow-visible' : 'overflow-hidden';
+        const sectionPadding = isScrollCards
+          ? 'pt-14 pb-4 md:pt-16 md:pb-6'
+          : 'py-20 md:py-24';
+        const contentSpacing = isScrollCards ? 'space-y-4' : 'space-y-8';
+
+        return (
+          <section
+            id={section.id}
+            class={`relative ${sectionOverflow} ${sectionPadding} ${sectionBg}`}
+          >
+            <div class="container mx-auto px-6">
+              <div
+                class={
+                  hasImage
+                    ? 'grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-14'
+                    : isFullWidthContent
+                      ? 'mx-auto'
+                      : 'mx-auto max-w-5xl'
+                }
+              >
+                {hasImage && section.heroImage ? (
+                  <div class={`${imageOrder} lg:col-span-6`}>
+                    <Image
+                      src={section.heroImage}
+                      alt={section.heroImageAlt ?? ''}
+                      class="aspect-4/3 w-full rounded-3xl border border-base-content/10 object-cover shadow-sm"
+                    />
+                  </div>
+                ) : null}
+
+                <div class={`${contentSpacing} ${contentWidth} ${contentOrder}`}>
+                  {!isScrollCards ? (
+                    <div class={`flex flex-col gap-4 ${contentAlignment}`}>
+                      {section.iconName ? (
+                        <div
+                          class={`flex h-12 w-12 items-center justify-center rounded-2xl border shadow-sm ${tone.icon}`}
+                        >
+                          <CmsIcon name={section.iconName} className="h-6 w-6" />
+                        </div>
+                      ) : null}
+
+                      {section.eyebrow ? (
+                        <CmsRichText
+                          tag="div"
+                          value={section.eyebrow}
+                          className={`text-xs font-bold tracking-widest uppercase md:text-sm ${tone.eyebrow}`}
+                          linkClassName={tone.link}
+                        />
+                      ) : null}
+
+                      <CmsRichText
+                        tag="h2"
+                        value={section.title}
+                        className="max-w-3xl text-3xl font-extrabold tracking-tight text-base-content md:text-4xl"
+                        linkClassName={tone.link}
+                      />
+
+                      {section.description ? (
+                        <CmsRichText
+                          tag="p"
+                          value={section.description}
+                          className="max-w-3xl text-sm leading-relaxed text-base-content/75 md:text-base"
+                          linkClassName={tone.link}
+                        />
+                      ) : null}
+                    </div>
+                  ) : null}
+
+                  {section.content.variant === 'template1-card' ? (
+                    <div
+                      class={`relative space-y-6 overflow-hidden rounded-4xl border p-6 text-left shadow-sm md:p-8 ${tone.card}`}
+                    >
+                      {section.content.description ? (
+                        <CmsRichText
+                          tag="p"
+                          value={section.content.description}
+                          className={`text-base leading-relaxed font-semibold ${tone.description}`}
+                          linkClassName={tone.link}
+                        />
+                      ) : null}
+
+                      <div
+                        class={`space-y-4 ${
+                          section.content.description
+                            ? 'border-t border-base-content/10 pt-6'
+                            : ''
+                        }`}
+                      >
+                        {section.content.items.map((item, itemIndex) => (
+                          <div
+                            class="flex items-start gap-3 text-sm leading-relaxed text-base-content/80 md:text-base"
+                            id={`case-study-section-${sectionIndex}-item-${itemIndex}`}
+                          >
+                            <div
+                              class={`mt-2 h-2 w-2 shrink-0 rounded-full ${tone.bullet}`}
+                            />
+                            <span>
+                              <CmsRichText
+                                tag="strong"
+                                value={item.title}
+                                linkClassName={tone.link}
+                              />
+                              {item.text ? (
+                                <span class="hidden md:inline">: </span>
+                              ) : null}
+                              {item.text ? (
+                                <span class="hidden md:inline">
+                                  <CmsRichText
+                                    value={item.text}
+                                    linkClassName={tone.link}
+                                  />
+                                </span>
+                              ) : null}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {section.content.variant === 'template2-list' ? (
+                    <div
+                      class={`space-y-5 text-left ${
+                        section.description && section.content.description
+                          ? 'border-t border-base-content/20 pt-6'
+                          : ''
+                      }`}
+                    >
+                      {section.content.description ? (
+                        <CmsRichText
+                          tag="p"
+                          value={section.content.description}
+                          className="text-base leading-relaxed font-semibold text-base-content/80"
+                          linkClassName={tone.link}
+                        />
+                      ) : null}
+
+                      <div class="space-y-4">
+                        {section.content.items.map((item, itemIndex) => (
+                          <div
+                            class="flex items-start gap-3 text-sm leading-relaxed text-base-content/75 md:text-base"
+                            id={`case-study-section-${sectionIndex}-item-${itemIndex}`}
+                          >
+                            <div
+                              class={`mt-2 h-2 w-2 shrink-0 rounded-full ${tone.bullet}`}
+                            />
+                            <span>
+                              <CmsRichText
+                                tag="strong"
+                                value={item.title}
+                                linkClassName={tone.link}
+                              />
+                              {item.text ? (
+                                <span class="hidden md:inline">: </span>
+                              ) : null}
+                              {item.text ? (
+                                <span class="hidden md:inline">
+                                  <CmsRichText
+                                    value={item.text}
+                                    linkClassName={tone.link}
+                                  />
+                                </span>
+                              ) : null}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {section.content.variant === 'template3-list-card' ? (
+                    <div
+                      class={`space-y-5 text-left ${
+                        section.description && section.content.description
+                          ? 'border-t border-base-content/20 pt-6'
+                          : ''
+                      }`}
+                    >
+                      {section.content.description ? (
+                        <CmsRichText
+                          tag="p"
+                          value={section.content.description}
+                          className="text-base leading-relaxed font-semibold text-base-content/80"
+                          linkClassName={tone.link}
+                        />
+                      ) : null}
+
+                      <div class="grid grid-cols-1 gap-4">
+                        {section.content.items.map((item, itemIndex) => (
+                          <div
+                            class="flex items-start gap-4 rounded-2xl border border-base-content/10 bg-base-100 p-5 shadow-sm"
+                            id={`case-study-section-${sectionIndex}-item-${itemIndex}`}
+                          >
+                            <div
+                              class={`mt-2 h-2.5 w-2.5 shrink-0 rounded-full ${tone.bullet}`}
+                            />
+                            <div class="space-y-1">
+                              {item.eyebrow ? (
+                                <CmsRichText
+                                  tag="div"
+                                  value={item.eyebrow}
+                                  className="hidden text-xs font-bold tracking-widest text-base-content/45 uppercase md:block"
+                                  linkClassName={tone.link}
+                                />
+                              ) : null}
+                              <CmsRichText
+                                tag="h3"
+                                value={item.title}
+                                className="text-base font-bold text-base-content md:text-lg"
+                                linkClassName={tone.link}
+                              />
+                              {item.text ? (
+                                <div class="hidden md:block">
+                                  <CmsRichText
+                                    tag="p"
+                                    value={item.text}
+                                    className="text-sm leading-relaxed text-base-content/70 md:text-base"
+                                    linkClassName={tone.link}
+                                  />
+                                </div>
+                              ) : null}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {section.content.variant === 'template4-metrics' ? (
+                    <div class="flex flex-wrap justify-center gap-8">
+                      {section.content.items.map((metric, metricIndex) => (
+                        <div
+                          class="group relative flex min-h-[180px] w-full flex-none flex-col justify-center rounded-3xl border border-base-content/10 bg-base-100 p-8 text-center transition-all duration-300 hover:border-primary/20 hover:shadow-lg md:w-[calc((100%_-_2rem)/2)] lg:w-[calc((100%_-_4rem)/3)]"
+                          id={`case-study-section-${sectionIndex}-metric-${metricIndex}`}
+                        >
+                          <div class="absolute -inset-0.5 rounded-3xl bg-linear-to-r from-primary to-secondary opacity-0 blur-sm transition-opacity duration-300 group-hover:opacity-10" />
+                          <div class="relative z-10">
+                            <CmsRichText
+                              tag="div"
+                              value={metric.title}
+                              className="mb-3 bg-linear-to-r from-primary to-secondary bg-clip-text text-4xl font-black tracking-tight text-transparent md:text-5xl"
+                              linkClassName={tone.link}
+                            />
+                            <div class="text-sm font-bold text-base-content/70 md:text-base">
+                              {metric.text ? (
+                                <CmsRichText
+                                  value={metric.text}
+                                  linkClassName={tone.link}
+                                />
+                              ) : null}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+
+                  {section.content.variant === 'template5-icon-card' ? (
+                    <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+                      {section.content.items.map((card, cardIndex) => (
+                        <div
+                          class="group flex flex-col items-center justify-between rounded-4xl border border-base-content/10 bg-base-100 p-8 text-center transition-all duration-300 hover:border-primary/30 hover:shadow-[0_8px_30px_rgb(0,0,0,0.03)]"
+                          id={`case-study-section-${sectionIndex}-icon-card-${cardIndex}`}
+                        >
+                          <div class="flex flex-col items-center space-y-6">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-2xl border border-primary/20 bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-105">
+                              <CmsIcon
+                                name={card.iconName ?? 'ShieldCheck'}
+                                className="h-6 w-6"
+                              />
+                            </div>
+                            {card.title ? (
+                              <CmsRichText
+                                tag="h3"
+                                value={card.title}
+                                className="text-lg leading-snug font-bold tracking-tight text-base-content"
+                                linkClassName={tone.link}
+                              />
+                            ) : null}
+                            {card.text ? (
+                              <CmsRichText
+                                tag="p"
+                                value={card.text}
+                                className="text-sm leading-relaxed text-base-content/70 md:text-base"
+                                linkClassName={tone.link}
+                              />
+                            ) : null}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+
+                  {section.content.variant === 'template6-scroll-card' ? (
+                    <Template6ScrollCard
+                      items={section.content.items}
+                      ariaLabel={`${section.title} cards`}
+                      eyebrow={section.eyebrow}
+                      title={section.title}
+                      description={section.description}
+                      eyebrowClass={tone.eyebrow}
+                      linkClassName={tone.link}
+                      client:visible
+                    />
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      })
+    }
+
+    {
+      MarkdownContent ? (
+        <section class="border-y border-base-content/5 bg-base-100 pt-0 pb-16 md:pb-20">
+          <div class="container mx-auto px-6">
+            <div class="cms-markdown mx-auto max-w-4xl">
+              <MarkdownContent />
+            </div>
+          </div>
+        </section>
+      ) : null
+    }
+
+    <!-- Section 7: Final CTA -->
+    <!-- <section class="bg-base-200/50 py-20 md:py-24" id="contact-row">
+      <div class="container mx-auto px-6">
+        <div
+          class="relative mx-auto max-w-5xl overflow-hidden rounded-[3rem] border border-base-content/10 bg-base-100/80 p-10 text-center shadow-sm md:p-16"
+        >
+          <div
+            class="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-primary/5 blur-3xl"
+          >
+          </div>
+          <div
+            class="pointer-events-none absolute -right-24 -bottom-24 h-72 w-72 rounded-full bg-primary/10 blur-3xl"
+          >
+          </div>
+
+          <div class="relative z-10 mx-auto max-w-2xl space-y-6">
+            <h2
+              class="text-3xl leading-tight font-extrabold tracking-tight text-base-content md:text-4xl"
+            >
+              Want similar outcomes for your organisation?
+            </h2>
+            <p class="text-base leading-relaxed text-base-content/75 md:text-lg">
+              Consult with HTIS experts to custom-engineer reliable active
+              infrastructures, deploy modern software telematics, and streamline
+              operations processes.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+              <a
+                href="/#contact"
+                class="group btn inline-flex items-center gap-2 rounded-lg px-8 text-base font-bold shadow-lg transition-all duration-300 btn-primary hover:shadow-primary/30"
+                id="cta-schedule-btn"
+              >
+                Schedule a discussion
+                <ArrowRight
+                  class="h-5 w-5 transition-transform group-hover:translate-x-1"
+                />
+              </a>
+              <a
+                href="/#contact"
+                class="btn rounded-lg border-base-content/20 px-8 text-base font-bold transition-all duration-300 btn-outline hover:border-primary"
+                id="cta-share-btn"
+              >
+                Share your requirement
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- Footer Block -->
+    <div class="mt-auto bg-base-200/50">
+      <div class="pt-8 md:pt-16">
+        <Contact />
+        <Footer overlap={true} />
+      </div>
+    </div>
+  </div>
+</Layout>

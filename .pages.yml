@@ -1,0 +1,2937 @@
+media:
+  input: src/assets
+  output: src/assets
+  extensions: [png, jpg, jpeg, webp, svg]
+  rename: safe
+
+content:
+  - name: settings
+    label: Settings
+    type: group
+    items:
+      - name: site
+        label: Site
+        type: file
+        path: src/data/cms/site.yml
+        format: yaml
+        operations:
+          delete: false
+        fields:
+          - name: defaultTitle
+            label: Default title
+            type: string
+            required: true
+          - name: language
+            type: string
+            required: true
+          - name: defaultTheme
+            label: Default theme
+            type: select
+            required: true
+            options:
+              values: [light, dark, system default]
+          - name: favicon
+            label: Favicon image
+            type: image
+            required: true
+          - name: seo
+            label: SEO defaults
+            type: object
+            fields:
+              - name: description
+                label: Meta description
+                type: text
+                required: true
+              - name: siteUrl
+                label: Site URL
+                type: string
+                required: true
+              - name: siteName
+                label: Site name
+                type: string
+                required: true
+              - name: ogImage
+                label: Open Graph image
+                type: image
+                required: true
+              - name: robots
+                label: Robots directive
+                type: string
+                required: true
+          - name: globalToast
+            label: Global site toast
+            type: object
+            fields:
+              - name: enabled
+                label: Show toast
+                type: boolean
+                required: true
+              - name: message
+                label: Message
+                type: text
+                required: true
+
+      - name: navigation
+        label: Navigation
+        type: file
+        path: src/data/cms/navigation.yml
+        format: yaml
+        operations:
+          delete: false
+        fields:
+          - name: logo
+            type: object
+            fields:
+              - name: image
+                type: image
+                required: true
+              - name: alt
+                type: string
+                required: true
+          - name: primary
+            type: object
+            fields:
+              - name: home
+                type: object
+                fields: &nav_link_fields
+                  - name: title
+                    type: string
+                    required: true
+                  - name: url
+                    type: string
+                    required: true
+              - name: career
+                type: object
+                fields: *nav_link_fields
+              - name: contact
+                type: object
+                fields: *nav_link_fields
+          - name: solutions
+            type: object
+            fields: &nav_group_fields
+              - name: label
+                type: string
+                required: true
+              - name: heading
+                type: string
+                required: true
+              - name: card
+                type: object
+                fields:
+                  - name: image
+                    type: image
+                    required: true
+                  - name: alt
+                    type: string
+                    required: true
+                  - name: title
+                    type: string
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+                  - name: ctaLabel
+                    label: CTA label
+                    type: string
+                    required: true
+                  - name: ctaUrl
+                    label: CTA URL
+                    type: string
+                    required: true
+              - name: items
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields: &nav_item_fields
+                  - name: title
+                    type: string
+                    required: true
+                  - name: desc
+                    label: Description
+                    type: text
+                    required: true
+                  - name: url
+                    type: string
+                    required: true
+                  - name: icon
+                    type: select
+                    required: false
+                    options:
+                      values:
+                        &icon_name_values [
+                          None,
+                          Activity,
+                          AlertTriangle,
+                          ArrowRight,
+                          Award,
+                          Banknote,
+                          Blocks,
+                          BookOpen,
+                          Briefcase,
+                          Building,
+                          Building2,
+                          Cable,
+                          Cctv,
+                          CheckCircle2,
+                          CheckSquare,
+                          CircleDollarSign,
+                          Clock,
+                          Cloud,
+                          Code,
+                          ClipboardList,
+                          Cpu,
+                          Database,
+                          Factory,
+                          FileCheck,
+                          FileCode,
+                          FileSignature,
+                          Fingerprint,
+                          HardDrive,
+                          HardHat,
+                          Headset,
+                          HeartPulse,
+                          Info,
+                          Landmark,
+                          Laptop,
+                          Layout,
+                          Lock,
+                          MapPin,
+                          Maximize,
+                          Monitor,
+                          MonitorSmartphone,
+                          Network,
+                          Phone,
+                          Plug,
+                          Radio,
+                          RadioTower,
+                          RefreshCw,
+                          Route,
+                          Scale,
+                          Server,
+                          Shield,
+                          ShieldCheck,
+                          Signal,
+                          Smartphone,
+                          TrendingUp,
+                          UserCheck,
+                          UserPlus,
+                          UserSearch,
+                          Users,
+                          Wifi,
+                          Wrench,
+                          Zap,
+                        ]
+          - name: industries
+            type: object
+            fields:
+              - name: label
+                type: string
+                required: true
+              - name: heading
+                type: string
+                required: true
+              - name: viewAll
+                label: View all item
+                type: object
+                fields: *nav_item_fields
+          - name: resources
+            type: object
+            fields: *nav_group_fields
+
+      - name: contactForm
+        label: Contact form
+        type: file
+        path: src/data/cms/contact-form.yml
+        format: yaml
+        operations:
+          delete: false
+        fields:
+          - name: heading
+            label: Heading
+            type: string
+            required: true
+          - name: postUrl
+            label: POST API call URL
+            type: string
+            required: true
+          - name: categories
+            label: Dropdown menu options
+            type: string
+            list: true
+            required: true
+
+      - name: footer
+        label: Footer
+        type: file
+        path: src/data/cms/footer.yml
+        format: yaml
+        operations:
+          delete: false
+        fields:
+          - name: logo
+            type: object
+            fields:
+              - name: image
+                type: image
+                required: true
+              - name: alt
+                type: string
+                required: true
+          - name: description
+            type: text
+            required: true
+          - name: company
+            type: object
+            fields: &footer_section_fields
+              - name: heading
+                type: string
+                required: true
+              - name: links
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{label}'
+                fields: &footer_link_fields
+                  - name: label
+                    type: string
+                    required: true
+                  - name: url
+                    type: string
+                    required: true
+          - name: services
+            type: object
+            fields: *footer_section_fields
+          - name: socials
+            type: object
+            fields:
+              - name: links
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{label}'
+                fields:
+                  - name: label
+                    type: string
+                    required: true
+                  - name: url
+                    type: string
+                    required: true
+                  - name: icon
+                    type: select
+                    required: true
+                    options:
+                      values: [Facebook, Instagram, Youtube, Twitter, LinkedIn]
+          - name: contact
+            type: object
+            fields:
+              - name: heading
+                type: string
+                required: true
+              - name: phone
+                type: string
+                required: true
+              - name: email
+                type: string
+                required: true
+          - name: offices
+            label: Offices
+            type: object
+            fields:
+              - name: heading
+                type: string
+                required: true
+              - name: indiaFlagCode
+                label: India flag code
+                type: string
+                required: true
+              - name: list
+                label: Office list
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{name}'
+                fields:
+                  - name: name
+                    type: string
+                    required: true
+                  - name: companyName
+                    label: Company name
+                    type: string
+                    required: true
+                  - name: address
+                    type: text
+                    required: true
+                  - name: phone
+                    type: string
+                    required: true
+                  - name: email
+                    type: string
+                    required: true
+          - name: globalPresence
+            label: Global presence
+            type: object
+            fields:
+              - name: heading
+                type: string
+                required: true
+              - name: ctaLabel
+                label: CTA label
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+              - name: countries
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{name}'
+                fields:
+                  - name: name
+                    type: string
+                    required: true
+                  - name: code
+                    type: string
+                    required: true
+          - name: copyright
+            type: string
+            required: true
+          - name: legalLinks
+            label: Legal links
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: '{label}'
+            fields: *footer_link_fields
+
+  - name: pages
+    label: Pages
+    type: group
+    items:
+      - name: home
+        label: Home
+        type: file
+        path: src/data/cms/home.yml
+        format: yaml
+        operations:
+          delete: false
+        fields:
+          - name: hero
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Background image
+                type: image
+                required: true
+              - name: titlePrefix
+                label: Title prefix
+                type: string
+                required: true
+              - name: rotatingWords
+                label: Rotating words
+                type: string
+                list: true
+                required: true
+              - name: subtitle
+                type: text
+                required: true
+              - name: ctaLabel
+                label: CTA label
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+              - name: trustedByLabel
+                label: Trusted by label
+                type: string
+                required: true
+              - name: partnerLogos
+                label: Partner logos
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{alt}'
+                fields:
+                  - name: image
+                    type: image
+                    required: true
+                  - name: alt
+                    type: string
+                    required: true
+          - name: services
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: headingHtml
+                label: Heading HTML
+                type: string
+                required: true
+              - name: backgroundImage
+                label: Background image
+                type: image
+                required: true
+              - name: items
+                label: Services
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{id}'
+                fields:
+                  - name: id
+                    type: select
+                    required: true
+                    options:
+                      values: [telecom, resourcing, software, system]
+                  - name: titleHtml
+                    label: Title HTML
+                    type: string
+                    required: true
+                  - name: href
+                    label: Link URL
+                    type: string
+                    required: true
+                  - name: features
+                    type: object
+                    list:
+                      collapsible:
+                        collapsed: true
+                        summary: '{label}'
+                    fields:
+                      - name: iconName
+                        label: Icon (theme-colored SVG)
+                        type: select
+                        required: false
+                        options:
+                          values: *icon_name_values
+                      - name: label
+                        type: string
+                        required: true
+                      - name: description
+                        type: text
+                        required: true
+                  - name: metrics
+                    type: object
+                    list:
+                      collapsible:
+                        collapsed: true
+                        summary: '{value} - {label}'
+                    fields:
+                      - name: value
+                        type: string
+                        required: true
+                      - name: label
+                        type: string
+                        required: true
+          - name: journey
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: title
+                label: Title
+                type: string
+                required: true
+              - name: subtitle
+                type: text
+                required: true
+              - name: milestones
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{year} - {title}'
+                fields: &milestone_fields
+                  - name: year
+                    type: string
+                    required: true
+                  - name: title
+                    type: string
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+                  - name: image
+                    type: image
+                    required: true
+          - name: team
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                type: image
+                required: true
+              - name: meetTeamImage
+                type: image
+                required: true
+              - name: heading
+                type: string
+                required: true
+              - name: description
+                type: text
+                required: true
+              - name: ctaTitle
+                type: string
+                required: true
+              - name: ctaLabel
+                type: string
+                required: true
+              - name: ctaUrl
+                type: string
+                required: true
+              - name: members
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{name}'
+                fields:
+                  - name: name
+                    type: string
+                    required: true
+                  - name: role
+                    type: string
+                    required: true
+                  - name: desc
+                    type: text
+                    required: true
+                  - name: image
+                    type: image
+                    required: true
+          - name: footprint
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                type: string
+                required: true
+              - name: metrics
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{value}{suffix} - {label}'
+                fields:
+                  - name: value
+                    type: string
+                    required: true
+                  - name: suffix
+                    type: string
+                    required: false
+                  - name: label
+                    type: string
+                    required: true
+              - name: globe
+                type: object
+                fields:
+                  - name: markers
+                    label: Globe markers
+                    type: object
+                    list:
+                      collapsible:
+                        collapsed: true
+                        summary: '{name}'
+                    fields:
+                      - name: name
+                        type: string
+                        required: true
+                      - name: latitude
+                        type: number
+                        required: true
+                      - name: longitude
+                        type: number
+                        required: true
+                      - name: size
+                        label: Marker size
+                        type: number
+                        required: true
+          - name: clients
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+              - name: ctaLabel
+                label: CTA label
+                type: string
+                required: true
+              - name: logos
+                label: Client logos
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{alt}'
+                fields:
+                  - name: image
+                    type: image
+                    required: true
+                  - name: alt
+                    type: string
+                    required: true
+          - name: testimonials
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                label: Heading
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+              - name: ctaLabel
+                label: CTA label
+                type: string
+                required: true
+              - name: awardsImage
+                label: Awards image
+                type: image
+                required: true
+              - name: awardsImageAlt
+                label: Awards image alt
+                type: string
+                required: true
+              - name: items
+                label: Testimonials
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{name} - {title}'
+                fields:
+                  - name: quote
+                    type: text
+                    required: true
+                  - name: name
+                    type: string
+                    required: true
+                  - name: title
+                    type: string
+                    required: true
+          - name: articles
+            type: object
+            fields:
+              - name: enabled
+                label: Enable section
+                type: boolean
+                default: true
+                required: true
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: eyebrow
+                type: string
+                required: true
+              - name: heading
+                type: string
+                required: true
+              - name: ctaLabel
+                label: CTA label
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+              - name: posts
+                label: LinkedIn posts
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{fallbackTitle}'
+                fields:
+                  - name: embedCode
+                    label: LinkedIn iframe embed code
+                    type: text
+                    required: true
+                  - name: fallbackTitle
+                    label: Fallback title
+                    type: text
+                    required: false
+
+      - name: about
+        label: About
+        type: file
+        path: src/data/cms/about.yml
+        format: yaml
+        operations:
+          delete: false
+        fields:
+          - name: title
+            type: string
+            required: true
+          - name: hero
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Background image
+                type: image
+                required: true
+              - name: title
+                type: string
+                required: true
+              - name: subtitle
+                type: text
+                required: true
+              - name: ctaLabel
+                label: CTA label
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+          - name: mission
+            label: Mission section
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: image
+                type: image
+                required: true
+              - name: imageAlt
+                label: Image alt
+                type: string
+                required: true
+              - name: cards
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: title
+                    type: string
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+          - name: lifeAtHtis
+            label: Life at HTIS
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Background image
+                type: image
+                required: true
+              - name: image
+                type: image
+                required: true
+              - name: imageAlt
+                label: Image alt
+                type: string
+                required: true
+              - name: title
+                type: string
+                required: true
+              - name: body
+                type: text
+                list: true
+                required: true
+              - name: ctaLabel
+                label: CTA label
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+          - name: team
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: title
+                type: string
+                required: true
+              - name: description
+                type: text
+                required: true
+              - name: members
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{name}'
+                fields:
+                  - name: name
+                    type: string
+                    required: true
+                  - name: role
+                    type: string
+                    required: true
+                  - name: dept
+                    label: Department
+                    type: string
+                    required: true
+                  - name: image
+                    type: image
+                    required: true
+          - name: ourPresence
+            label: Our Presence
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: title
+                type: string
+                required: true
+              - name: description
+                type: text
+                required: true
+              - name: globalTabLabel
+                label: Global tab label
+                type: string
+                required: true
+              - name: indiaTabLabel
+                label: India tab label
+                type: string
+                required: true
+              - name: globalLocations
+                label: Global locations
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{name}'
+                fields:
+                  - name: name
+                    type: string
+                    required: true
+                  - name: address
+                    type: text
+                    required: true
+                  - name: phone
+                    type: string
+                    required: false
+                  - name: email
+                    type: string
+                    required: false
+                  - name: lat
+                    label: Latitude
+                    type: number
+                    required: true
+                  - name: lng
+                    label: Longitude
+                    type: number
+                    required: true
+                  - name: isHQ
+                    label: Headquarters
+                    type: boolean
+                    required: false
+                  - name: mapUrl
+                    label: Google Maps link
+                    type: string
+                    required: false
+              - name: indiaOffices
+                label: India offices
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{name}'
+                fields:
+                  - name: name
+                    type: string
+                    required: true
+                  - name: address
+                    type: text
+                    required: true
+                  - name: phone
+                    type: string
+                    required: false
+                  - name: email
+                    type: string
+                    required: false
+                  - name: lat
+                    label: Latitude
+                    type: number
+                    required: true
+                  - name: lng
+                    label: Longitude
+                    type: number
+                    required: true
+                  - name: isHQ
+                    label: Headquarters
+                    type: boolean
+                    required: false
+                  - name: mapUrl
+                    label: Google Maps link
+                    type: string
+                    required: false
+          - name: principles
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: image
+                type: image
+                required: true
+              - name: imageAlt
+                label: Image alt
+                type: string
+                required: true
+              - name: title
+                type: string
+                required: true
+              - name: description
+                type: text
+                required: true
+              - name: items
+                type: string
+                list: true
+                required: true
+          - name: social
+            label: Latest from our Social
+            type: object
+            fields:
+              - name: enabled
+                label: Enable section
+                type: boolean
+                default: true
+                required: true
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: eyebrow
+                type: string
+                required: true
+              - name: heading
+                type: string
+                required: true
+              - name: posts
+                label: Facebook, Instagram, and LinkedIn posts
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{platform}: {fallbackTitle}'
+                fields:
+                  - name: platform
+                    type: select
+                    options:
+                      values:
+                        - facebook
+                        - instagram
+                        - linkedin
+                    required: true
+                  - name: embedCode
+                    label: Social post embed code
+                    description: Paste the official Facebook, Instagram, or LinkedIn embed code.
+                    type: text
+                    required: true
+                  - name: fallbackTitle
+                    label: Fallback title
+                    type: text
+                    required: false
+
+      - name: awards
+        label: Awards
+        type: file
+        path: src/data/cms/awards.yml
+        format: yaml
+        operations:
+          delete: false
+        fields:
+          - name: title
+            type: string
+            required: true
+          - name: hero
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Background image
+                type: image
+                required: true
+              - name: title
+                type: string
+                required: true
+              - name: subtitle
+                type: text
+                required: true
+          - name: gallery
+            label: Gallery section
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: true
+              - name: items
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: type
+                    type: select
+                    required: true
+                    options:
+                      values: [award, certificate]
+                  - name: title
+                    type: string
+                    required: true
+                  - name: slug
+                    label: Slug (Must be unique)
+                    type: string
+                    required: false
+                  - name: organization
+                    type: string
+                    required: true
+                  - name: date
+                    type: string
+                    required: true
+                  - name: thumbnail
+                    label: Display thumbnail
+                    type: image
+                    required: true
+                  - name: images
+                    label: Popup carousel photos
+                    type: object
+                    list:
+                      collapsible:
+                        collapsed: true
+                        summary: '{alt}'
+                    fields:
+                      - name: image
+                        type: image
+                        required: true
+                      - name: alt
+                        label: Image alt
+                        type: string
+                        required: true
+
+      - name: telecom
+        label: Telecom
+        type: file
+        path: src/data/cms/telecom.yml
+        format: yaml
+        operations:
+          delete: false
+        fields:
+          - name: title
+            type: string
+            required: true
+          - name: hero
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Background image
+                type: image
+                required: true
+              - name: foregroundImage
+                label: Foreground image
+                type: image
+                required: false
+              - name: title
+                type: text
+                required: true
+              - name: subtitle
+                type: text
+                required: true
+              - name: ctaLabel
+                label: CTA label
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+          - name: capabilities
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Background image
+                type: image
+                required: true
+              - name: heading
+                type: string
+                required: true
+              - name: description
+                type: text
+                required: true
+              - name: items
+                label: Capability tabs
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{shortLabel} - {label}'
+                fields:
+                  - name: label
+                    type: string
+                    required: true
+                  - name: shortLabel
+                    label: Short tab label
+                    type: string
+                    required: false
+                  - name: image
+                    type: image
+                    required: true
+                  - name: invertImageInDarkMode
+                    label: Invert image in dark mode
+                    type: boolean
+                    required: false
+                  - name: items
+                    label: Accordion items
+                    type: object
+                    list:
+                      collapsible:
+                        collapsed: true
+                        summary: '{title}'
+                    fields:
+                      - name: title
+                        type: string
+                        required: true
+                      - name: desc
+                        label: Description
+                        type: text
+                        required: true
+                required: true
+          - name: processes
+            label: Telecom processes
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                type: text
+                required: true
+              - name: items
+                label: Process steps
+                type: object
+                required: true
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: title
+                    type: string
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+                  - name: image
+                    type: image
+                    required: true
+                  - name: details
+                    type: object
+                    required: true
+                    list:
+                      collapsible:
+                        collapsed: true
+                        summary: '{name}'
+                    fields:
+                      - name: name
+                        type: string
+                        required: true
+                      - name: desc
+                        label: Description
+                        type: text
+                        required: true
+          - name: deployments
+            label: Network deployments
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                type: string
+                required: true
+              - name: description
+                type: text
+                required: true
+              - name: href
+                label: Section button URL
+                type: string
+                required: false
+              - name: items
+                label: Deployment cards
+                type: object
+                required: true
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: title
+                    type: string
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+                  - name: href
+                    label: Card button URL
+                    type: string
+                    required: false
+                  - name: badges
+                    type: string
+                    list: true
+                    required: true
+          - name: execution
+            label: Execution section
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                type: text
+                required: true
+              - name: metrics
+                type: object
+                required: true
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{label}'
+                fields:
+                  - name: target
+                    type: number
+                    required: true
+                  - name: showDecimalAnimation
+                    label: Show decimal animation
+                    type: boolean
+                    required: false
+                  - name: unit
+                    type: string
+                    required: false
+                  - name: suffix
+                    type: string
+                    required: false
+                  - name: label
+                    type: string
+                    required: true
+                  - name: subLabel
+                    label: Sub-label
+                    type: text
+                    required: false
+              - name: pillars
+                type: object
+                required: true
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: iconName
+                    label: Icon
+                    type: select
+                    required: false
+                    options:
+                      values: *icon_name_values
+                  - name: title
+                    type: text
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+                  - name: url
+                    type: string
+                    required: false
+
+      - name: systemIntegration
+        label: System Integration
+        type: file
+        path: src/data/cms/system-integration.yml
+        format: yaml
+        operations:
+          delete: false
+        fields:
+          - name: title
+            type: string
+            required: true
+          - name: hero
+            type: object
+            fields: &system_integration_hero_fields
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Background image
+                type: image
+                required: true
+              - name: foregroundImage
+                label: Foreground image
+                type: image
+                required: false
+              - name: title
+                type: text
+                required: true
+              - name: subtitle
+                type: text
+                required: true
+              - name: ctaLabel
+                label: CTA label
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+              - name: carouselImages
+                label: Carousel images
+                type: image
+                list: true
+                required: false
+          - name: strategicPillars
+            label: Strategic pillars
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                type: image
+                required: true
+              - name: centerImage
+                type: image
+                required: true
+              - name: heading
+                type: string
+                required: true
+              - name: cards
+                label: Pillar cards
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: iconName
+                    label: Icon
+                    type: select
+                    required: false
+                    options:
+                      values: *icon_name_values
+                  - name: title
+                    type: string
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+                  - name: content
+                    type: text
+                    required: true
+                  - name: column
+                    type: select
+                    required: true
+                    options:
+                      values: [left, center, right]
+          - name: partnerEcosystem
+            label: Partner ecosystem
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                label: Main title
+                type: text
+                required: true
+              - name: description
+                label: Main description
+                type: text
+                required: true
+              - name: tabs
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields: &partner_tab_fields
+                  - name: iconName
+                    label: Icon
+                    type: select
+                    required: false
+                    options:
+                      values: *icon_name_values
+                  - name: title
+                    type: string
+                    required: true
+                  - name: subtitle
+                    type: string
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+                  - name: partners
+                    type: object
+                    list:
+                      collapsible:
+                        collapsed: true
+                        summary: '{name}'
+                    fields:
+                      - name: name
+                        type: string
+                        required: true
+                      - name: logo
+                        type: image
+                        required: false
+          - name: execution
+            label: Execution section
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                type: text
+                required: true
+              - name: metrics
+                type: object
+                required: true
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{label}'
+                fields:
+                  - name: target
+                    type: number
+                    required: true
+                  - name: showDecimalAnimation
+                    label: Show decimal animation
+                    type: boolean
+                    required: false
+                  - name: unit
+                    type: string
+                    required: false
+                  - name: suffix
+                    type: string
+                    required: false
+                  - name: label
+                    type: string
+                    required: true
+                  - name: subLabel
+                    label: Sub-label
+                    type: text
+                    required: false
+              - name: pillars
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: iconName
+                    label: Icon
+                    type: select
+                    required: false
+                    options:
+                      values: *icon_name_values
+                  - name: title
+                    type: text
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+                  - name: url
+                    type: string
+                    required: false
+          - name: deployments
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                type: string
+                required: true
+              - name: image
+                type: image
+                required: true
+              - name: imageAlt
+                label: Image alt
+                type: string
+                required: true
+              - name: featured
+                type: object
+                fields: &case_study_fields
+                  - name: title
+                    type: string
+                    required: true
+                  - name: description
+                    type: text
+                    required: false
+                  - name: ctaLabel
+                    label: CTA label
+                    type: string
+                    required: true
+                  - name: ctaUrl
+                    label: CTA URL
+                    type: string
+                    required: true
+              - name: items
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields: *case_study_fields
+
+      - name: software
+        label: Software
+        type: file
+        path: src/data/cms/software.yml
+        format: yaml
+        operations:
+          delete: false
+        fields:
+          - name: title
+            type: string
+            required: true
+          - name: hero
+            type: object
+            fields: &split_hero_fields
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Background image
+                type: image
+                required: true
+              - name: foregroundImage
+                label: Foreground image
+                type: image
+                required: false
+              - name: title
+                type: text
+                required: true
+              - name: highlight
+                type: string
+                required: false
+              - name: subtitle
+                type: text
+                required: true
+              - name: ctaLabel
+                label: CTA label
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+              - name: secondaryCtaLabel
+                label: Secondary CTA label
+                type: string
+                required: false
+              - name: secondaryCtaUrl
+                label: Secondary CTA URL
+                type: string
+                required: false
+          - name: portfolio
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                type: image
+                required: true
+              - name: heading
+                type: string
+                required: true
+              - name: description
+                type: text
+                required: true
+              - name: capabilities
+                label: Portfolio tabs
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{label}'
+                fields:
+                  - name: label
+                    type: string
+                    required: true
+                  - name: shortLabel
+                    label: Short label
+                    type: string
+                    required: false
+                  - name: iconName
+                    label: Icon
+                    type: select
+                    required: false
+                    options:
+                      values: *icon_name_values
+                  - name: description
+                    type: text
+                    required: true
+                  - name: items
+                    label: Portfolio items
+                    type: object
+                    list:
+                      collapsible:
+                        collapsed: true
+                        summary: '{title}'
+                    fields:
+                      - name: title
+                        type: string
+                        required: true
+                      - name: desc
+                        label: Description
+                        type: text
+                        required: true
+                      - name: image
+                        type: image
+                        required: true
+                      - name: ctaLabel
+                        label: CTA label
+                        type: string
+                        required: false
+                      - name: ctaUrl
+                        label: CTA URL
+                        type: string
+                        required: false
+          - name: engineeringStack
+            label: Engineering stack
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Background image
+                type: image
+                required: true
+              - name: heading
+                type: text
+                required: true
+              - name: description
+                type: text
+                required: true
+              - name: cards
+                label: Stack cards
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: title
+                    type: string
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+                  - name: image
+                    type: image
+                    required: true
+                  - name: alt
+                    label: Image alt text
+                    type: string
+                    required: true
+          - name: architecturalPrinciples
+            label: Architectural principles
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Background image
+                type: image
+                required: true
+              - name: heading
+                type: string
+                required: true
+              - name: description
+                type: text
+                required: true
+              - name: items
+                label: Principle tabs
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: title
+                    type: string
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+          - name: execution
+            label: Execution section
+            type: object
+            fields: &execution_fields
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                type: text
+                required: true
+              - name: metrics
+                type: object
+                required: true
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{label}'
+                fields:
+                  - name: target
+                    type: number
+                    required: true
+                  - name: showDecimalAnimation
+                    label: Show decimal animation
+                    type: boolean
+                    required: false
+                  - name: unit
+                    type: string
+                    required: false
+                  - name: suffix
+                    type: string
+                    required: false
+                  - name: label
+                    type: string
+                    required: true
+                  - name: subLabel
+                    label: Sub-label
+                    type: text
+                    required: false
+              - name: pillars
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: iconName
+                    label: Icon
+                    type: select
+                    required: false
+                    options:
+                      values: *icon_name_values
+                  - name: title
+                    type: text
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+                  - name: url
+                    type: string
+                    required: false
+          - name: onboarding
+            label: Onboarding roadmap
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Background image
+                type: image
+                required: true
+              - name: eyebrow
+                type: string
+                required: true
+              - name: heading
+                type: text
+                required: true
+              - name: steps
+                label: Roadmap steps
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{number} - {title}'
+                fields:
+                  - name: number
+                    type: string
+                    required: true
+                  - name: title
+                    type: string
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+          - name: caseStudies
+            label: Case studies
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                type: string
+                required: true
+              - name: items
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: title
+                    type: string
+                    required: true
+                  - name: solution
+                    type: text
+                    required: true
+                  - name: impact
+                    type: text
+                    required: true
+                  - name: image
+                    type: image
+                    required: true
+                  - name: ctaUrl
+                    label: CTA URL
+                    type: string
+                    required: false
+
+      - name: resourcing
+        label: Resourcing
+        type: file
+        path: src/data/cms/resourcing.yml
+        format: yaml
+        operations:
+          delete: false
+        fields:
+          - name: title
+            type: string
+            required: true
+          - name: hero
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Background image
+                type: image
+                required: true
+              - name: foregroundImage
+                label: Foreground image
+                type: image
+                required: false
+              - name: title
+                type: text
+                required: true
+              - name: subtitle
+                type: text
+                required: true
+              - name: ctaLabel
+                label: CTA label
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+              - name: carouselImages
+                label: Carousel images
+                type: image
+                list: true
+                required: false
+          - name: capabilities
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: backgroundImage
+                type: image
+                required: true
+              - name: heading
+                type: string
+                required: true
+              - name: description
+                type: text
+                required: true
+              - name: items
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: iconName
+                    label: Icon
+                    type: select
+                    required: false
+                    options:
+                      values: *icon_name_values
+                  - name: title
+                    type: string
+                    required: true
+                  - name: desc
+                    label: Description
+                    type: text
+                    required: true
+                  - name: colSpan
+                    label: Span two desktop columns
+                    type: boolean
+                    required: false
+          - name: standard
+            label: 'Engineered Human Capital: The HTIS Standard'
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                type: string
+                required: true
+              - name: description
+                type: text
+                required: true
+              - name: items
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: iconName
+                    label: Icon
+                    type: select
+                    required: false
+                    options:
+                      values: *icon_name_values
+                  - name: title
+                    type: string
+                    required: true
+                  - name: desc
+                    label: Description
+                    type: text
+                    required: true
+              - name: images
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{alt}'
+                fields:
+                  - name: image
+                    type: image
+                    required: true
+                  - name: alt
+                    label: Alt text
+                    type: string
+                    required: true
+          - name: workforce
+            label: Resourcing workforce
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                type: string
+                required: true
+              - name: tabs
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{title}'
+                fields:
+                  - name: title
+                    type: string
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+                  - name: image
+                    type: image
+                    required: true
+                  - name: ctaLabel
+                    label: CTA label
+                    type: string
+                    required: true
+                  - name: ctaUrl
+                    label: CTA URL
+                    type: string
+                    required: true
+                  - name: tools
+                    type: object
+                    list:
+                      collapsible:
+                        collapsed: true
+                        summary: '{name}'
+                    fields:
+                      - name: iconName
+                        label: Icon
+                        type: select
+                        required: false
+                        options:
+                          values: *icon_name_values
+                      - name: name
+                        type: string
+                        required: true
+          - name: execution
+            label: Execution section
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                type: text
+                required: true
+              - name: metrics
+                type: object
+                required: true
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{label}'
+                fields:
+                  - name: target
+                    type: number
+                    required: true
+                  - name: showDecimalAnimation
+                    label: Show decimal animation
+                    type: boolean
+                    required: false
+                  - name: unit
+                    type: string
+                    required: false
+                  - name: suffix
+                    type: string
+                    required: false
+                  - name: label
+                    type: string
+                    required: true
+                  - name: subLabel
+                    label: Sub-label
+                    type: text
+                    required: false
+          - name: caseStudies
+            label: Case studies
+            type: object
+            fields:
+              - name: sectionId
+                label: Section ID
+                type: string
+                required: false
+              - name: heading
+                type: string
+                required: true
+              - name: items
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{imageAlt}'
+                fields:
+                  - name: image
+                    type: image
+                    required: true
+                  - name: imageAlt
+                    label: Image alt text
+                    type: string
+                    required: true
+                  - name: description
+                    type: text
+                    required: true
+                  - name: ctaLabel
+                    label: CTA label
+                    type: string
+                    required: true
+                  - name: ctaUrl
+                    label: CTA URL
+                    type: string
+                    required: true
+
+      - name: jobs
+        label: Jobs
+        type: file
+        path: src/data/cms/jobs.yml
+        format: yaml
+        operations:
+          delete: false
+        fields:
+          - name: api
+            label: API endpoints
+            type: object
+            fields:
+              - name: jobListEndpoint
+                label: Job list endpoint
+                type: string
+                required: true
+              - name: jobDetailEndpoint
+                label: Job detail endpoint
+                type: string
+                required: true
+              - name: applyJobEndpoint
+                label: Apply job endpoint
+                type: string
+                required: true
+              - name: noticePeriodDdlEndpoint
+                label: Notice period dropdown endpoint
+                type: string
+                required: true
+              - name: technicalSkillAutoFillEndpoint
+                label: Technical skill autocomplete endpoint
+                type: string
+                required: true
+
+      - name: privacy
+        label: Privacy Policy
+        type: file
+        path: src/data/cms/privacy.md
+        format: yaml-frontmatter
+        operations:
+          delete: false
+        fields: &legal_page_fields
+          - name: metadata
+            label: Metadata
+            type: object
+            fields:
+              - name: title
+                type: string
+                required: true
+              - name: metaTitle
+                label: Meta title
+                type: string
+                required: true
+              - name: lastUpdated
+                label: Last updated
+                type: string
+                required: true
+          - name: pageHeader
+            label: Page header
+            type: object
+            fields:
+              - name: backLink
+                label: Back link
+                type: object
+                fields: *footer_link_fields
+          - name: body
+            label: Body
+            type: rich-text
+            required: true
+            options:
+              format: markdown
+              switcher: true
+
+      - name: terms
+        label: Terms & Conditions
+        type: file
+        path: src/data/cms/terms.md
+        format: yaml-frontmatter
+        operations:
+          delete: false
+        fields: *legal_page_fields
+
+      - name: industry
+        label: Industry Hero
+        type: file
+        path: src/data/cms/industry.yml
+        format: yaml
+        operations:
+          delete: false
+        fields:
+          - name: hero
+            label: Hero section
+            type: object
+            fields:
+              - name: sectionID
+                label: Section ID
+                type: string
+                required: true
+              - name: title
+                type: string
+                required: true
+              - name: heroImage
+                label: Hero image
+                type: image
+                required: true
+              - name: heroBackground
+                label: Hero background
+                type: image
+                required: true
+              - name: description
+                type: text
+                required: true
+              - name: ctaBtn
+                label: CTA button
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+
+      - name: industries
+        label: Industries List
+        type: collection
+        path: src/data/cms/industries
+        format: yaml-frontmatter
+        filename:
+          template: '{slug}.md'
+          field: false
+        view:
+          primary: metadata.title
+          fields: [metadata.navOrder, metadata.title, slug, metadata.shortTitle]
+          sort: [metadata.navOrder, metadata.title, slug]
+        fields:
+          - name: slug
+            type: string
+            required: true
+            pattern:
+              regex: '^[a-z0-9-]+$'
+              message: Use lowercase letters, numbers, and hyphens only.
+          - name: metadata
+            label: Metadata
+            type: object
+            fields:
+              - name: title
+                type: string
+                required: true
+              - name: description
+                label: List/nav description
+                type: text
+                required: true
+              - name: shortTitle
+                label: Short title
+                type: string
+                required: true
+              - name: navOrder
+                label: Navbar order
+                type: number
+                required: false
+              - name: iconName
+                label: Icon
+                type: select
+                required: true
+                options:
+                  values: *icon_name_values
+          - name: hero
+            label: Hero
+            type: object
+            fields:
+              - name: id
+                label: Section ID
+                type: string
+                required: false
+                pattern:
+                  regex: '^(?:[a-z0-9-]+)?$'
+                  message: Use lowercase letters, numbers, and hyphens only.
+              - name: heroEyebrowPill
+                label: Hero eyebrow pill
+                type: string
+                required: false
+              - name: heroEyebrowMuted
+                label: Hero eyebrow muted
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Hero background image
+                type: image
+                required: true
+              - name: title
+                label: Hero title
+                type: string
+                required: true
+              - name: summary
+                label: Hero summary
+                type: text
+                required: true
+              - name: metrics
+                label: Hero metrics
+                type: string
+                list: true
+                required: false
+              - name: ctaLabel
+                label: CTA label
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+              - name: secondaryCtaLabel
+                label: Secondary CTA label
+                type: string
+                required: false
+              - name: secondaryCtaUrl
+                label: Secondary CTA URL
+                type: string
+                required: false
+          - name: body
+            label: Body
+            type: rich-text
+            required: false
+            options:
+              format: markdown
+              switcher: true
+          - name: techStack
+            label: Tech stack highlights
+            type: object
+            required: false
+            fields:
+              - name: enabled
+                label: Show technologies section
+                type: boolean
+                required: true
+              - name: id
+                label: Section ID
+                type: string
+                required: false
+                pattern:
+                  regex: '^(?:[a-z0-9-]+)?$'
+                  message: Use lowercase letters, numbers, and hyphens only.
+              - name: title
+                label: Section title
+                type: string
+                required: true
+              - name: description
+                label: Section description
+                type: text
+                required: true
+              - name: items
+                label: Technologies
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{label}'
+                required: false
+                fields:
+                  - name: label
+                    label: Badge label
+                    type: string
+                    required: true
+                  - name: url
+                    label: Badge URL
+                    type: string
+                    required: true
+          - name: caseStudyClients
+            label: Case Study and Clients
+            type: object
+            required: false
+            fields:
+              - name: enabled
+                label: Show case study and clients section
+                type: boolean
+                required: true
+              - name: id
+                label: Section ID
+                type: string
+                required: false
+                pattern:
+                  regex: '^(?:[a-z0-9-]+)?$'
+                  message: Use lowercase letters, numbers, and hyphens only.
+              - name: title
+                label: Section title
+                type: string
+                required: true
+              - name: description
+                label: Section description
+                type: text
+                required: true
+              - name: clientLogos
+                label: Client logos
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{name}'
+                required: false
+                fields:
+                  - name: name
+                    label: Client name
+                    type: string
+                    required: true
+                  - name: logoSrc
+                    label: Logo image
+                    type: image
+                    required: false
+              - name: caseStudies
+                label: Case studies
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{eyebrow} - {title}'
+                required: false
+                fields:
+                  - name: eyebrow
+                    label: Eyebrow
+                    type: string
+                    required: true
+                  - name: title
+                    label: Case study title
+                    type: string
+                    required: true
+                  - name: description
+                    label: Case study description
+                    type: text
+                    required: true
+                  - name: image
+                    label: Case study image
+                    type: image
+                    required: false
+                  - name: url
+                    label: Case study URL
+                    type: string
+                    required: false
+                  - name: stats
+                    label: Stats
+                    type: object
+                    list:
+                      collapsible:
+                        collapsed: true
+                        summary: '{value} - {label}'
+                    required: false
+                    fields:
+                      - name: value
+                        label: Value
+                        type: string
+                        required: true
+                      - name: label
+                        label: Label
+                        type: string
+                        required: true
+              - name: testimonials
+                label: Testimonials
+                type: object
+                list:
+                  collapsible:
+                    collapsed: true
+                    summary: '{name}'
+                required: false
+                fields:
+                  - name: quote
+                    label: Quote
+                    type: text
+                    required: true
+                  - name: name
+                    label: Name
+                    type: string
+                    required: true
+                  - name: title
+                    label: Title
+                    type: string
+                    required: true
+          - name: sections
+            label: Dynamic sections
+            type: object
+            required: false
+            list:
+              collapsible:
+                collapsed: true
+                summary: '{eyebrow} - {title}'
+            fields:
+              - name: id
+                label: Section ID
+                type: string
+                required: false
+                pattern:
+                  regex: '^(?:[a-z0-9-]+)?$'
+                  message: Use lowercase letters, numbers, and hyphens only.
+              - name: layout
+                label: Section layout
+                type: select
+                required: true
+                options:
+                  values:
+                    - image-left
+                    - image-right
+                    - no-image
+              - name: heroImage
+                label: Hero image
+                type: image
+                required: false
+              - name: heroImageAlt
+                label: Hero image alt text
+                type: string
+                required: false
+              - name: accentColor
+                label: Accent color
+                type: select
+                required: false
+                default: green
+                options:
+                  values:
+                    - green
+                    - blue
+                    - yellow
+                    - red
+              - name: iconName
+                label: Icon
+                type: select
+                required: false
+                options:
+                  values: *icon_name_values
+              - name: eyebrow
+                label: Eyebrow
+                type: string
+                required: false
+              - name: title
+                label: Section title
+                type: string
+                required: true
+              - name: description
+                label: Section description
+                type: text
+                required: false
+              - name: content
+                label: Content
+                type: object
+                required: true
+                fields:
+                  - name: variant
+                    label: Content variant
+                    type: select
+                    required: true
+                    options:
+                      values:
+                        - template1-card
+                        - template2-list
+                        - template3-list-card
+                        - template4-metrics
+                        - template5-icon-card
+                        - template6-scroll-card
+                  - name: description
+                    label: Content description
+                    type: text
+                    required: false
+                  - name: items
+                    label: Content items
+                    type: object
+                    required: true
+                    list:
+                      collapsible:
+                        collapsed: true
+                        summary: '{eyebrow} {title}'
+                    fields:
+                      - name: eyebrow
+                        label: Item eyebrow
+                        type: string
+                        required: false
+                      - name: iconName
+                        label: Item icon
+                        type: select
+                        required: false
+                        options:
+                          values: *icon_name_values
+                      - name: title
+                        label: Item title
+                        type: string
+                        required: true
+                      - name: text
+                        label: Item text
+                        type: text
+                        required: false
+
+      - name: case-studies
+        label: Case Studies
+        type: collection
+        path: src/data/cms/case-studies
+        format: yaml-frontmatter
+        filename:
+          template: '{slug}.md'
+          field: false
+        view:
+          primary: metadata.title
+          fields: [metadata.title, slug, metadata.solution, metadata.industry]
+          sort: [metadata.title, slug]
+        fields:
+          - name: slug
+            type: string
+            required: true
+            pattern:
+              regex: '^[a-z0-9-]+$'
+              message: Use lowercase letters, numbers, and hyphens only.
+          - name: metadata
+            label: Metadata
+            type: object
+            fields:
+              - name: title
+                type: string
+                required: true
+              - name: description
+                type: text
+                required: true
+              - name: thumbnailImage
+                label: Thumbnail image
+                type: image
+                required: true
+              - name: solution
+                type: select
+                required: true
+                options:
+                  values:
+                    [
+                      Telecom Services,
+                      System Integration,
+                      Software Development,
+                      Resource Management,
+                    ]
+              - name: industry
+                type: reference
+                required: true
+                options:
+                  collection: industries
+                  search: metadata.title,metadata.shortTitle,slug
+                  value: '{metadata.shortTitle}'
+                  label: '{metadata.shortTitle}'
+              - name: tags
+                type: string
+                list: true
+                required: true
+          - name: hero
+            label: Hero
+            type: object
+            fields:
+              - name: id
+                label: Section ID
+                type: string
+                required: false
+                pattern:
+                  regex: '^(?:[a-z0-9-]+)?$'
+                  message: Use lowercase letters, numbers, and hyphens only.
+              - name: eyebrow
+                label: Hero eyebrow
+                type: string
+                required: false
+              - name: backgroundImage
+                label: Hero background image
+                type: image
+                required: true
+              - name: title
+                label: Hero title
+                type: string
+                required: true
+              - name: summary
+                label: Hero summary
+                type: text
+                required: true
+              - name: metrics
+                label: Hero metrics
+                type: string
+                list: true
+                required: false
+              - name: ctaLabel
+                label: CTA label
+                type: string
+                required: true
+              - name: ctaUrl
+                label: CTA URL
+                type: string
+                required: true
+              - name: secondaryCtaLabel
+                label: Secondary CTA label
+                type: string
+                required: false
+              - name: secondaryCtaUrl
+                label: Secondary CTA URL
+                type: string
+                required: false
+          - name: body
+            label: Body
+            type: rich-text
+            required: false
+            options:
+              format: markdown
+              switcher: true
+          - name: sections
+            label: Dynamic sections
+            type: object
+            required: false
+            list:
+              collapsible:
+                collapsed: true
+                summary: '{eyebrow} - {title}'
+            fields:
+              - name: id
+                label: Section ID
+                type: string
+                required: false
+                pattern:
+                  regex: '^(?:[a-z0-9-]+)?$'
+                  message: Use lowercase letters, numbers, and hyphens only.
+              - name: layout
+                label: Section layout
+                type: select
+                required: true
+                options:
+                  values:
+                    - image-left
+                    - image-right
+                    - no-image
+              - name: heroImage
+                label: Hero image
+                type: image
+                required: false
+              - name: heroImageAlt
+                label: Hero image alt text
+                type: string
+                required: false
+              - name: accentColor
+                label: Accent color
+                type: select
+                required: false
+                default: green
+                options:
+                  values:
+                    - green
+                    - blue
+                    - yellow
+                    - red
+              - name: iconName
+                label: Icon
+                type: select
+                required: false
+                options:
+                  values: *icon_name_values
+              - name: eyebrow
+                label: Eyebrow
+                type: string
+                required: false
+              - name: title
+                label: Section title
+                type: string
+                required: true
+              - name: description
+                label: Section description
+                type: text
+                required: false
+              - name: content
+                label: Content
+                type: object
+                required: true
+                fields:
+                  - name: variant
+                    label: Content variant
+                    type: select
+                    required: true
+                    options:
+                      values:
+                        - template1-card
+                        - template2-list
+                        - template3-list-card
+                        - template4-metrics
+                        - template5-icon-card
+                        - template6-scroll-card
+                  - name: description
+                    label: Content description
+                    type: text
+                    required: false
+                  - name: items
+                    label: Content items
+                    type: object
+                    required: true
+                    list:
+                      collapsible:
+                        collapsed: true
+                        summary: '{eyebrow} {title}'
+                    fields:
+                      - name: eyebrow
+                        label: Item eyebrow
+                        type: string
+                        required: false
+                      - name: iconName
+                        label: Item icon
+                        type: select
+                        required: false
+                        options:
+                          values: *icon_name_values
+                      - name: title
+                        label: Item title
+                        type: string
+                        required: true
+                      - name: text
+                        label: Item text
+                        type: text
+                        required: false

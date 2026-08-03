@@ -1,0 +1,216 @@
+---
+interface Props {
+  className?: string;
+  count?: number;
+  color?: string;
+  blur?: number;
+  speed?: number;
+  length?: string;
+  overlayOpacity?: number;
+}
+
+type LightRay = {
+  id: string;
+  left: number;
+  rotate: number;
+  width: number;
+  swing: number;
+  delay: number;
+  duration: number;
+  intensity: number;
+};
+
+const DEFAULT_COLOR = 'rgba(160, 210, 255, 0.2)';
+
+const pseudoRandom = (seed: number) => {
+  const value = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
+  return value - Math.floor(value);
+};
+
+const createRays = (count: number, cycle: number): LightRay[] => {
+  if (count <= 0) return [];
+
+  return Array.from({ length: count }, (_, index) => {
+    const seed = index + 1;
+    const left = 8 + pseudoRandom(seed * 1.17) * 84;
+    const rotate = -28 + pseudoRandom(seed * 2.03) * 56;
+    const width = 160 + pseudoRandom(seed * 2.89) * 160;
+    const swing = 0.8 + pseudoRandom(seed * 3.71) * 1.8;
+    const delay = pseudoRandom(seed * 4.43) * cycle;
+    const duration = cycle * (0.75 + pseudoRandom(seed * 5.29) * 0.5);
+    const intensity = 0.55 + pseudoRandom(seed * 6.11) * 0.35;
+
+    return {
+      id: `${index}-${Math.round(left * 10)}`,
+      left,
+      rotate,
+      width,
+      swing,
+      delay,
+      duration,
+      intensity,
+    };
+  });
+};
+
+const {
+  className = '',
+  count = 7,
+  color = DEFAULT_COLOR,
+  blur = 36,
+  speed = 14,
+  length = '70vh',
+  overlayOpacity = 0.6,
+} = Astro.props as Props;
+
+const rays = createRays(count, Math.max(speed, 0.1));
+---
+
+<div
+  aria-hidden="true"
+  class:list={['light-rays', className]}
+  style={`--light-rays-color: ${color}; --light-rays-blur: ${blur}px; --light-rays-length: ${length}; --light-rays-overlay-opacity: ${overlayOpacity};`}
+>
+  <div class="light-rays__viewport">
+    <div class="light-rays__ambient light-rays__ambient--left"></div>
+    <div class="light-rays__ambient light-rays__ambient--right"></div>
+
+    {
+      rays.map((ray) => (
+        <div
+          class="light-rays__beam"
+          style={`--ray-left: ${ray.left}%; --ray-width: ${ray.width}px; --ray-rotate: ${ray.rotate}deg; --ray-swing: ${ray.swing}deg; --ray-delay: -${ray.delay}s; --ray-duration: ${ray.duration}s; --ray-intensity: ${ray.intensity};`}
+        ></div>
+      ))
+    }
+  </div>
+</div>
+
+<style is:global>
+  .light-rays {
+    position: absolute;
+    inset: 0;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .light-rays__viewport {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 14%, black 92%, transparent 100%);
+  }
+
+  .light-rays__ambient {
+    position: absolute;
+    inset: 0;
+    opacity: calc(var(--light-rays-overlay-opacity) * var(--light-rays-glow-opacity-scale, 1));
+    mix-blend-mode: var(--light-rays-glow-blend-mode, normal);
+  }
+
+  .light-rays__ambient--left {
+    background: radial-gradient(
+      circle at 20% 15%,
+      color-mix(
+        in srgb,
+        var(--light-rays-glow-color, var(--light-rays-color))
+          var(--light-rays-glow-strength, 45%),
+        transparent
+      ),
+      transparent 70%
+    );
+  }
+
+  .light-rays__ambient--right {
+    background: radial-gradient(
+      circle at 80% 10%,
+      color-mix(
+        in srgb,
+        var(--light-rays-glow-color, var(--light-rays-color))
+          var(--light-rays-glow-strength-right, 35%),
+        transparent
+      ),
+      transparent 75%
+    );
+  }
+
+  .light-rays__beam {
+    position: absolute;
+    top: -12%;
+    left: var(--ray-left);
+    width: var(--ray-width);
+    height: var(--light-rays-length);
+    border-radius: 9999px;
+    transform-origin: top center;
+    transform: translateX(-50%) rotate(calc(var(--ray-rotate) - var(--ray-swing)));
+    background: linear-gradient(
+      to bottom,
+      color-mix(
+        in srgb,
+        var(--light-rays-beam-color, var(--light-rays-color))
+          var(--light-rays-beam-strength, 70%),
+        transparent
+      ),
+      transparent 78%
+    );
+    opacity: 0;
+    mix-blend-mode: var(--light-rays-blend-mode, screen);
+    filter: blur(var(--light-rays-effective-blur, var(--light-rays-blur)));
+    will-change: transform, opacity;
+    animation: light-rays-pulse var(--ray-duration) ease-in-out infinite;
+    animation-delay: var(--ray-delay);
+  }
+
+  html[data-theme='htis-theme'] .light-rays__ambient {
+    --light-rays-glow-color: color-mix(in srgb, var(--color-accent) 80%, white 38%);
+    --light-rays-glow-strength: 32%;
+    --light-rays-glow-strength-right: 48%;
+    --light-rays-glow-blend-mode: normal;
+    --light-rays-glow-opacity-scale: 0.58;
+  }
+
+  html[data-theme='htis-theme'] .light-rays__beam {
+    --light-rays-beam-color: color-mix(in srgb, var(--color-accent) 78%, white 22%);
+    --light-rays-beam-strength: 58%;
+    --light-rays-blend-mode: soft-light;
+    --light-rays-effective-blur: calc(var(--light-rays-blur) * 0.86);
+    --light-rays-opacity-scale: 0.82;
+  }
+
+  html[data-theme='htis-theme-dark'] .light-rays__ambient {
+    --light-rays-glow-color: var(--light-rays-color);
+    --light-rays-glow-strength: 45%;
+    --light-rays-glow-strength-right: 35%;
+    --light-rays-glow-blend-mode: screen;
+    --light-rays-glow-opacity-scale: 1;
+  }
+
+  html[data-theme='htis-theme-dark'] .light-rays__beam {
+    --light-rays-beam-color: var(--light-rays-color);
+    --light-rays-beam-strength: 70%;
+    --light-rays-blend-mode: screen;
+    --light-rays-effective-blur: var(--light-rays-blur);
+    --light-rays-opacity-scale: 1;
+  }
+
+  @keyframes light-rays-pulse {
+    0%,
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) rotate(calc(var(--ray-rotate) - var(--ray-swing)));
+    }
+
+    50% {
+      opacity: calc(var(--ray-intensity) * var(--light-rays-opacity-scale, 1));
+      transform: translateX(-50%) rotate(calc(var(--ray-rotate) + var(--ray-swing)));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .light-rays__beam {
+      animation-duration: calc(var(--ray-duration) * 1.8);
+    }
+  }
+</style>

@@ -1,0 +1,188 @@
+title: Resourcing - HTIS
+hero:
+  sectionId: resourcing-hero
+  backgroundImage: src/assets/lob-resourcing-hero-left-bg.png
+  title: 'Full-Spectrum Resourcing: From Field to Core'
+  subtitle: A strategic approach to deploying specialized white-collar and technical manpower at scale. We provide the stable human capital required for large-scale rollouts, ensuring full regulatory compliance and proactive lifecycle management
+  ctaLabel: Contact Us
+  ctaUrl: /#contact
+  carouselImages:
+    - src/assets/lob-resourcing-hero-right-bg-1.png
+    - src/assets/lob-resourcing-hero-right-bg-2.png
+    - src/assets/lob-resourcing-hero-right-bg-3.png
+    - src/assets/lob-resourcing-hero-right-bg-4.png
+    - src/assets/lob-resourcing-hero-right-bg-5.png
+capabilities:
+  sectionId: capabilities
+  backgroundImage: src/assets/team-member-bg.png
+  heading: Our Capabilities - Strategic Human Capital Deployment
+  description: A structured, compliance-driven framework for engineering and operational talent at scale.
+  items:
+    - iconName: Server
+      title: Specialized riggers and MSc
+      desc: level electricians for precise on-site installation and field execution.
+    - iconName: Network
+      title: Cisco-Certified Engineering
+      desc: Niche CCNA and ACI-certified professionals for complex network deployment and optimization.
+    - iconName: Cloud
+      title: Data Center & Managed IT
+      desc: Specialized technical support for critical IT infrastructure, including high-density server environments.
+    - iconName: ShieldCheck
+      title: Strategic Operations Support
+      desc: Dedicated site and operations coordinators ensuring smooth execution through clear process adherence.
+    - iconName: Cctv
+      title: Specialized Facility Management
+      desc: Reliable manpower for long-term operational support in commercial and real estate-linked environments.
+    - iconName: Monitor
+      title: Security & Safety Management
+      desc: Expert teams for airport security and site safety, adhering to high HSW/safety compliance standards.
+    - iconName: Briefcase
+      title: Industry Specific Staffing
+      desc: Domain-expert technical roles for ministries, medical sectors, and large-scale government projects.
+    - iconName: UserPlus
+      title: Cross-Functional Technical Skills
+      desc: Scalable access to thousands of specialized technical and non-telecom roles tailored to your project needs.
+      colSpan: true
+standard:
+  sectionId: htis-standard
+  heading: 'Engineered Human Capital: The HTIS Standard'
+  description: A performance-driven framework for rapid deployment and operational excellence.
+  items:
+    - iconName: Users
+      title: The Agile Resource Scaling
+      desc: High-Velocity Deployment at Scale We specialize in rapid-deployment cycles for large-scale network rollouts, delivering high-volume technical teams to the field within compressed timelines to meet critical expansion milestones.
+    - iconName: Wrench
+      title: Precision Technical Vetting
+      desc: 98% Trial-to-Hire Success Rate Our rigorous job-description validation process ensures a near-perfect technical match by subjecting every L1-L6 specialist to exhaustive technical benchmarking and background verification before site deployment.
+    - iconName: Maximize
+      title: Zero-Risk Statutory Compliance
+      desc: 100% Adherence to Global Standards We eliminate financial and safety risks for our clients by providing absolute adherence to PF, ESIC, and statutory labor mandates alongside comprehensive insurance coverage.
+    - iconName: UserCheck
+      title: Sustained Operational Reliability
+      desc: Commitment to Ongoing Infrastructure Health Focused on long-term infrastructure stability, our workforce model prioritizes operational continuity through a strategic shift toward ongoing support rather than short-term project deployments.
+  images:
+    - image: src/assets/lob-resourcing-construction-1.png
+      alt: Team Working
+    - image: src/assets/lob-resourcing-construction-2.png
+      alt: Team Planning
+    - image: src/assets/lob-resourcing-construction-3.png
+      alt: Team Discussion
+workforce:
+  sectionId: workforce
+  heading: One modern experience for today's workforce
+  tabs:
+    - title: Digital Intelligence & Software Talent
+      description: Powered by our proprietary wfms ERP, Educare School ERP, and HRMS/Payroll engines to deliver secure, high-compliance digital assets and bespoke enterprise solutions.
+      image: src/assets/lob-resourcing-workforce-1.png
+      ctaLabel: View more
+      ctaUrl: /#tools
+      tools:
+        - iconName: Database
+          name: wfms ERP
+        - iconName: BookOpen
+          name: Educare ERP
+        - iconName: Users
+          name: HRMS Solutions
+        - iconName: Banknote
+          name: Automated Payroll
+        - iconName: Cloud
+          name: Bespoke SaaS
+        - iconName: Layout
+          name: UI/UX Strategy
+        - iconName: ShieldCheck
+          name: DevSecOps
+        - iconName: Plug
+          name: API Integration
+        - iconName: FileCheck
+          name: High-Compliance Code
+        - iconName: Activity
+          name: QA Pipelines
+    - title: Infrastructure & Systems Specialists
+      description: Delivering mission-critical technical talent for Data Center stacks and converged IT environments, supported by rigorous HSW safety audits and turnkey facility management.
+      image: src/assets/lob-resourcing-workforce-2.png
+      ctaLabel: View more
+      ctaUrl: /#tools
+      tools:
+        - iconName: Network
+          name: ACI Engineers
+        - iconName: Server
+          name: Data Center Stacks
+        - iconName: Cloud
+          name: Hybrid Cloud
+        - iconName: Shield
+          name: Cyber-Defense
+        - iconName: ClipboardList
+          name: HSW Safety Audits
+        - iconName: MonitorSmartphone
+          name: VDI Management
+        - iconName: Fingerprint
+          name: Identity Governance
+        - iconName: Building
+          name: Facility Management
+        - iconName: Lock
+          name: Security Management
+        - iconName: HardDrive
+          name: Enterprise Storage
+    - title: Core Telecom & Network Operations
+      description: Scaling specialized technical workforces for next-gen network rollouts, backed by automated IPDR systems, RF engineering expertise, and 100% statutory compliance.
+      image: src/assets/lob-resourcing-workforce-3.png
+      ctaLabel: View more
+      ctaUrl: /#tools
+      tools:
+        - iconName: Award
+          name: CCNA Specialists
+        - iconName: Radio
+          name: 5G Core Ops
+        - iconName: Signal
+          name: RF Engineering
+        - iconName: Cable
+          name: Fiber Deployment
+        - iconName: FileCode
+          name: IPDR Generation
+        - iconName: Headset
+          name: NOC Support
+        - iconName: Scale
+          name: Statutory Compliance
+        - iconName: Wrench
+          name: Technical Rigging
+        - iconName: MapPin
+          name: Site Coordination
+        - iconName: Route
+          name: Network Lifecycle
+execution:
+  sectionId: execution
+  heading: |-
+    Built to Execute.
+    Scaled to Deliver.
+  metrics:
+    - target: 1200
+      suffix: +
+      label: Sites Deployed
+    - target: 98
+      suffix: '%'
+      label: On-Time Delivery
+    - target: 3
+      suffix: x
+      label: Faster Rollouts
+    - target: 54
+      suffix: +
+      label: Industries Served
+caseStudies:
+  sectionId: case-studies
+  heading: Collaboration with Leading Brands
+  items:
+    - image: src/assets/lob-resourcing-case-study-1.png
+      imageAlt: Office building with illuminated workspaces
+      description: Deployed multi-level technical manpower for nationwide telecom rollout across multiple circle
+      ctaLabel: Read Full case-study
+      ctaUrl: '#'
+    - image: src/assets/lob-resourcing-case-study-2.png
+      imageAlt: Large workforce gathered for operational deployment
+      description: Deployed multi-level technical manpower for nationwide telecom rollout across multiple circle
+      ctaLabel: Read Full case-study
+      ctaUrl: '#'
+    - image: src/assets/lob-resourcing-case-study-3.png
+      imageAlt: Office building with illuminated workspaces
+      description: Deployed multi-level technical manpower for nationwide telecom rollout across multiple circle
+      ctaLabel: Read Full case-study
+      ctaUrl: '#'

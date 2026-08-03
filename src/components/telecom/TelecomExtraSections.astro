@@ -1,0 +1,100 @@
+---
+import { ArrowRight } from '@lucide/astro';
+import CmsIcon from '~/components/CmsIcon.astro';
+import CmsRichText from '~/components/CmsRichText.astro';
+import TelecomProcesses from './TelecomProcesses.svelte';
+import TelecomDeployments from './TelecomDeployments.svelte';
+import TelecomMetrics from './TelecomMetrics.svelte';
+import { telecom } from '~/data/cms';
+import { optimizeImageSrc } from '~/utils/optimizeImage';
+
+const telecomProcesses = await Promise.all(
+  telecom.processes.items.map(async (process) => ({
+    ...process,
+    image: await optimizeImageSrc(process.image),
+  })),
+);
+---
+
+<!-- 1. Telecom Processes - Blueprint to Reality -->
+<TelecomProcesses
+  sectionId={telecom.processes.sectionId}
+  heading={telecom.processes.heading}
+  processes={telecomProcesses}
+  client:visible
+/>
+
+<!-- 2. Proven Network Deployments -->
+<TelecomDeployments
+  sectionId={telecom.deployments.sectionId}
+  heading={telecom.deployments.heading}
+  description={telecom.deployments.description}
+  href={telecom.deployments.href}
+  deployments={telecom.deployments.items}
+  client:visible
+/>
+
+<!-- 3. Built to Execute. Scaled to Deliver. -->
+<section id={telecom.execution.sectionId} class="relative bg-base-200/50 py-24">
+  <div class="container mx-auto px-6">
+    <div class="mb-10">
+      <CmsRichText
+        value={telecom.execution.headingHtml}
+        tag="h2"
+        className="mb-6 text-4xl leading-tight font-bold text-base-content md:text-5xl"
+      />
+    </div>
+
+    <!-- Stats -->
+    <TelecomMetrics metrics={telecom.execution.metrics} client:visible />
+
+    <!-- Pillars -->
+    <div
+      class="mt-16 flex flex-col border-t-2 border-base-content/20 py-12 md:flex-row md:gap-x-6 lg:mt-10 lg:gap-x-10 lg:py-16"
+    >
+      {
+        telecom.execution.pillars.map((pillar, index) => {
+          return (
+            <>
+              {index > 0 && <div class="hidden w-0.5 bg-base-content/20 md:block" />}
+              <div
+                class:list={[
+                  'flex flex-1 flex-col gap-4',
+                  index === 0 && 'pb-12 md:pb-0',
+                  index > 0 &&
+                    index < telecom.execution.pillars.length - 1 &&
+                    'border-y-2 border-base-content/20 py-12 md:border-y-0 md:py-0',
+                  index === telecom.execution.pillars.length - 1 && 'pt-12 md:pt-0',
+                ]}
+              >
+                <div class="mb-2 flex items-start justify-between">
+                  <CmsIcon name={pillar.iconName} className="h-12 w-12 text-primary" />
+                  <a
+                    href={pillar.url ?? '#'}
+                    aria-label={`View more details about ${pillar.title.replace(/\s+/g, ' ')}`}
+                    class="group flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/5 text-primary transition-all hover:bg-primary hover:text-primary-content hover:shadow-lg hover:shadow-primary/20 active:scale-95"
+                  >
+                    <ArrowRight
+                      class="h-5 w-5 transition-transform group-hover:translate-x-0.5"
+                      stroke-width="2.5"
+                    />
+                  </a>
+                </div>
+                <CmsRichText
+                  value={pillar.title.replace(/\n/g, '<br />')}
+                  tag="h3"
+                  className="text-2xl font-medium"
+                />
+                <CmsRichText
+                  value={pillar.description}
+                  tag="p"
+                  className="text-justify text-lg text-base-content/70"
+                />
+              </div>
+            </>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

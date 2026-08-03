@@ -1,0 +1,213 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { ArrowRight } from '@lucide/astro';
+import type { ClientLogo } from '~/data/cms';
+import CmsRichText from './CmsRichText.astro';
+import MarqueePause from './MarqueePause.astro';
+
+interface Props {
+  sectionId?: string;
+  heading: string;
+  ctaUrl: string;
+  ctaLabel: string;
+  logos: ClientLogo[];
+}
+
+const { sectionId, heading, ctaUrl, ctaLabel, logos } = Astro.props;
+const reversedLogos = [...logos].reverse();
+
+// Helper to calculate elegant dynamic card width based on aspect ratio
+function getCardWidth(img: ImageMetadata) {
+  const aspectRatio = img.width / img.height;
+  const targetLogoHeight = 56; // max-h-14 is 56px
+  const calculatedWidth = Math.round(targetLogoHeight * aspectRatio) + 16;
+  return Math.max(60, Math.min(300, calculatedWidth));
+}
+---
+
+<section id={sectionId} class="relative mx-auto max-w-6xl overflow-hidden px-4 pb-24">
+  <div class="mb-10 flex items-center justify-between">
+    <h2 class="text-3xl font-bold text-base-content md:text-5xl">
+      <CmsRichText value={heading} />
+    </h2>
+    <div class="flex shrink-0 items-center pl-4 md:pl-0">
+      <a
+        href={ctaUrl}
+        aria-label={ctaLabel}
+        class="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-primary shadow-sm transition-colors hover:border-primary/30 hover:bg-primary/20"
+      >
+        <ArrowRight class="h-6 w-6" />
+      </a>
+    </div>
+  </div>
+
+  <!-- Marquee Wrapper with Fade -->
+  <MarqueePause
+    data-clients-marquee
+    class="flex w-full flex-col gap-4 mask-[linear-gradient(to_right,transparent_0,black_128px,black_calc(100%-128px),transparent_100%)]"
+  >
+    <!-- Row 1: Right to Left (order 1...30) -->
+    <div
+      class="marquee-group group flex w-max transition-opacity duration-500 hover:opacity-100"
+    >
+      <div
+        data-marquee-track
+        class="marquee-track flex shrink-0 items-center gap-4 pr-4"
+        data-direction="left"
+      >
+        {
+          logos.map((logo) => (
+            <div
+              class="flex h-[90px] shrink-0 items-center justify-center rounded-xl border-2 border-primary bg-base-100/50 px-2 py-3 shadow-sm backdrop-blur-sm transition-colors hover:bg-base-100"
+              style={`width: ${getCardWidth(logo.image)}px;`}
+            >
+              <Image
+                src={logo.image}
+                alt={logo.alt}
+                class="client-logo h-auto max-h-14 w-auto max-w-[260px] object-contain opacity-85 transition-opacity duration-300 hover:opacity-100"
+              />
+            </div>
+          ))
+        }
+      </div>
+      <!-- Duplicate list for seamless infinite scroll -->
+      <div
+        data-marquee-track
+        class="marquee-track flex shrink-0 items-center gap-4 pr-4"
+        data-direction="left"
+        aria-hidden="true"
+      >
+        {
+          logos.map((logo) => (
+            <div
+              class="flex h-[90px] shrink-0 items-center justify-center rounded-xl border-2 border-primary bg-base-100/50 px-2 py-3 shadow-sm backdrop-blur-sm transition-colors hover:bg-base-100"
+              style={`width: ${getCardWidth(logo.image)}px;`}
+            >
+              <Image
+                src={logo.image}
+                alt={logo.alt}
+                class="client-logo h-auto max-h-14 w-auto max-w-[260px] object-contain opacity-85 transition-opacity duration-300 hover:opacity-100"
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Row 2: Left to Right (order 30...1) -->
+    <div
+      class="marquee-group group flex w-max transition-opacity duration-500 hover:opacity-100"
+    >
+      <div
+        data-marquee-track
+        class="marquee-track flex shrink-0 items-center gap-4 pr-4"
+        data-direction="right"
+      >
+        {
+          reversedLogos.map((logo) => (
+            <div
+              class="flex h-[90px] shrink-0 items-center justify-center rounded-xl border-2 border-primary bg-base-100/50 px-2 py-3 shadow-sm backdrop-blur-sm transition-colors hover:bg-base-100"
+              style={`width: ${getCardWidth(logo.image)}px;`}
+            >
+              <Image
+                src={logo.image}
+                alt={logo.alt}
+                class="client-logo h-auto max-h-14 w-auto max-w-[260px] object-contain opacity-85 transition-opacity duration-300 hover:opacity-100"
+              />
+            </div>
+          ))
+        }
+      </div>
+      <!-- Duplicate list for seamless infinite scroll -->
+      <div
+        data-marquee-track
+        class="marquee-track flex shrink-0 items-center gap-4 pr-4"
+        data-direction="right"
+        aria-hidden="true"
+      >
+        {
+          reversedLogos.map((logo) => (
+            <div
+              class="flex h-[90px] shrink-0 items-center justify-center rounded-xl border-2 border-primary bg-base-100/50 px-2 py-3 shadow-sm backdrop-blur-sm transition-colors hover:bg-base-100"
+              style={`width: ${getCardWidth(logo.image)}px;`}
+            >
+              <Image
+                src={logo.image}
+                alt={logo.alt}
+                class="client-logo h-auto max-h-14 w-auto max-w-[260px] object-contain opacity-85 transition-opacity duration-300 hover:opacity-100"
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </MarqueePause>
+</section>
+
+<script>
+  function setupClientsMarquees() {
+    const marquees = document.querySelectorAll<HTMLElement>('[data-clients-marquee]');
+
+    marquees.forEach((marquee) => {
+      const existingCleanup = (marquee as any)._marqueeCleanup;
+      if (existingCleanup) existingCleanup();
+
+      const groups = marquee.querySelectorAll('.marquee-group');
+      const animations: Animation[] = [];
+
+      groups.forEach((group) => {
+        const tracks = group.querySelectorAll('.marquee-track');
+        if (!tracks.length) return;
+
+        const firstTrack = tracks[0] as HTMLElement;
+        // Get the width of one single track copy
+        const trackWidth = firstTrack.offsetWidth;
+        if (!trackWidth) return;
+
+        // Target constant speed: 80 pixels per second
+        const speed = 80;
+        const duration = (trackWidth / speed) * 1000; // in milliseconds
+
+        tracks.forEach((track) => {
+          const direction = track.getAttribute('data-direction');
+          const keyframes =
+            direction === 'right'
+              ? [{ transform: 'translateX(-100%)' }, { transform: 'translateX(0)' }]
+              : [{ transform: 'translateX(0)' }, { transform: 'translateX(-100%)' }];
+
+          const animation = track.animate(keyframes, {
+            duration: duration,
+            iterations: Infinity,
+            easing: 'linear',
+          });
+
+          animations.push(animation);
+        });
+      });
+
+      // Store cleanup function on the element for View Transitions
+      (marquee as any)._marqueeCleanup = () => {
+        animations.forEach((animation) => animation.cancel());
+        delete (marquee as any)._marqueeCleanup;
+      };
+    });
+  }
+
+  // Set up on page load (handles initial render and View Transitions)
+  document.addEventListener('astro:page-load', setupClientsMarquees);
+
+  // Clean up before swap to prevent memory leaks
+  document.addEventListener(
+    'astro:before-swap',
+    () => {
+      const marquees = document.querySelectorAll<HTMLElement>('[data-clients-marquee]');
+      marquees.forEach((marquee) => {
+        if ((marquee as any)._marqueeCleanup) {
+          (marquee as any)._marqueeCleanup();
+        }
+      });
+    },
+    { once: true },
+  );
+</script>

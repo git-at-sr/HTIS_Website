@@ -1,0 +1,126 @@
+---
+import { Image } from 'astro:assets';
+import { ArrowRight } from '@lucide/astro';
+import CmsRichText from '~/components/CmsRichText.astro';
+
+interface CaseStudyItem {
+  title: string;
+  description?: string;
+  ctaLabel: string;
+  ctaUrl: string;
+}
+
+interface Props {
+  sectionId?: string;
+  heading: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  featured: CaseStudyItem;
+  items: CaseStudyItem[];
+}
+
+const { sectionId, heading, image, imageAlt, featured, items } = Astro.props;
+---
+
+<section id={sectionId} class="relative bg-base-200/50 pt-12 pb-16 md:py-24">
+  <div class="container mx-auto px-6">
+    <!-- Header -->
+    <div
+      class="mb-8 flex items-start justify-between border-t-2 border-base-content/20 pt-8 md:border-t-0 md:pt-0"
+    >
+      <CmsRichText
+        value={heading}
+        tag="h2"
+        className="text-3xl font-bold text-base-content md:text-4xl"
+      />
+      <div class="flex shrink-0 items-center pt-1 pl-4 md:pl-0">
+        <a
+          href="#"
+          aria-label="View all integrated infrastructure deployments"
+          class="flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full border border-primary/20 bg-primary/10 text-primary shadow-sm transition-colors hover:border-primary/30 hover:bg-primary/20"
+        >
+          <ArrowRight class="h-6 w-6" />
+        </a>
+      </div>
+    </div>
+
+    <!-- Content section with top and bottom borders -->
+    <div class="border-b-2 border-base-content/20 py-12 md:border-t-2 md:py-16">
+      <div class="flex flex-col gap-10 md:flex-row md:gap-8 lg:gap-12">
+        <!-- Left part: Image + Main Feature -->
+        <div class="flex flex-col gap-8 md:w-[60%] lg:w-[65%] lg:flex-row lg:gap-10">
+          <!-- Image -->
+          <div class="shrink-0">
+            <Image
+              src={image}
+              alt={imageAlt}
+              class="h-[217px] w-[198px] rounded-sm object-cover shadow-sm max-lg:aspect-square max-lg:h-auto max-lg:w-full max-lg:max-w-sm"
+            />
+          </div>
+
+          <!-- Main Feature Text -->
+          <div class="flex flex-col space-y-4 lg:pr-4">
+            <CmsRichText
+              value={featured.title}
+              tag="h3"
+              className="text-2xl font-medium text-base-content"
+            />
+            {
+              featured.description && (
+                <CmsRichText
+                  value={featured.description}
+                  tag="p"
+                  className="text-lg text-base-content/70"
+                />
+              )
+            }
+            <a
+              href={featured.ctaUrl}
+              class="mt-2 inline-flex w-max items-center text-sm font-medium text-primary decoration-2 underline-offset-4 hover:underline"
+            >
+              <CmsRichText value={featured.ctaLabel} />
+              <ArrowRight class="ml-1 h-4 w-4" />
+            </a>
+          </div>
+        </div>
+
+        <!-- Vertical divider -->
+        <div class="hidden w-[2px] bg-base-content/20 md:block"></div>
+
+        <!-- Right part: Smaller features -->
+        <div class="flex flex-col md:w-[40%] lg:w-[35%] lg:pl-4">
+          {
+            items.map((item, index) => (
+              <div
+                class:list={[
+                  index > 0 && 'pt-8',
+                  index < items.length - 1 && 'border-b-2 border-base-content/20 pb-8',
+                ]}
+              >
+                <CmsRichText
+                  value={item.title}
+                  tag="h4"
+                  className="mb-3 text-xl font-medium text-base-content"
+                />
+                {item.description && (
+                  <CmsRichText
+                    value={item.description}
+                    tag="p"
+                    className="mb-4 text-base text-base-content/70"
+                  />
+                )}
+                <a
+                  href={item.ctaUrl}
+                  class="inline-flex items-center text-sm font-medium text-primary decoration-2 underline-offset-4 hover:underline"
+                >
+                  <CmsRichText value={item.ctaLabel} />{' '}
+                  <ArrowRight class="ml-1 h-4 w-4" />
+                </a>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

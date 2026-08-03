@@ -1,0 +1,297 @@
+---
+import { Image } from 'astro:assets';
+import LightRays from './LightRays.astro';
+import CmsRichText from './CmsRichText.astro';
+import MarqueePause from './MarqueePause.astro';
+import { home } from '~/data/cms';
+
+interface Props {
+  sectionId?: string;
+}
+
+const { sectionId } = Astro.props;
+const { hero } = home;
+---
+
+<section
+  id={sectionId}
+  class="relative flex min-h-[80vh] flex-col items-center justify-center overflow-hidden pt-20 pb-10 sm:pt-28"
+>
+  <!-- Background Image with Overlay -->
+  <div class="pointer-events-none absolute inset-0 z-0 bg-base-100">
+    <!-- Hero Image (Base Layer) -->
+    <Image
+      src={hero.backgroundImage}
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 z-0 h-full w-full object-cover opacity-80"
+      style="filter: var(--filter-invert-dark)"
+    />
+
+    <LightRays
+      className="z-1 opacity-100"
+      color="rgba(138, 255, 199, 0.52)"
+      blur={54}
+      count={13}
+      speed={3}
+      length="88vh"
+      overlayOpacity={0.72}
+    />
+
+    <!-- Green Gradient Overlay -->
+    <div
+      class="absolute inset-0 z-2 bg-linear-to-tr from-primary/16 via-transparent to-accent/10 mix-blend-multiply"
+    >
+    </div>
+
+    <!-- Noise Overlay -->
+    <div
+      class="absolute inset-0 z-3 opacity-[0.34] mix-blend-overlay"
+      style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"
+    >
+    </div>
+
+    <!-- Bottom Fade (to blend with the rest of the page) -->
+    <div
+      class="absolute inset-x-0 bottom-0 z-4 h-32 bg-linear-to-t from-base-100 to-transparent"
+    >
+    </div>
+  </div>
+
+  <div
+    class="relative z-10 mx-auto mt-8 flex w-full max-w-5xl flex-col items-center px-4 text-center sm:mt-20"
+  >
+    <h1
+      class="mb-6 text-4xl leading-[1.1] font-bold tracking-tight text-base-content sm:text-5xl md:text-6xl lg:text-[4.5rem]"
+    >
+      <CmsRichText value={hero.titlePrefix} />
+      <br />
+      <span
+        id="word-carousel"
+        class="-mt-2 -mb-4 inline-grid items-center overflow-hidden pt-2 pb-4 align-bottom text-primary"
+      >
+        {
+          hero.rotatingWords.map((word, index) => (
+            <span
+              class={`word-item col-start-1 row-start-1 transition-all duration-500 ease-out ${index === 0 ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}
+              aria-hidden={index === 0 ? undefined : 'true'}
+            >
+              <CmsRichText value={word} />
+            </span>
+          ))
+        }
+      </span>
+    </h1>
+
+    <p
+      class="mx-auto mb-10 max-w-2xl text-xl font-medium text-base-content/70 md:text-2xl"
+    >
+      <CmsRichText value={hero.subtitle} />
+    </p>
+
+    <a
+      href={hero.ctaUrl}
+      class="btn rounded-lg px-12 text-xl text-primary-content shadow-lg shadow-primary/20 btn-lg btn-primary"
+    >
+      <CmsRichText value={hero.ctaLabel} />
+    </a>
+  </div>
+
+  <div class="relative z-10 mt-auto w-full max-w-full pt-24">
+    <p
+      class="relative mb-3 text-center text-base font-semibold text-base-content/60 md:text-lg"
+    >
+      <CmsRichText value={hero.trustedByLabel} />
+    </p>
+
+    <!-- Rectangular strip for logos: distinct background in dark mode to ensure all logos are visible -->
+    <!--
+      --band-w  : width of the centered full-color window (30% of the viewport).
+      --feather : length of the smooth grayscale → color transition on each
+                  side of the band.
+      Dark mode overlay classes: "dark:bg-linear-to-b dark:from-transparent dark:via-secondary/50 dark:to-transparent"            
+    -->
+    <div
+      class="relative w-full overflow-hidden py-6"
+      style="--band-w: 30vw; --feather: 110px;"
+    >
+      <!-- Marquee Wrapper with Fade -->
+      <MarqueePause
+        class="group/marquee relative flex w-full mask-[linear-gradient(to_right,transparent_0,black_128px,black_calc(100%-128px),transparent_100%)]"
+      >
+        <!--
+        Marquee Container — only 2 track copies needed.
+        The wrapper scrolls by exactly 50% (= one track width) then loops,
+        creating a seamless infinite scroll with a single animation.
+
+        Base layer: grayscale logos for the full strip. Inverted in dark mode
+        so dark logos stay visible against the dark background. Brightness is
+        constant — hovering the marquee never lightens these.
+      -->
+        <div
+          id="partner-marquee"
+          data-marquee-track
+          class="flex w-max grayscale dark:invert"
+        >
+          {
+            [0, 1].map((i) => (
+              <div
+                class="flex shrink-0 items-center gap-16 pr-16"
+                aria-hidden={i > 0 ? 'true' : undefined}
+              >
+                {hero.partnerLogos.map((logo) => (
+                  <Image
+                    src={logo.image}
+                    alt={logo.alt}
+                    width={110}
+                    class="max-h-16 w-auto object-contain opacity-70"
+                  />
+                ))}
+              </div>
+            ))
+          }
+        </div>
+
+        <!--
+        Color overlay: an identical, in-sync marquee revealed only through a
+        centered mask whose solid region matches the hero title width, with a
+        soft feather so logos ease from black & white into full color.
+        Hovering the marquee widens the band past the viewport so every logo
+        turns full color (the width transition is enabled by the @property
+        registration below).
+      -->
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0 flex w-full items-center transition-[--band-w] duration-500 ease-out group-hover/marquee:[--band-w:120vw]"
+          style="mask-image: linear-gradient(to right, transparent calc(50% - var(--band-w) / 2 - var(--feather)), #000 calc(50% - var(--band-w) / 2), #000 calc(50% + var(--band-w) / 2), transparent calc(50% + var(--band-w) / 2 + var(--feather))); -webkit-mask-image: linear-gradient(to right, transparent calc(50% - var(--band-w) / 2 - var(--feather)), #000 calc(50% - var(--band-w) / 2), #000 calc(50% + var(--band-w) / 2), transparent calc(50% + var(--band-w) / 2 + var(--feather)));"
+        >
+          <div id="partner-marquee-color" data-marquee-track class="flex w-max">
+            {
+              [0, 1].map(() => (
+                <div class="flex shrink-0 items-center gap-16 pr-16">
+                  {hero.partnerLogos.map((logo) => (
+                    <Image
+                      src={logo.image}
+                      alt=""
+                      width={110}
+                      class="max-h-16 w-auto object-contain opacity-65 transition-opacity duration-300 group-hover/marquee:opacity-100 dark:opacity-100"
+                    />
+                  ))}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </MarqueePause>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  /* Registered so the color-band width can transition on marquee hover.
+     initial-value must be computationally independent (no vw), so the real
+     base value (30vw) stays on the logo strip container's inline style. */
+  @property --band-w {
+    syntax: '<length>';
+    inherits: true;
+    initial-value: 0px;
+  }
+</style>
+
+<script>
+  // ── Shared cleanup controller ────────────────────────────────────────
+  // AbortController centralises all event-listener and animation cleanup
+  // for View Transitions. Calling `ac.abort()` removes every listener
+  // registered with `{ signal: ac.signal }` in one shot.
+  let ac: AbortController;
+  let carouselInterval: ReturnType<typeof setInterval> | undefined;
+  let marqueeAnimations: Animation[] = [];
+
+  // ── Word Carousel ────────────────────────────────────────────────────
+  function setupWordCarousel() {
+    const parent = document.getElementById('word-carousel');
+    if (!parent) return;
+
+    const items = Array.from(parent.querySelectorAll<HTMLElement>('.word-item'));
+    if (!items.length) return;
+
+    let currentIndex = 0;
+
+    carouselInterval = setInterval(() => {
+      const currentItem = items[currentIndex];
+      currentIndex = (currentIndex + 1) % items.length;
+      const nextItem = items[currentIndex];
+
+      currentItem.classList.remove('translate-y-0', 'opacity-100');
+      currentItem.classList.add('-translate-y-full', 'opacity-0');
+      currentItem.setAttribute('aria-hidden', 'true');
+
+      nextItem.style.transition = 'none';
+      nextItem.classList.remove('-translate-y-full');
+      nextItem.classList.add('translate-y-full');
+
+      void nextItem.offsetWidth; // force reflow
+
+      nextItem.style.transition = '';
+      nextItem.classList.remove('translate-y-full', 'opacity-0');
+      nextItem.classList.add('translate-y-0', 'opacity-100');
+      nextItem.removeAttribute('aria-hidden');
+    }, 3000);
+  }
+
+  // ── Partner Marquee ──────────────────────────────────────────────────
+  // Two overlaid tracks (grayscale base + centered color overlay) are driven
+  // by identical animations created in the same frame, so they stay pixel-
+  // perfectly in sync and the color mask reveals the same logos underneath.
+  function setupPartnerMarquee() {
+    // Scope to the two partner-marquee tracks only. A bare
+    // `[data-marquee-track]` selector also matches the Testimonials columns
+    // (which carry the same attribute for pause-on-hover) and would drive them
+    // with this horizontal translateX animation, breaking their vertical scroll.
+    const tracks = document.querySelectorAll<HTMLElement>(
+      '#partner-marquee, #partner-marquee-color',
+    );
+    if (!tracks.length) return;
+
+    // Each track contains exactly 2 identical copies.
+    // scrollWidth / 2 = one copy's pixel width.
+    const halfWidth = tracks[0].scrollWidth / 2;
+    if (!halfWidth) return;
+
+    // Constant speed: 80 px/s → duration scales with content width
+    const speed = 80;
+    const duration = (halfWidth / speed) * 1000;
+
+    marqueeAnimations = Array.from(tracks).map((track) =>
+      track.animate(
+        [{ transform: 'translateX(0)' }, { transform: `translateX(-${halfWidth}px)` }],
+        { duration, iterations: Infinity, easing: 'linear' },
+      ),
+    );
+  }
+
+  // ── Lifecycle ────────────────────────────────────────────────────────
+  function cleanup() {
+    if (carouselInterval) {
+      clearInterval(carouselInterval);
+      carouselInterval = undefined;
+    }
+    if (marqueeAnimations.length) {
+      marqueeAnimations.forEach((animation) => animation.cancel());
+      marqueeAnimations = [];
+    }
+    ac?.abort(); // removes all listeners registered with ac.signal
+  }
+
+  function init() {
+    // Tear down any previous instance (idempotent re-init)
+    cleanup();
+    ac = new AbortController();
+
+    setupWordCarousel();
+    setupPartnerMarquee();
+  }
+
+  document.addEventListener('astro:page-load', init);
+  document.addEventListener('astro:before-swap', cleanup, { once: true });
+</script>

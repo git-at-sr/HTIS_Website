@@ -1,0 +1,60 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import Navbar from '~/components/Navbar.astro';
+import Footer from '~/components/Footer.astro';
+import Contact from '~/components/Contact.astro';
+import { terms } from '~/data/cms';
+
+import { ArrowLeft } from '@lucide/astro';
+
+const MarkdownContent = terms.MarkdownContent;
+---
+
+<Layout title={terms.metadata.metaTitle}>
+  <div class="relative flex min-h-screen w-full flex-col overflow-clip bg-base-200/40">
+    <Navbar />
+
+    <main class="relative flex-1 pt-32 pb-20 md:pt-40 md:pb-24">
+      <div class="container mx-auto px-6">
+        <article class="mx-auto max-w-4xl">
+          <a
+            href={terms.pageHeader.backLink.url}
+            class="group mb-8 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-secondary"
+          >
+            <ArrowLeft class="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+            {terms.pageHeader.backLink.label}
+          </a>
+
+          <header class="border-b border-base-content/10 pb-8">
+            <p class="mb-3 text-sm font-bold tracking-widest text-primary uppercase">
+              Legal
+            </p>
+            <h1
+              class="text-4xl leading-tight font-extrabold tracking-tight text-base-content md:text-5xl"
+            >
+              {terms.metadata.title}
+            </h1>
+            <p class="mt-4 text-sm font-semibold text-base-content/60 md:text-base">
+              Last updated: {terms.metadata.lastUpdated}
+            </p>
+          </header>
+
+          {
+            MarkdownContent ? (
+              <div class="cms-markdown pt-8 md:pt-10">
+                <MarkdownContent />
+              </div>
+            ) : null
+          }
+        </article>
+      </div>
+    </main>
+
+    <div class="mt-auto bg-base-100">
+      <div class="pt-8 md:pt-16">
+        <Contact />
+        <Footer overlap={true} />
+      </div>
+    </div>
+  </div>
+</Layout>

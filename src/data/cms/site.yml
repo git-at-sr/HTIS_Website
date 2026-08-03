@@ -1,0 +1,15 @@
+defaultTitle: HTIS - Delivering Excellence in System Integrations
+language: en
+defaultTheme: system default
+favicon: src/assets/favicon.png
+seo:
+  description: HTIS delivers telecom infrastructure, system integration, software
+    development, and resource management solutions.
+  siteUrl: https://website.htistelecom.in
+  siteName: HTIS
+  ogImage: src/assets/og_image.png
+  robots: index, follow
+globalToast:
+  enabled: true
+  message: This website is under development. Some information may be incomplete,
+    inaccurate, or subject to change.

@@ -1,0 +1,46 @@
+---
+import { Image } from 'astro:assets';
+import ServicesGrid from './ServicesGrid.svelte';
+import ServicesGridMobile from './ServicesGridMobile.svelte';
+import defaultServiceBg from '~/assets/our-services-bg.png';
+import CmsRichText from './CmsRichText.astro';
+
+const { services } = Astro.props;
+const serviceItems = services?.items ?? [];
+const sectionId = services?.sectionId;
+const headingHtml = services?.headingHtml ?? 'Our<br/>Services';
+const backgroundImage = services?.backgroundImage ?? defaultServiceBg;
+---
+
+<section
+  id={sectionId}
+  class="relative mx-auto max-w-7xl px-4 pt-12 pb-12 lg:pt-32 lg:pb-16"
+>
+  <div
+    class="flex flex-col gap-0 overflow-hidden rounded-lg border border-base-content/30 bg-base-200/30 shadow-sm lg:flex-row"
+  >
+    <!-- Left SIDE -->
+    <div
+      class="relative flex items-start border-b border-base-content/30 bg-primary/30 p-10 md:p-14 lg:w-[40%] lg:border-r lg:border-b-0"
+    >
+      <Image
+        src={backgroundImage}
+        alt=""
+        aria-hidden="true"
+        class="absolute inset-0 z-0 h-full w-full object-cover opacity-70"
+        style="filter: var(--filter-invert-dark)"
+      />
+      <CmsRichText
+        value={headingHtml}
+        tag="h2"
+        className="relative z-10 flex flex-col text-5xl leading-tight font-bold text-base-content md:text-6xl"
+      />
+    </div>
+
+    <!-- Right SIDE Desktop -->
+    <ServicesGrid services={serviceItems} client:media="(min-width: 768px)" />
+
+    <!-- Right SIDE Mobile -->
+    <ServicesGridMobile services={serviceItems} client:media="(max-width: 767px)" />
+  </div>
+</section>

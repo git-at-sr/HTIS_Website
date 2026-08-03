@@ -1,0 +1,270 @@
+title: Software Development & SaaS - HTIS
+hero:
+  sectionId: software-hero
+  backgroundImage: src/assets/lob-software-hero-bg.png
+  foregroundImage: src/assets/webp-01-scaled.webp
+  title: "Digital Intelligence:"
+  highlight: Enterprise SaaS
+  subtitle: We architect the resilient software ecosystems that drive modern
+    enterprise and government operations. By merging the agility of on-demand
+    engineering with the stability of our flagship SaaS products, we deliver
+    secure, high-compliance digital assets tailored to the most demanding
+    regulatory environments.
+  ctaLabel: Contact Us
+  ctaUrl: /#contact
+  secondaryCtaLabel: Explore Portfolio
+  secondaryCtaUrl: "#portfolio"
+portfolio:
+  sectionId: portfolio
+  backgroundImage: src/assets/team-member-bg.png
+  heading: Converged Software Portfolio
+  description: Enterprise SaaS & Bespoke Engineering - An interactive look at our
+    proprietary products and requirement-driven engineering capabilities.
+  capabilities:
+    - label: Standalone SaaS Products
+      shortLabel: Standalone SaaS Products
+      iconName: Laptop
+      description: Our proprietary SaaS platforms are mature, cloud-hosted ecosystems
+        designed for immediate deployment. They provide large-scale
+        organizations with out-of-the-box digital control over complex
+        operational and administrative workflows.
+      items:
+        - title: wfms™ (Workforce Management System)
+          desc: Our flagship ERP provides centralized operational control through a
+            high-performance web portal and mobile applications for Android and
+            iOS. Designed to handle thousands of daily users, it features a
+            comprehensive suite of modules including Attendance, Payroll,
+            Finance, and AMC Management.
+          image: src/assets/laptop-img-1.png
+          ctaLabel: Know more
+          ctaUrl: https://wfms.htistelecom.in/
+        - title: Educare™ School ERP
+          desc: A specialized platform engineered exclusively for the education sector,
+            delivering integrated academic content management and seamless
+            administrative control for institutions.
+          image: src/assets/edu-care-2.png
+          ctaLabel: Know more
+          ctaUrl: https://schooleducare.com/
+        - title: HRMS & Payroll Engines
+          desc: Proprietary, in-house developed software solutions designed to automate
+            complex salary structures, recruitment workflows, and the complete
+            employee lifecycle.
+          image: src/assets/hrms-payroll.webp
+    - label: Enterprise Solutions
+      shortLabel: Enterprise Solutions
+      iconName: Smartphone
+      description: We architect custom digital assets tailored to the unique
+        operational challenges of enterprise and sovereign clients. From
+        front-end digital experiences to hardcore backend workflow automation,
+        our engineering methodology is entirely requirement-driven.
+      items:
+        - title: Corporate Web & Portal Design
+          desc: Development of high-performance, immersive corporate websites and secure
+            internal web portals designed for scalability and brand authority.
+          image: src/assets/enterprise-sol-1-1.jpg
+        - title: Mobile Application Development
+          desc: Cross-platform and native mobile solutions bridging the gap between field
+            operations and administrative management, ensuring real-time data
+            sync on the go.
+          image: src/assets/enterprise-sol-2.jpg
+        - title: eCommerce & Retail Platforms
+          desc: Secure, high-volume transactional architectures built with robust payment
+            gateways, inventory management, and intuitive user experiences.
+          image: src/assets/enterprise-sol-3.jpg
+        - title: Hardcore Digitalization & Workflow Automation
+          desc: Transforming legacy, manual processes into intelligent, automated digital
+            workflows. We build integrated reporting systems and dashboards to
+            provide real-time monitoring of productivity, tasks, and claims.
+          image: src/assets/enterprise-sol-4.webp
+    - label: Public Sector Digitalization
+      shortLabel: Public Sector Digitalization
+      iconName: ShieldCheck
+      description: With a majority of our bespoke portfolio dedicated to government
+        clients, we are a trusted partner for high-compliance digital
+        infrastructure.
+      items:
+        - title: Municipal Utility & Revenue Systems
+          desc: Secure digital platforms engineered for managing public utilities, vendor
+            administration, and municipal billing operations.
+          image: src/assets/lob-software-sw-port-public-1.png
+        - title: State-Level Workforce & Governance Portals
+          desc: Architecting vast manpower management systems and rural digital governance
+            networks that provide administrative oversight at a state-wide
+            scale.
+          image: src/assets/lob-software-sw-port-public-2.png
+        - title: Specialized State Assets & Taxation
+          desc: Resilient, high-traffic portals built to manage complex regional
+            ecosystems, including commercial transit taxation, state ecotourism
+            reservations, and agricultural administration.
+          image: src/assets/lob-software-sw-port-public-3.png
+engineeringStack:
+  sectionId: engineering-stack
+  backgroundImage: src/assets/team-member-bg.png
+  heading: |-
+    Modern Engineering Stack &
+    Adaptive Architecture
+  description: We utilize state-of-the-art architectures and cutting-edge software
+    paradigms to build secure, robust, and highly scalable digital ecosystems.
+  cards:
+    - title: Web & Interactive UI
+      description: High-performance interfaces architected with React JS, Bootstrap 5,
+        and Alpine.js to ensure responsive, modular, and fast-loading web
+        applications.
+      image: src/assets/lob-software-web-ui.png
+      alt: Web & Interactive UI Mockup
+    - title: Cross-Platform Mobile
+      description: Utilizing React Native to deploy native-quality experiences for
+        Android and iOS from a single codebase, powering our 1,800+ daily active
+        field users.
+      image: src/assets/lob-software-mobile-ui.png
+      alt: Cross-Platform Mobile Mockup
+    - title: Distributed API Gateways
+      description: Secure, low-latency microservices built with Node.js and Go,
+        handling seamless real-time data flow between field agents and cloud
+        databases.
+      image: src/assets/lob-software-web-ui.png
+      alt: Distributed API Gateways Mockup
+    - title: Offline-First Capabilities
+      description: Engineered with smart SQLite caching and automatic conflict
+        resolution, enabling field operators to work uninterrupted even in
+        zero-connectivity zones.
+      image: src/assets/lob-software-mobile-ui.png
+      alt: Offline-First Capabilities Mockup
+    - title: Cloud-Native Infrastructure
+      description: Orchestrated with AWS, Docker, and autoscaling groups, ensuring
+        high availability, robust load-balancing, and 99.9% operational uptime
+        under peak demand.
+      image: src/assets/lob-software-web-ui.png
+      alt: Cloud-Native Infrastructure Mockup
+    - title: Zero-Trust Security
+      description: Fortified with advanced RBAC, secure JWT authentication, and
+        municipal-grade data privacy compliance to shield critical enterprise
+        workflows.
+      image: src/assets/lob-software-mobile-ui.png
+      alt: Zero-Trust Security Mockup
+architecturalPrinciples:
+  sectionId: architectural-principles
+  backgroundImage: src/assets/team-member-bg.png
+  heading: Architectural Principles
+  description: Our core engineering philosophies designed to build secure,
+    scalable, and high-performance digital ecosystems.
+  items:
+    - title: Intelligent Operational Flow
+      description: We design systems that streamline processes, reduce manual effort,
+        and enable real-time decision making through automation, orchestration,
+        and data-driven insights.
+    - title: Omni-Channel Deployment
+      description: Our shift toward React-based architectures allows us to maintain
+        visual and functional consistency across web, mobile, and TV, ensuring a
+        unified user experience for both government and corporate stakeholders.
+    - title: Cloud-Native Scalability
+      description: Leveraging AWS cloud servers, we provide the resilient
+        infrastructure necessary to host high-compliance government portals and
+        large-scale enterprise SaaS products with zero performance compromise.
+    - title: Security & Integrity (RBAC)
+      description: Every application, from mobile field tools to TV-based dashboards,
+        implements rigorous Role-Based Access Control (RBAC) to safeguard
+        sensitive data across all endpoints.
+    - title: Modular Engineering Reuse
+      description: By maintaining a library of common technical components, our
+        18-member core team accelerates delivery timelines while ensuring every
+        line of code meets our strict quality benchmarks.
+execution:
+  sectionId: execution
+  heading: |-
+    Built to Execute.
+    Scaled to Deliver.
+  metrics:
+    - target: 3000
+      showDecimalAnimation: false
+      suffix: +
+      label: Daily Active Users
+    - target: 99.9
+      showDecimalAnimation: true
+      suffix: "%"
+      label: SLA Uptime
+    - target: 18
+      showDecimalAnimation: false
+      label: Core Software Engineers
+    - target: 150
+      showDecimalAnimation: false
+      suffix: +
+      label: Production Deployments
+  pillars:
+    - iconName: RadioTower
+      title: Carrier-Grade Network Automation
+      description: We engineer custom AMC and Complaint Management Dashboards that
+        convert complex network telemetry into actionable insights. By bridging
+        the gap between software logic and physical layer execution, our tools
+        optimize field workflows, streamline maintenance tracking, and maximize
+        operational continuity.
+      url: /telecom
+    - iconName: Server
+      title: Secure Infrastructure Orchestration
+      description: We bridge the gap between enterprise hardware and cloud software.
+        Built for seamless deployment on secure AWS cloud servers, our custom
+        applications feature strict Role-Based Access Control (RBAC) to
+        integrate perfectly into zero-trust data centre architectures.
+      url: /system-integration
+    - iconName: Users
+      title: High-Volume Human Capital Automation
+      description: Our proprietary wfms ERP effortlessly supports 3,000 daily active
+        users, fully automating Attendance, Claims, Tasks, and Payroll Engines
+        via web and mobile. By digitizing compliance, we eliminate operational
+        risk and drive long-term workforce retention.
+      url: /resourcing
+onboarding:
+  sectionId: onboarding
+  backgroundImage: src/assets/lob-software-onboarding-bg.png
+  eyebrow: Engagement Lifecycle & Deployment Roadmap
+  heading: A structured commercial framework for project onboarding and lifecycle
+    governance.
+  steps:
+    - number: "01"
+      title: Consultative Alignment & Pre-Study
+      description: We begin with direct stakeholder discussions and use-case analysis
+        to map out your functional goals, third-party integration needs, and
+        scope boundaries before a commercial commitment is made.
+    - number: "02"
+      title: Milestone & Timeline Benchmarking
+      description: Project timelines and delivery gates are mathematically planned out
+        based on architectural complexity, necessary testing cycles, and your
+        internal approval constraints.
+    - number: "03"
+      title: Core Engineering Mobilization
+      description: We allocate a dedicated pod from our 18-member core engineering
+        team, keeping the same developers and testers locked into your project
+        lifecycle to preserve absolute knowledge continuity.
+    - number: "04"
+      title: Continuous Scope Governance
+      description: As requirements evolve, updates are seamlessly managed via
+        structured documentation amendments and direct stakeholder review
+        meetings, ensuring project timelines remain completely undisturbed.
+caseStudies:
+  sectionId: case-studies
+  heading: Strategic Case Studies & Technical Impact
+  items:
+    - title: Public Utility & Citizen Services
+      solution: Street Vendor Management System & Digital Utility Portals.
+      impact: Digitized urban governance and public utility workflows for municipal
+        corporations. The system handles complex revenue collections, real-time
+        tracking, and automated billing modules while ensuring role-based data
+        isolation across departments.
+      image: src/assets/lob-software-case-study-1.png
+      ctaUrl: /case-study
+    - title: Enterprise Resource Planning (wfms™)
+      solution: High-Volume Workforce & Logistics Management System.
+      impact: Supports over 3,000 daily active users, automating attendance, claim
+        submissions, field task assignments, and payroll calculations. Real-time
+        geofencing and offline synchronization reduced operational payroll
+        overhead by 18%.
+      image: src/assets/lob-software-case-study-2.png
+      ctaUrl: /case-study
+    - title: Telecom Workflow Automation
+      solution: Carrier-Grade AMC & Complaint Management Engine.
+      impact: Bridges software telemetry with physical telecom nodes. Field
+        maintenance riggers and L1-L6 coordinators gain real-time network fault
+        alerts, routing optimization, and automated ticketing, decreasing MTTR
+        (Mean Time to Repair) by 32%.
+      image: src/assets/lob-software-case-study-3.png
+      ctaUrl: /case-study

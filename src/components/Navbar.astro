@@ -1,0 +1,618 @@
+---
+import { Image } from 'astro:assets';
+import MenuIcon from './icons/MenuIcon.astro';
+import AnimatedThemeToggler from './AnimatedThemeToggler.svelte';
+import CmsIcon from './CmsIcon.astro';
+import CmsRichText from './CmsRichText.astro';
+import { getCmsAsset, industryNavItems, navigation } from '~/data/cms';
+
+import { ArrowRight, ChevronDown } from '@lucide/astro';
+
+const navLogo = getCmsAsset(navigation.logo.image);
+const solutionsImg = getCmsAsset(navigation.solutions.card.image);
+const resourcesImg = getCmsAsset(navigation.resources.card.image);
+
+const solutions = navigation.solutions.items;
+const industriesCol1 = industryNavItems.slice(0, 5);
+const industriesCol2 = [
+  ...industryNavItems.slice(5, 9),
+  navigation.industries.viewAll,
+];
+const resources = navigation.resources.items;
+
+const { pathname: rawPathname } = Astro.url;
+const pathname = rawPathname.replace(/\/$/, '') || '/';
+
+const isActive = (path: string) => {
+  if (path === '/' || path === navigation.primary.home.url) {
+    return pathname === '/' || pathname === navigation.primary.home.url;
+  }
+  return pathname.startsWith(path);
+};
+
+const isSolutionsActive = solutions.some((item) => pathname.startsWith(item.url));
+const isIndustriesActive = pathname.startsWith(navigation.industries.viewAll.url);
+const isResourcesActive = resources.some((item) => pathname.startsWith(item.url));
+---
+
+<div
+  id="navbar-wrapper"
+  class="fixed top-0 right-0 left-0 z-50 px-0 pt-0 transition-all duration-500 md:px-8 md:pt-3 lg:pt-2"
+>
+  <div
+    id="navbar"
+    class="navbar mx-auto max-w-7xl bg-transparent px-4 transition-all duration-500 md:px-6"
+  >
+    <div class="navbar-start w-auto lg:flex-1">
+      <a href={navigation.primary.home.url} class="btn h-auto p-2 text-xl normal-case btn-ghost lg:p-1">
+        <Image
+          src={navLogo}
+          alt={navigation.logo.alt}
+          width={140}
+          id="navbar-logo"
+          class="w-[110px] lg:w-[120px] object-contain transition-all duration-500"
+        />
+      </a>
+    </div>
+    <div class="navbar-center hidden h-full items-center lg:flex">
+      <nav
+        class="relative flex h-full items-center space-x-6 px-1 text-[16px] font-medium text-base-content/80"
+        x-data="{ 
+          activeDropdown: null,
+          toggle(name) {
+            this.activeDropdown = this.activeDropdown === name ? null : name;
+          },
+          close() {
+            this.activeDropdown = null;
+          }
+        }"
+        @click.away="close()"
+        @keydown.escape.window="close()"
+      >
+        <a
+          href={navigation.primary.home.url}
+          class={`py-3 transition-colors ${isActive(navigation.primary.home.url) ? 'text-primary font-semibold' : 'text-base-content/80 hover:text-[#FF4500]'}`}
+        >
+          <CmsRichText value={navigation.primary.home.title} />
+        </a>
+
+        <!-- Solutions: Dropdown open state, focus/hover sync, Escape key to close, and screen-reader accessibility (aria-expanded) managed via Alpine.js -->
+        <div
+          class="group/nav flex h-full items-center"
+          @pointerenter="if ($event.pointerType !== 'touch') activeDropdown = 'solutions'"
+          @pointerleave="if ($event.pointerType !== 'touch') activeDropdown = null"
+          @focusin="activeDropdown = 'solutions'"
+          @focusout="if (!$el.contains($event.relatedTarget)) activeDropdown = null"
+        >
+          <button
+            type="button"
+            class={`flex items-center gap-1 py-3 transition-colors focus:outline-none ${isSolutionsActive ? 'text-primary font-semibold' : 'text-base-content/80 group-hover/nav:text-[#FF4500] focus:text-[#FF4500]'}`}
+            aria-haspopup="true"
+            :aria-expanded="activeDropdown === 'solutions'"
+            @click="toggle('solutions')"
+          >
+            <CmsRichText value={navigation.solutions.label} />
+            <ChevronDown
+              class="h-4 w-4 opacity-50 transition-transform duration-300"
+              :class={`activeDropdown === 'solutions' ? '-rotate-180 ${isSolutionsActive ? 'text-primary' : 'text-[#FF4500]'}' : ''`}
+            />
+          </button>
+
+          <div
+            class="absolute top-[85%] left-1/2 z-50 -translate-x-1/2 transform-gpu cursor-default pt-6 transition-all duration-300 invisible opacity-0 translate-y-2"
+            :class="{ 'visible opacity-100 translate-y-0': activeDropdown === 'solutions', 'invisible opacity-0 translate-y-2': activeDropdown !== 'solutions' }"
+          >
+            <div
+              class="flex w-[800px] gap-8 rounded-4xl border border-base-200 bg-base-100 p-6 shadow-2xl"
+            >
+              <div class="flex flex-1 flex-col gap-2">
+                <h3
+                  class="mb-2 px-3 text-xs font-bold tracking-widest text-base-content/50 uppercase"
+                >
+                  <CmsRichText value={navigation.solutions.heading} />
+                </h3>
+                {
+                  solutions.map((item) => (
+                    <a
+                      href={item.url}
+                      class={`group/item flex items-start gap-4 rounded-2xl p-3 transition-all duration-300 hover:bg-base-200/50 ${isActive(item.url) ? 'bg-base-200/30' : ''}`}
+                    >
+                      <div
+                        class={`mt-0.5 rounded-xl p-2.5 transition-all duration-300 ${isActive(item.url) ? 'bg-primary text-primary-content shadow-lg shadow-primary/20' : 'bg-primary/10 text-primary group-hover/item:bg-primary group-hover/item:text-primary-content group-hover/item:shadow-lg group-hover/item:shadow-primary/20'}`}
+                      >
+                        <CmsIcon name={item.icon} className="h-5 w-5 shrink-0" />
+                      </div>
+                      <div>
+                        <div
+                          class={`font-bold transition-colors ${isActive(item.url) ? 'text-primary' : 'text-base-content group-hover/item:text-primary'}`}
+                        >
+                          <CmsRichText value={item.title} />
+                        </div>
+                        <div class="mt-0.5 text-sm leading-snug text-base-content/60">
+                          <CmsRichText value={item.desc} />
+                        </div>
+                      </div>
+                    </a>
+                  ))
+                }
+              </div>
+              <div
+                class="group/card relative w-[300px] shrink-0 overflow-hidden rounded-3xl bg-base-200"
+              >
+                <Image
+                  src={solutionsImg}
+                  alt={navigation.solutions.card.alt}
+                  class="h-full w-full object-cover transition-transform duration-700 group-hover/card:scale-110"
+                  width={300}
+                />
+                <div
+                  class="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent"
+                >
+                </div>
+                <div class="absolute right-0 bottom-0 left-0 p-6 text-left text-white">
+                  <CmsRichText value={navigation.solutions.card.title} tag="h3" className="mb-2 text-xl font-bold" />
+                  <p class="mb-6 text-sm text-white/80">
+                    <CmsRichText value={navigation.solutions.card.description} />
+                  </p>
+                  <a
+                    href={navigation.solutions.card.ctaUrl}
+                    class="btn w-full rounded-lg border-none btn-sm btn-primary group-hover/card:shadow-[0_0_15px_rgba(var(--color-primary),0.5)]"
+                  >
+                    <CmsRichText value={navigation.solutions.card.ctaLabel} /> <ArrowRight class="ml-1 h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Industries: Dropdown open state, focus/hover sync, Escape key to close, and screen-reader accessibility (aria-expanded) managed via Alpine.js -->
+        <div
+          class="group/nav flex h-full items-center"
+          @pointerenter="if ($event.pointerType !== 'touch') activeDropdown = 'industries'"
+          @pointerleave="if ($event.pointerType !== 'touch') activeDropdown = null"
+          @focusin="activeDropdown = 'industries'"
+          @focusout="if (!$el.contains($event.relatedTarget)) activeDropdown = null"
+        >
+          <button
+            type="button"
+            class={`flex items-center gap-1 py-3 transition-colors focus:outline-none ${isIndustriesActive ? 'text-primary font-semibold' : 'text-base-content/80 group-hover/nav:text-[#FF4500] focus:text-[#FF4500]'}`}
+            aria-haspopup="true"
+            :aria-expanded="activeDropdown === 'industries'"
+            @click="toggle('industries')"
+          >
+            <CmsRichText value={navigation.industries.label} />
+            <ChevronDown
+              class="h-4 w-4 opacity-50 transition-transform duration-300"
+              :class={`activeDropdown === 'industries' ? '-rotate-180 ${isIndustriesActive ? 'text-primary' : 'text-[#FF4500]'}' : ''`}
+            />
+          </button>
+
+          <div
+            class="absolute top-[85%] left-1/2 z-50 -translate-x-1/2 transform-gpu cursor-default pt-6 transition-all duration-300 invisible opacity-0 translate-y-2"
+            :class="{ 'visible opacity-100 translate-y-0': activeDropdown === 'industries', 'invisible opacity-0 translate-y-2': activeDropdown !== 'industries' }"
+          >
+            <div
+              class="flex w-[850px] gap-6 rounded-4xl border border-base-200 bg-base-100 p-6 shadow-2xl"
+            >
+              <div class="flex flex-1 flex-col gap-2">
+                <h3
+                  class="mb-2 px-3 text-xs font-bold tracking-widest text-base-content/50 uppercase"
+                >
+                  <CmsRichText value={navigation.industries.heading} />
+                </h3>
+                {
+                  industriesCol1.map((item) => (
+                    <a
+                      href={item.url}
+                      class={`group/item flex items-start gap-4 rounded-2xl p-3 transition-all duration-300 hover:bg-base-200/50 ${isActive(item.url) ? 'bg-base-200/30' : ''}`}
+                    >
+                      <div
+                        class={`mt-0.5 rounded-xl p-2.5 transition-all duration-300 ${isActive(item.url) ? 'bg-primary text-primary-content shadow-lg shadow-primary/20' : 'bg-primary/10 text-primary group-hover/item:bg-primary group-hover/item:text-primary-content group-hover/item:shadow-lg group-hover/item:shadow-primary/20'}`}
+                      >
+                        <CmsIcon name={item.icon} className="h-5 w-5 shrink-0" />
+                      </div>
+                      <div>
+                        <div
+                          class={`font-bold transition-colors ${isActive(item.url) ? 'text-primary' : 'text-base-content group-hover/item:text-primary'}`}
+                        >
+                          <CmsRichText value={item.title} />
+                        </div>
+                        <div class="mt-0.5 text-sm leading-snug text-base-content/60">
+                          <CmsRichText value={item.desc} />
+                        </div>
+                      </div>
+                    </a>
+                  ))
+                }
+              </div>
+
+              <div class="my-4 w-[1px] bg-base-200/60"></div>
+
+              <div class="flex flex-1 flex-col gap-2 pt-8">
+                {
+                  industriesCol2.map((item) => (
+                    <a
+                      href={item.url}
+                      class={`group/item flex items-start gap-4 rounded-2xl p-3 transition-all duration-300 hover:bg-base-200/50 ${isActive(item.url) ? 'bg-base-200/30' : ''}`}
+                    >
+                      <div
+                        class={`mt-0.5 rounded-xl p-2.5 transition-all duration-300 ${isActive(item.url) ? 'bg-primary text-primary-content shadow-lg shadow-primary/20' : 'bg-primary/10 text-primary group-hover/item:bg-primary group-hover/item:text-primary-content group-hover/item:shadow-lg group-hover/item:shadow-primary/20'}`}
+                      >
+                        <CmsIcon name={item.icon} className="h-5 w-5 shrink-0" />
+                      </div>
+                      <div>
+                        <div
+                          class={`font-bold transition-colors ${isActive(item.url) ? 'text-primary' : 'text-base-content group-hover/item:text-primary'}`}
+                        >
+                          <CmsRichText value={item.title} />
+                        </div>
+                        <div class="mt-0.5 text-sm leading-snug text-base-content/60">
+                          <CmsRichText value={item.desc} />
+                        </div>
+                      </div>
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resources: Dropdown open state, focus/hover sync, Escape key to close, and screen-reader accessibility (aria-expanded) managed via Alpine.js -->
+        <div
+          class="group/nav flex h-full items-center"
+          @pointerenter="if ($event.pointerType !== 'touch') activeDropdown = 'resources'"
+          @pointerleave="if ($event.pointerType !== 'touch') activeDropdown = null"
+          @focusin="activeDropdown = 'resources'"
+          @focusout="if (!$el.contains($event.relatedTarget)) activeDropdown = null"
+        >
+          <button
+            type="button"
+            class={`flex items-center gap-1 py-3 transition-colors focus:outline-none ${isResourcesActive ? 'text-primary font-semibold' : 'text-base-content/80 group-hover/nav:text-[#FF4500] focus:text-[#FF4500]'}`}
+            aria-haspopup="true"
+            :aria-expanded="activeDropdown === 'resources'"
+            @click="toggle('resources')"
+          >
+            <CmsRichText value={navigation.resources.label} />
+            <ChevronDown
+              class="h-4 w-4 opacity-50 transition-transform duration-300"
+              :class={`activeDropdown === 'resources' ? '-rotate-180 ${isResourcesActive ? 'text-primary' : 'text-[#FF4500]'}' : ''`}
+            />
+          </button>
+
+          <div
+            class="absolute top-[85%] left-1/2 z-50 -translate-x-1/2 transform-gpu cursor-default pt-6 transition-all duration-300 invisible opacity-0 translate-y-2"
+            :class="{ 'visible opacity-100 translate-y-0': activeDropdown === 'resources', 'invisible opacity-0 translate-y-2': activeDropdown !== 'resources' }"
+          >
+            <div
+              class="flex w-[800px] gap-8 rounded-4xl border border-base-200 bg-base-100 p-6 shadow-2xl"
+            >
+              <div class="flex flex-1 flex-col gap-2">
+                <h3
+                  class="mb-2 px-3 text-xs font-bold tracking-widest text-base-content/50 uppercase"
+                >
+                  <CmsRichText value={navigation.resources.heading} />
+                </h3>
+                {
+                  resources.map((item) => (
+                    <a
+                      href={item.url}
+                      class={`group/item flex items-start gap-4 rounded-2xl p-3 transition-all duration-300 hover:bg-base-200/50 ${isActive(item.url) ? 'bg-base-200/30' : ''}`}
+                    >
+                      <div
+                        class={`mt-0.5 rounded-xl p-2.5 transition-all duration-300 ${isActive(item.url) ? 'bg-primary text-primary-content shadow-lg shadow-primary/20' : 'bg-primary/10 text-primary group-hover/item:bg-primary group-hover/item:text-primary-content group-hover/item:shadow-lg group-hover/item:shadow-primary/20'}`}
+                      >
+                        <CmsIcon name={item.icon} className="h-5 w-5 shrink-0" />
+                      </div>
+                      <div>
+                        <div
+                          class={`font-bold transition-colors ${isActive(item.url) ? 'text-primary' : 'text-base-content group-hover/item:text-primary'}`}
+                        >
+                          <CmsRichText value={item.title} />
+                        </div>
+                        <div class="mt-0.5 text-sm leading-snug text-base-content/60">
+                          <CmsRichText value={item.desc} />
+                        </div>
+                      </div>
+                    </a>
+                  ))
+                }
+              </div>
+              <div
+                class="group/card relative w-[300px] shrink-0 overflow-hidden rounded-3xl bg-base-200"
+              >
+                <Image
+                  src={resourcesImg}
+                  alt={navigation.resources.card.alt}
+                  class="h-full w-full object-cover transition-transform duration-700 group-hover/card:scale-110"
+                  width={300}
+                />
+                <div
+                  class="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent"
+                >
+                </div>
+                <div class="absolute right-0 bottom-0 left-0 p-6 text-left text-white">
+                  <CmsRichText value={navigation.resources.card.title} tag="h3" className="mb-2 text-xl font-bold" />
+                  <p class="mb-6 text-sm text-white/80">
+                    <CmsRichText value={navigation.resources.card.description} />
+                  </p>
+                  <a
+                    href={navigation.resources.card.ctaUrl}
+                    class="btn w-full rounded-lg border-none btn-sm btn-primary group-hover/card:shadow-[0_0_15px_rgba(var(--color-primary),0.5)]"
+                  >
+                    <CmsRichText value={navigation.resources.card.ctaLabel} /> <ArrowRight class="ml-1 h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a
+          href={navigation.primary.career.url}
+          class={`py-3 transition-colors ${isActive(navigation.primary.career.url) ? 'text-primary font-semibold' : 'text-base-content/80 hover:text-[#FF4500]'}`}
+        >
+          <CmsRichText value={navigation.primary.career.title} />
+        </a>
+      </nav>
+    </div>
+    <div class="navbar-end flex-1 gap-1 md:gap-2">
+      <!-- Theme Toggle (Desktop Only) -->
+      <div class="hidden lg:flex">
+        <AnimatedThemeToggler
+          client:load
+          className="btn btn-sm btn-circle btn-ghost"
+          duration={500}
+          aria-label="Toggle theme"
+        />
+      </div>
+
+      <!-- Contact Us (Desktop Only) -->
+      <a
+        href={navigation.primary.contact.url}
+        class="hidden lg:inline-flex btn btn-sm rounded-lg px-4 text-sm tracking-wide text-primary-content opacity-90 shadow-md btn-primary"
+        ><CmsRichText value={navigation.primary.contact.title} /></a
+      >
+
+      <!-- Hamburger Menu (Mobile Only) -->
+      <div class="dropdown dropdown-end lg:hidden">
+        <label tabindex="0" class="btn text-primary btn-ghost">
+          <MenuIcon class="h-5 w-5" />
+        </label>
+        <ul
+          tabindex="0"
+          class="dropdown-content menu z-1 mt-3 max-h-[85vh] w-[22rem] flex-nowrap overflow-y-auto rounded-box border border-base-200/50 bg-base-100 p-2 text-base font-medium text-base-content shadow-xl"
+        >
+          <li>
+            <a
+              href={navigation.primary.home.url}
+              class={`py-3 ${isActive(navigation.primary.home.url) ? 'font-semibold text-primary bg-base-200/60' : 'text-base-content/80'}`}
+            >
+              <CmsRichText value={navigation.primary.home.title} />
+            </a>
+          </li>
+
+          <li>
+            <details open={isSolutionsActive}>
+              <summary
+                class={`py-3 font-semibold ${isSolutionsActive ? 'text-primary' : ''}`}
+                ><CmsRichText value={navigation.solutions.label} /></summary
+              >
+              <ul class="before:bg-base-200/50">
+                {
+                  solutions.map((item) => (
+                    <li>
+                      <a
+                        href={item.url}
+                        class={`py-3 ${isActive(item.url) ? 'bg-base-200/60 font-medium text-primary' : ''}`}
+                      >
+                        <CmsIcon
+                          name={item.icon}
+                          className={`mr-2 h-4 w-4 shrink-0 ${isActive(item.url) ? 'text-primary' : 'text-base-content/60'}`}
+                        />
+                        <CmsRichText value={item.title} className="leading-tight" />
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </details>
+          </li>
+
+          <li>
+            <details open={isIndustriesActive}>
+              <summary
+                class={`py-3 font-semibold ${isIndustriesActive ? 'text-primary' : ''}`}
+                ><CmsRichText value={navigation.industries.label} /></summary
+              >
+              <ul class="before:bg-base-200/50">
+                {
+                  [...industriesCol1, ...industriesCol2].map((item) => (
+                    <li>
+                      <a
+                        href={item.url}
+                        class={`py-2.5 ${isActive(item.url) ? 'bg-base-200/60 font-medium text-primary' : ''}`}
+                      >
+                        <CmsIcon
+                          name={item.icon}
+                          className={`mr-2 h-4 w-4 shrink-0 ${isActive(item.url) ? 'text-primary' : 'text-base-content/60'}`}
+                        />
+                        <CmsRichText value={item.title} className="text-sm leading-tight" />
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </details>
+          </li>
+
+          <li>
+            <details open={isResourcesActive}>
+              <summary
+                class={`py-3 font-semibold ${isResourcesActive ? 'text-primary' : ''}`}
+                ><CmsRichText value={navigation.resources.label} /></summary
+              >
+              <ul class="before:bg-base-200/50">
+                {
+                  resources.map((item) => (
+                    <li>
+                      <a
+                        href={item.url}
+                        class={`py-3 ${isActive(item.url) ? 'bg-base-200/60 font-medium text-primary' : ''}`}
+                      >
+                        <CmsIcon
+                          name={item.icon}
+                          className={`mr-2 h-4 w-4 shrink-0 ${isActive(item.url) ? 'text-primary' : 'text-base-content/60'}`}
+                        />
+                        <CmsRichText value={item.title} className="leading-tight" />
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </details>
+          </li>
+
+          <li>
+            <a
+              href={navigation.primary.career.url}
+              class={`py-3 ${isActive(navigation.primary.career.url) ? 'font-semibold text-primary bg-base-200/60' : 'text-base-content/80'}`}
+            >
+              <CmsRichText value={navigation.primary.career.title} />
+            </a>
+          </li>
+
+          <!-- Last row: Contact Us & Theme Toggle in the same row -->
+          <li class="mt-4 border-t border-base-200/50 pt-4 px-2">
+            <div class="flex items-center justify-between gap-4 p-0 bg-transparent hover:bg-transparent! active:bg-transparent!">
+              <!-- Contact Us (Left) -->
+              <a
+                href={navigation.primary.contact.url}
+                class="btn rounded-lg px-4 text-base tracking-wide text-primary-content opacity-90 shadow-md btn-primary"
+              >
+                <CmsRichText value={navigation.primary.contact.title} />
+              </a>
+
+              <!-- Theme Toggle (Right) -->
+              <AnimatedThemeToggler
+                client:load
+                className="btn btn-circle btn-ghost border border-base-200/50"
+                duration={500}
+                aria-label="Toggle theme"
+              />
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initNavbar() {
+    function updateNavbar() {
+      const navbar = document.getElementById('navbar');
+      const logo = document.getElementById('navbar-logo');
+      const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+
+      // Normalize logo classes before adding specific variants
+      logo?.classList.remove('w-[120px]', 'w-[110px]', 'w-[90px]', 'w-[85px]');
+
+      if (window.scrollY > 20) {
+        // Normalize classes before adding specific variants
+        navbar?.classList.remove(
+          'max-w-7xl',
+          'max-w-5xl',
+          'bg-transparent',
+          'bg-base-100/80',
+          'bg-base-100/90',
+          'backdrop-blur-md',
+          'shadow-md',
+          'shadow-sm',
+          'rounded-[2rem]',
+          'rounded-none',
+          'py-0',
+          'min-h-[4rem]',
+          'min-h-[2.5rem]',
+        );
+
+        if (isDesktop) {
+          logo?.classList.add('w-[90px]');
+        } else {
+          logo?.classList.add('w-[85px]');
+        }
+        navbar?.classList.add('min-h-[2.5rem]');
+
+        if (isDesktop) {
+          // Non-mobile: Boxy navbar - more compact and no borders
+          navbar?.classList.add(
+            'max-w-5xl',
+            'bg-base-100/80',
+            'backdrop-blur-md',
+            'shadow-md',
+            'rounded-[2rem]',
+            'py-0',
+          );
+        } else {
+          // Mobile: full width, visible bg
+          navbar?.classList.add(
+            'max-w-7xl',
+            'bg-base-100/90',
+            'backdrop-blur-md',
+            'shadow-sm',
+            'rounded-none',
+          );
+        }
+      } else {
+        // Top of page: Seamless navbar
+        navbar?.classList.remove(
+          'max-w-5xl',
+          'bg-base-100',
+          'bg-base-100/80',
+          'bg-base-100/90',
+          'backdrop-blur-md',
+          'shadow-md',
+          'shadow-sm',
+          'rounded-[2rem]',
+          'py-0',
+          'min-h-[2.5rem]',
+        );
+        navbar?.classList.add(
+          'max-w-7xl',
+          'bg-transparent',
+          'rounded-none',
+          'min-h-[4rem]',
+        );
+        if (isDesktop) {
+          logo?.classList.add('w-[120px]');
+        } else {
+          logo?.classList.add('w-[110px]');
+        }
+      }
+    }
+
+    // Event listeners
+    window.addEventListener('scroll', updateNavbar);
+    window.addEventListener('resize', updateNavbar);
+
+    // Run once to set initial state
+    updateNavbar();
+
+    // Cleanup for View Transitions
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        window.removeEventListener('scroll', updateNavbar);
+        window.removeEventListener('resize', updateNavbar);
+      },
+      { once: true },
+    );
+  }
+
+  // Initialize on hard load
+  initNavbar();
+
+  // Re-initialize after a swap (if using Astro ViewTransitions)
+  document.addEventListener('astro:after-swap', initNavbar);
+</script>

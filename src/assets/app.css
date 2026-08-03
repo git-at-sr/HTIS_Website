@@ -1,0 +1,1159 @@
+@import 'tailwindcss';
+@import 'maplibre-gl/dist/maplibre-gl.css';
+@plugin 'daisyui';
+
+@plugin 'daisyui/theme' {
+  name: 'htis-theme';
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+  --color-base-100: oklch(100% 0.01 160);
+  --color-base-200: oklch(94% 0.02 160);
+  --color-base-300: oklch(89% 0.03 160);
+  --logo-filter: grayscale(100%);
+  --filter-invert-dark: none;
+  --bg-blend: multiply;
+  --color-base-content: oklch(0.4315 0.0489 167.98);
+  /* ##77988B  ##34594B */
+  --color-primary: oklch(0.5988 0.1585 150.66);
+  --color-primary-content: oklch(98% 0.01 160);
+  --color-secondary: oklch(47% 0.11 160);
+  --color-secondary-content: oklch(98% 0.01 160);
+  --color-accent: oklch(65% 0.25 160);
+  --color-accent-content: oklch(98% 0.01 160);
+  --color-neutral: oklch(25% 0.05 160);
+  --color-neutral-content: oklch(98% 0.01 160);
+  --color-info: oklch(70% 0.2 220);
+  --color-info-content: oklch(98% 0.01 220);
+  --color-success: oklch(65% 0.25 140);
+  --color-success-content: oklch(98% 0.01 140);
+  --color-warning: oklch(80% 0.25 80);
+  --color-warning-content: oklch(20% 0.05 80);
+  --color-error: oklch(65% 0.3 30);
+  --color-error-content: oklch(98% 0.01 30);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+
+  /* Custom challenge colors */
+  --challenge-accent: oklch(55% 0.18 60);
+  --challenge-bg: oklch(98% 0.015 60);
+  --challenge-border: oklch(93% 0.03 60);
+}
+
+@plugin 'daisyui/theme' {
+  name: 'htis-theme-dark';
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+  --color-base-100: oklch(28% 0.02 160);
+  --color-base-200: oklch(16% 0.02 160);
+  --color-base-300: oklch(12% 0.015 160);
+  --logo-filter: grayscale(100%) invert(100%) brightness(200%);
+  --filter-invert-dark: invert(100%) hue-rotate(180deg);
+  --bg-blend: screen;
+  --color-base-content: oklch(90% 0.03 160);
+  --color-primary: oklch(68% 0.18 160);
+  --color-primary-content: oklch(10% 0.02 160);
+  --color-secondary: oklch(76% 0.08 162);
+  --color-secondary-content: oklch(98% 0.01 160);
+  --color-accent: oklch(70% 0.28 160);
+  --color-accent-content: oklch(10% 0.02 160);
+  --color-neutral: oklch(30% 0.04 160);
+  --color-neutral-content: oklch(90% 0.02 160);
+  --color-info: oklch(70% 0.2 220);
+  --color-info-content: oklch(10% 0.02 220);
+  --color-success: oklch(65% 0.25 140);
+  --color-success-content: oklch(10% 0.02 140);
+  --color-warning: oklch(80% 0.25 80);
+  --color-warning-content: oklch(20% 0.05 80);
+  --color-error: oklch(65% 0.3 30);
+  --color-error-content: oklch(98% 0.01 30);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+
+  /* Custom challenge colors */
+  --challenge-accent: oklch(78% 0.15 75);
+  --challenge-bg: oklch(22% 0.02 75 / 0.4);
+  --challenge-border: oklch(35% 0.05 75 / 0.4);
+}
+
+@theme {
+  --font-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+  --color-challenge-accent: var(--challenge-accent);
+  --color-challenge-bg: var(--challenge-bg);
+  --color-challenge-border: var(--challenge-border);
+}
+
+@variant dark (&:where([data-theme="htis-theme-dark"], [data-theme="htis-theme-dark"] *));
+
+body {
+  font-family: var(--font-sans);
+}
+
+/* Scale the complete desktop presentation while leaving mobile and tablet unchanged. */
+@media (min-width: 1024px) {
+  html {
+    zoom: 0.9;
+  }
+}
+
+::view-transition-group(root) {
+  animation-duration: var(--magicui-theme-toggle-vt-duration, 0s);
+  animation-timing-function: cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+::view-transition-new(root),
+::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+[data-magicui-theme-vt='active']::view-transition-old(root) {
+  z-index: 1;
+}
+
+[data-magicui-theme-vt='active']::view-transition-new(root) {
+  z-index: 9999;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * GLOBAL COMPONENT STYLES — Hybrid approach
+ *
+ * Astro's ClientRouter (View Transitions) performs soft DOM swaps when
+ * navigating between pages. Svelte scoped <style> tags injected into
+ * <head> are stripped during the swap and may not be re-injected on
+ * back/forward navigation (especially with `client:visible` lazy
+ * hydration). This causes components to render without their styles.
+ *
+ * STRATEGY:
+ *  1. Simple utilities → @utility directives (Tailwind-native, tree-shaken)
+ *  2. Complex component styles (compound selectors, 3D, pseudo-elements)
+ *     → plain global CSS in this file
+ *
+ * See agents.md "Styling in Svelte Components" for the full guideline.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ──────────────────────────────────────
+ * TAILWIND UTILITIES (@utility)
+ *
+ * These are registered as first-class Tailwind utilities.
+ * They can be used in class="" like any built-in Tailwind class,
+ * and are tree-shaken if unused.
+ * ────────────────────────────────────── */
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Custom progress animation. Named htis-progress to avoid collision
+   with DaisyUI's built-in `@keyframes progress` animation. */
+@keyframes htis-progress {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@utility animate-progress {
+  animation: htis-progress var(--duration, 6s) linear forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+@keyframes fillBg {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@utility animate-fill-bg {
+  animation: fillBg var(--duration, 7s) linear forwards;
+}
+
+@utility vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+}
+
+@utility carousel-card {
+  transition:
+    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Template6ScrollCard uses sticky scroll-driven transforms from Svelte.
+   Global CSS keeps the transform behavior intact across Astro view transitions. */
+@utility t6-scroll-track {
+  transition: transform 80ms linear;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ResourcingWorkforce mobile — 2-row horizontally scrollable badge grid */
+@utility rw-mobile-badges {
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  overflow-x: auto;
+  gap: 0.5rem;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes whatsappPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@utility animate-whatsapp-pulse {
+  animation: whatsappPulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes marqueeVertical {
+  0% {
+    transform: translateY(0%);
+  }
+
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@utility animate-marquee-vertical-slow {
+  animation: marqueeVertical 40s linear infinite;
+}
+
+@utility animate-marquee-vertical-fast {
+  animation: marqueeVertical 25s linear infinite;
+}
+
+@utility filter-invert-dark {
+  filter: var(--filter-invert-dark);
+}
+
+/* ──────────────────────────────────────
+ * GLOBAL FIXES & PSEUDO-ELEMENT STYLES
+ *
+ * These use element selectors, pseudo-elements, or
+ * !important and CANNOT be expressed as @utility.
+ * ────────────────────────────────────── */
+
+/* Fix daisyUI details dropdown marker on Safari/Chrome */
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+/* CMS Markdown body
+   Markdown files generate plain HTML, so these scoped global selectors
+   provide consistent typography without relying on component-scoped styles. */
+.cms-markdown {
+  color: color-mix(in oklch, var(--color-base-content) 82%, transparent);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.cms-markdown > * + * {
+  margin-top: 1.25rem;
+}
+
+.cms-markdown h2,
+.cms-markdown h3 {
+  color: var(--color-base-content);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.cms-markdown h2 {
+  margin-top: 2.25rem;
+  font-size: clamp(1.875rem, 1.75rem + 0.5vw, 2.25rem);
+}
+
+.cms-markdown h3 {
+  margin-top: 1.75rem;
+  font-size: 1.375rem;
+}
+
+.cms-markdown a {
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: color 150ms ease;
+}
+
+.cms-markdown a:hover {
+  color: var(--color-secondary);
+}
+
+.cms-markdown strong {
+  color: var(--color-base-content);
+  font-weight: 800;
+}
+
+.cms-markdown ul,
+.cms-markdown ol {
+  padding-left: 1.25rem;
+}
+
+.cms-markdown ul {
+  list-style: disc;
+}
+
+.cms-markdown ol {
+  list-style: decimal;
+}
+
+.cms-markdown li + li {
+  margin-top: 0.5rem;
+}
+
+.cms-markdown img {
+  display: block;
+  width: 100%;
+  max-height: 30rem;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  box-shadow: 0 1.25rem 3rem
+    color-mix(in oklch, var(--color-base-content) 12%, transparent);
+}
+
+.cms-markdown blockquote {
+  border-left: 4px solid var(--color-primary);
+  padding-left: 1rem;
+  color: color-mix(in oklch, var(--color-base-content) 70%, transparent);
+  font-weight: 600;
+}
+
+/* Ensure proper width for labels inside dropdown menus */
+.dropdown-content li {
+  width: 100%;
+}
+
+/* Show tooltip on group hover (CaseStudyList) */
+.group:hover .tooltip::before,
+.group:hover .tooltip::after {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Stretch the role anchor to cover the entire table row (JobListing) */
+.row-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Slide animations — applied via JS `el.style.animation` (AwardsGallery) */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ──────────────────────────────────────
+ * TEAM ACCORDION (Visionary Core)
+ *
+ * Compound state selectors (.active, :not(.active))
+ * that control flex ratios, filters, and opacity
+ * across parent ↔ child relationships.
+ * ────────────────────────────────────── */
+
+.team-member-card {
+  flex: 1 1 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: none;
+}
+
+.team-member-card.active {
+  flex: 6 1 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: none;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.team-member-card:not(.active) .card-content {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.team-member-card:not(.active) .team-img {
+  filter: grayscale(100%) contrast(1.1) brightness(0.9);
+  transform: scale(1.1) translateY(2%);
+  opacity: 0.8;
+}
+
+.team-member-card.active .card-content {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.team-member-card.active .team-img {
+  filter: grayscale(0%) contrast(1) brightness(1);
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.team-member-card:focus-visible {
+  outline: 2px solid var(--color-primary, #2a6b56);
+  outline-offset: 2px;
+}
+
+.team-member-card:not(.active):hover .inactive-icon {
+  transform: scale(1.1);
+}
+
+.team-member-card:not(.active) .inactive-icon {
+  transition: transform 0.4s ease;
+}
+
+/* Job detail API Markdown
+   The content is generated HTML, so descendant typography cannot be expressed
+   as utility classes directly on the generated elements. */
+.job-markdown {
+  font-size: 1.125rem;
+}
+
+.job-markdown h1,
+.job-markdown h4,
+.job-markdown h5,
+.job-markdown h6 {
+  color: var(--color-base-content);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.job-markdown h1 {
+  margin-top: 2.25rem;
+  font-size: clamp(2rem, 1.8rem + 0.75vw, 2.5rem);
+}
+
+.job-markdown h4 {
+  margin-top: 1.5rem;
+  font-size: 1.125rem;
+}
+
+.job-markdown code {
+  border-radius: 0.25rem;
+  background: var(--color-base-300);
+  padding: 0.125rem 0.375rem;
+  font-size: 0.9em;
+}
+
+.job-markdown pre {
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  background: var(--color-base-300);
+  padding: 1rem;
+}
+
+.job-markdown pre code {
+  background: transparent;
+  padding: 0;
+}
+
+.job-markdown table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.job-markdown th,
+.job-markdown td {
+  border: 1px solid var(--color-base-300);
+  padding: 0.75rem;
+  text-align: left;
+}
+
+/* Team desktop layout fallback: keeps leadership cards at a playing-card
+   proportion while the permanently open CTA fills the remaining row width. */
+@media (min-width: 768px) {
+  .team-gallery > .team-member-card:not(.team-cta-card) {
+    flex: 0 1 8rem;
+    min-width: 2rem;
+  }
+
+  .team-gallery > .team-member-card.active:not(.team-cta-card) {
+    width: calc(32rem * 5 / 7);
+    max-width: calc(32rem * 5 / 7);
+    flex: 0 0 calc(32rem * 5 / 7);
+    aspect-ratio: 5 / 7;
+  }
+
+  .team-gallery > .team-member-card.active:not(.team-cta-card) .team-img {
+    transform: scale(1.1) translateY(2%);
+  }
+
+  .team-gallery > .team-cta-card,
+  .team-gallery > .team-cta-card.active {
+    max-width: none;
+    /* Basis + min-width give the CTA a floor: on narrower desktops (where the
+       container width is locked and there is no positive free space to grow
+       into) it can no longer be shrunk to ~0 by the flex algorithm. It still
+       grows to fill leftover width on wide screens. */
+    flex: 1 1 10rem;
+    min-width: 10rem;
+    border: 1px solid color-mix(in oklch, var(--color-primary) 30%, transparent);
+    border-top: none;
+    background: color-mix(in oklch, var(--color-primary) 10%, transparent);
+    backdrop-filter: blur(4px);
+  }
+
+  /* The shared .card-content is pinned to a fixed md width (320px) for the
+     leadership cards; on the CTA card that fixed width is what gets clipped
+     when the column is narrow. Let it track the card width instead. */
+  .team-gallery > .team-cta-card .card-content {
+    width: 100%;
+    padding: 1.25rem;
+  }
+
+  .team-member-card.team-cta-card:not(.active) .card-content {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .team-member-card.team-cta-card:not(.active) > div:first-child {
+    opacity: 0.6;
+  }
+
+  .team-cta-card .inactive-icon,
+  .team-cta-card > div:last-child {
+    display: none;
+  }
+}
+
+/* Mobile: push active card image up so description flows below it,
+   not over it. On md+ the overlay design is used instead. */
+@media (max-width: 767px) {
+  .team-member-card.active .team-img-wrap {
+    bottom: 4.5rem;
+    height: 58%;
+  }
+
+  .team-member-card.active .team-desc {
+    border-top: 1px solid oklch(0.6 0.16 150 / 0.15);
+  }
+}
+
+/* ──────────────────────────────────────
+ * JOURNEY 3D FILM STRIP CAROUSEL
+ *
+ * 3D perspective, transform-style: preserve-3d,
+ * rotateY() with CSS custom properties, and
+ * complex gradient-based film perforations.
+ * ────────────────────────────────────── */
+
+.carousel-container {
+  --w: 260px;
+  --r: calc(var(--w) * var(--r-mult));
+  height: 280px;
+  perspective: 800px;
+  perspective-origin: 50% -15%;
+}
+
+@media (min-width: 768px) {
+  .carousel-container {
+    --w: 320px;
+    height: 320px;
+    perspective: 1000px;
+    perspective-origin: 50% -35%;
+  }
+}
+
+.carousel-scene {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.25, 1, 0.4, 1);
+}
+
+.glow-effect {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 90%;
+  max-width: 800px;
+  height: 100px;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(32, 178, 112, 0.35) 0%,
+    rgba(32, 178, 112, 0.1) 40%,
+    transparent 70%
+  );
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.film-frame {
+  width: var(--w);
+  height: calc(var(--w) * 0.65);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: calc(var(--w) / -2);
+  margin-top: calc(var(--w) * -0.325);
+  transform: rotateY(calc(var(--index) * var(--theta))) translateZ(var(--r));
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  transition: opacity 0.8s ease;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.film-border {
+  height: 24px;
+  width: 100%;
+  background-color: transparent;
+  background-image:
+    linear-gradient(to bottom, #111 7px, transparent 7px, transparent 17px, #111 17px),
+    repeating-linear-gradient(
+      to right,
+      #111 0px,
+      #111 12px,
+      transparent 12px,
+      transparent 18px
+    );
+}
+
+@media (min-width: 768px) {
+  .film-border {
+    height: 32px;
+    background-image:
+      linear-gradient(to bottom, #111 9px, transparent 9px, transparent 23px, #111 23px),
+      repeating-linear-gradient(
+        to right,
+        #111 0px,
+        #111 16px,
+        transparent 16px,
+        transparent 24px
+      );
+  }
+}
+
+.film-content {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+  border-left: 2px solid #111;
+  border-right: 2px solid #111;
+  box-sizing: border-box;
+}
+
+.film-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(1.1) brightness(0.7);
+  transition:
+    filter 1s ease,
+    transform 1s ease;
+  transform: scale(1.02);
+}
+
+.film-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3),
+    transparent,
+    rgba(0, 0, 0, 0.3)
+  );
+  pointer-events: none;
+  transition: opacity 1s ease;
+  opacity: 1;
+}
+
+.film-frame.active .film-image {
+  filter: grayscale(0%) contrast(1) brightness(1);
+}
+
+.film-frame.active .film-overlay {
+  opacity: 0;
+}
+
+.film-frame.active {
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+}
+
+.film-frame:not(.active):hover .film-image {
+  filter: grayscale(50%) contrast(1.1) brightness(0.9);
+}
+
+/* ──────────────────────────────────────
+ * SERVICES GRID (Homepage)
+ *
+ * CSS custom properties for positioning
+ * with !important overrides at md breakpoint.
+ * ────────────────────────────────────── */
+
+.grid-block {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  .grid-block {
+    position: absolute !important;
+    top: var(--md-top);
+    left: var(--md-left);
+    width: var(--md-w);
+    height: var(--md-h);
+    z-index: var(--md-z, 10);
+  }
+
+  button.grid-block:hover {
+    z-index: 40 !important;
+  }
+}
+
+/* ──────────────────────────────────────
+ * SOFTWARE CASE STUDIES SCROLL CONTAINER
+ *
+ * Responsive scroll-padding with calc()
+ * across 4 breakpoints to center-align
+ * a full-bleed horizontal scroll.
+ * ────────────────────────────────────── */
+
+.case-studies-scroll-container {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  scroll-padding-left: 1.5rem;
+  scroll-padding-right: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .case-studies-scroll-container {
+    padding-left: calc((100vw - 768px) / 2 + 1.5rem);
+    padding-right: calc((100vw - 768px) / 2 + 1.5rem);
+    scroll-padding-left: calc((100vw - 768px) / 2 + 1.5rem);
+    scroll-padding-right: calc((100vw - 768px) / 2 + 1.5rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .case-studies-scroll-container {
+    padding-left: calc((100vw - 1024px) / 2 + 1.5rem);
+    padding-right: calc((100vw - 1024px) / 2 + 1.5rem);
+    scroll-padding-left: calc((100vw - 1024px) / 2 + 1.5rem);
+    scroll-padding-right: calc((100vw - 1024px) / 2 + 1.5rem);
+  }
+}
+
+@media (min-width: 1280px) {
+  .case-studies-scroll-container {
+    padding-left: calc((100vw - 1280px) / 2 + 1.5rem);
+    padding-right: calc((100vw - 1280px) / 2 + 1.5rem);
+    scroll-padding-left: calc((100vw - 1280px) / 2 + 1.5rem);
+    scroll-padding-right: calc((100vw - 1280px) / 2 + 1.5rem);
+  }
+}
+
+@media (min-width: 1536px) {
+  .case-studies-scroll-container {
+    padding-left: calc((100vw - 1536px) / 2 + 1.5rem);
+    padding-right: calc((100vw - 1536px) / 2 + 1.5rem);
+    scroll-padding-left: calc((100vw - 1536px) / 2 + 1.5rem);
+    scroll-padding-right: calc((100vw - 1536px) / 2 + 1.5rem);
+  }
+}
+
+/* ──────────────────────────────────────
+ * GLOBE MARKERS
+ *
+ * Multi-class state hierarchy with custom
+ * oklch colors, backdrop-filter, and state
+ * transitions (.expanded .marker-dot, etc.).
+ * ────────────────────────────────────── */
+
+.globe-marker {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.marker-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: oklch(0.45 0.03 264.542);
+  margin-top: 2px;
+  flex-shrink: 0;
+  box-shadow: 0 0 4px oklch(0.45 0.03 264.542 / 0.4);
+  transition: all 0.25s ease;
+  pointer-events: auto;
+}
+
+.expanded .marker-dot {
+  background: oklch(0.588 0.158 241.966);
+  box-shadow: 0 0 8px oklch(0.588 0.158 241.966 / 0.5);
+}
+
+.marker-badge {
+  display: flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: oklch(0.45 0.03 264.542 / 0.85);
+  backdrop-filter: blur(6px);
+  box-shadow:
+    0 2px 6px oklch(0 0 0 / 0.12),
+    0 0 0 1px oklch(0 0 0 / 0.05);
+  transition: all 0.25s ease;
+  pointer-events: auto;
+}
+
+.expanded .marker-badge {
+  background: oklch(0.588 0.158 241.966 / 0.92);
+  border-radius: 4px 4px 0 0;
+}
+
+.marker-name {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: white;
+  line-height: 1;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+.marker-detail {
+  display: block;
+  padding: 4px 8px 5px;
+  border-radius: 0 0 4px 4px;
+  background: oklch(0.588 0.158 241.966 / 0.82);
+  backdrop-filter: blur(6px);
+  font-size: 9px;
+  font-weight: 500;
+  color: oklch(0.95 0.01 264.542);
+  line-height: 1.3;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+  box-shadow: 0 3px 8px oklch(0 0 0 / 0.1);
+  animation: label-expand 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes label-expand {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scaleY(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+/* ──────────────────────────────────────
+ * ARTICLES SECTION SCROLLBAR
+ *
+ * Custom scrollbar styling for the Articles horizontal scroll container.
+ * Uses CSS color-mix and design system variables to match the theme.
+ * ────────────────────────────────────── */
+.articles-scroll-container,
+.resourcing-case-studies-scroll-container {
+  scrollbar-width: auto;
+  scrollbar-color: color-mix(in oklch, var(--color-primary) 40%, transparent)
+    color-mix(in oklch, var(--color-base-content) 10%, transparent);
+}
+
+.articles-scroll-container::-webkit-scrollbar,
+.resourcing-case-studies-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.articles-scroll-container::-webkit-scrollbar-track,
+.resourcing-case-studies-scroll-container::-webkit-scrollbar-track {
+  background: color-mix(in oklch, var(--color-base-content) 8%, transparent);
+  border-radius: 9999px;
+}
+
+.articles-scroll-container::-webkit-scrollbar-thumb,
+.resourcing-case-studies-scroll-container::-webkit-scrollbar-thumb {
+  background: color-mix(in oklch, var(--color-primary) 35%, transparent);
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+.articles-scroll-container::-webkit-scrollbar-thumb:hover,
+.resourcing-case-studies-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Hide native scrollbar on mobile screens, using the custom progress bar instead */
+@media (max-width: 768px) {
+  .articles-scroll-container,
+  .resourcing-case-studies-scroll-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .articles-scroll-container::-webkit-scrollbar,
+  .resourcing-case-studies-scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ========================================================================== 
+   Our Presence Map & MapLibre Custom Styles
+   ========================================================================== */
+.maplibregl-map {
+  background: var(--color-base-200);
+  font-family: var(--font-sans);
+}
+
+html[data-theme='htis-theme'] .maplibregl-canvas-container.maplibregl-interactive,
+html[data-theme='htis-theme'] .maplibregl-canvas-container.maplibregl-interactive .maplibregl-canvas {
+  cursor: move;
+}
+
+html[data-theme='htis-theme'] .maplibregl-canvas-container.maplibregl-interactive:active,
+html[data-theme='htis-theme'] .maplibregl-canvas-container.maplibregl-interactive:active .maplibregl-canvas {
+  cursor: grabbing;
+}
+
+.maplibregl-popup-content {
+  box-sizing: border-box;
+  width: min(20rem, calc(100vw - 3rem));
+  max-width: 20rem;
+  padding: 1rem 1.25rem;
+  color: var(--color-base-content);
+  background: var(--color-base-100);
+  border: 1px solid color-mix(in oklch, var(--color-primary) 20%, transparent);
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.maplibregl-popup-tip {
+  display: none;
+}
+
+.presence-popup-content {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.presence-popup-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: var(--color-primary);
+  font-weight: 800;
+}
+
+.presence-popup-badge {
+  padding: 0.125rem 0.5rem;
+  color: var(--color-primary-content);
+  font-size: 0.625rem;
+  background: var(--color-primary);
+  border-radius: 0.375rem;
+}
+
+.presence-map-marker {
+  /* MapLibre positions marker elements with projected absolute transforms. */
+  position: absolute;
+  width: 1.125rem;
+  height: 1.125rem;
+  cursor: pointer;
+  background: var(--color-presence-office);
+  border: 2px solid var(--color-base-100);
+  border-radius: 9999px;
+  box-shadow: 0 1px 5px rgb(0 0 0 / 28%);
+}
+
+.presence-map-marker::before {
+  position: absolute;
+  inset: -0.5rem;
+  content: '';
+  background: color-mix(in oklch, var(--color-presence-office) 32%, transparent);
+  border-radius: inherit;
+  animation: presence-marker-pulse 1.8s ease-out infinite;
+}
+
+.presence-map-marker-hq {
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  filter: drop-shadow(0 2px 3px rgb(0 0 0 / 35%));
+}
+
+.presence-map-marker-hq svg {
+  width: 100%;
+  height: 100%;
+}
+
+.presence-map-marker-hq::before {
+  content: none;
+}
+
+@keyframes presence-marker-pulse {
+  from {
+    opacity: 0.8;
+    transform: scale(0.45);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+html[data-theme='htis-theme'] {
+  --color-presence-hq: #ff4500; /* OrangeRed */
+  --color-presence-office: #ff4500; /* OrangeRed */
+}
+
+html[data-theme='htis-theme-dark'] {
+  --color-presence-hq: #ff4500; /* OrangeRed */
+  --color-presence-office: #ff4500; /* OrangeRed */
+}
+
+.presence-marker-hq {
+  background-color: var(--color-presence-hq) !important;
+}
+.presence-marker-hq-pulse {
+  background-color: var(--color-presence-hq) !important;
+  opacity: 0.4;
+}
+
+.presence-marker-office {
+  background-color: var(--color-presence-office) !important;
+}
+.presence-marker-office-pulse {
+  background-color: var(--color-presence-office) !important;
+  opacity: 0.4;
+}

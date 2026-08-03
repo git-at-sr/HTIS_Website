@@ -1,0 +1,9 @@
+hero:
+  sectionID: industries-hero
+  title: Industries we Empower
+  heroImage: src/assets/industry-hero-img.png
+  heroBackground: src/assets/industry-hero-bg.png
+  description: We deliver tailored solutions across a wide range of industries,
+    helping businesses innovate, optimize, and grow in a rapidly changing world.
+  ctaBtn: Contact Us
+  ctaUrl: "#contact"

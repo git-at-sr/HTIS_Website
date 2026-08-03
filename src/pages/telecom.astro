@@ -1,0 +1,126 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '~/layouts/Layout.astro';
+import Navbar from '~/components/Navbar.astro';
+import Footer from '~/components/Footer.astro';
+import Contact from '~/components/Contact.astro';
+import CmsRichText from '~/components/CmsRichText.astro';
+import TelecomCapabilities from '~/components/telecom/TelecomCapabilities.svelte';
+import TelecomExtraSections from '~/components/telecom/TelecomExtraSections.astro';
+
+import { telecom } from '~/data/cms';
+import { optimizeImageSrc } from '~/utils/optimizeImage';
+
+const telecomCapabilities = await Promise.all(
+  telecom.capabilities.items.map(async (capability) => ({
+    ...capability,
+    image: await optimizeImageSrc(capability.image),
+  })),
+);
+---
+
+<Layout title={telecom.title}>
+  <div class="relative w-full overflow-clip">
+    <Navbar />
+
+    <!-- Hero Section -->
+    <section
+      id={telecom.hero.sectionId}
+      class="relative flex min-h-[70vh] items-center pt-24 pb-12"
+    >
+      <!-- Background Image -->
+      <div class="absolute inset-0 z-0">
+        <Image
+          src={telecom.hero.backgroundImage}
+          alt=""
+          aria-hidden="true"
+          class="h-full w-full object-cover object-right lg:object-center"
+          style="filter: var(--filter-invert-dark)"
+        />
+        <!-- Gradients to ensure text readability -->
+        <div class="absolute inset-0 bg-base-100/40 lg:bg-transparent"></div>
+        <div
+          class="absolute inset-0 bg-linear-to-r from-base-100/95 via-base-100/80 to-transparent lg:w-2/3"
+        >
+        </div>
+        <div
+          class="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-base-100"
+        >
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="relative z-10 container mx-auto w-full px-6">
+        <div
+          class="mx-auto flex max-w-2xl flex-col items-center text-center md:mx-0 md:items-start md:text-left"
+        >
+          <CmsRichText
+            value={telecom.hero.title}
+            tag="h1"
+            className="mb-6 text-4xl leading-tight font-bold text-base-content md:text-5xl lg:text-6xl"
+          />
+          <CmsRichText
+            value={telecom.hero.subtitle}
+            tag="p"
+            className="mb-10 text-lg text-base-content/80 md:text-xl"
+          />
+          <a
+            href={telecom.hero.ctaUrl}
+            class="btn rounded-lg px-12 text-xl text-primary-content shadow-lg shadow-primary/20 btn-lg btn-primary"
+          >
+            <CmsRichText value={telecom.hero.ctaLabel} />
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Capabilities Section -->
+    <section
+      id={telecom.capabilities.sectionId}
+      class="relative overflow-hidden bg-base-100 py-24"
+    >
+      <!-- Background Image -->
+      <div
+        class="pointer-events-none absolute inset-0 z-0 opacity-40 mix-blend-luminosity dark:mix-blend-overlay"
+      >
+        <Image
+          src={telecom.capabilities.backgroundImage}
+          alt=""
+          aria-hidden="true"
+          class="h-full w-full object-cover object-center"
+          style="filter: var(--filter-invert-dark)"
+        />
+        <div
+          class="absolute inset-0 bg-linear-to-b from-base-100/80 via-transparent to-base-100"
+        >
+        </div>
+      </div>
+
+      <div class="relative z-10 container mx-auto px-6">
+        <div class="mx-auto mb-10 max-w-3xl text-center lg:mb-5">
+          <CmsRichText
+            value={telecom.capabilities.heading}
+            tag="h2"
+            className="mb-6 text-4xl font-bold text-base-content md:text-5xl"
+          />
+          <CmsRichText
+            value={telecom.capabilities.description}
+            tag="p"
+            className="text-lg text-base-content/70"
+          />
+        </div>
+
+        <TelecomCapabilities capabilities={telecomCapabilities} client:visible />
+      </div>
+    </section>
+
+    <TelecomExtraSections />
+
+    <div class="bg-base-200/50">
+      <div class="pt-0">
+        <Contact />
+        <Footer overlap={true} />
+      </div>
+    </div>
+  </div>
+</Layout>

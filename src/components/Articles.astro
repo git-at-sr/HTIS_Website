@@ -1,0 +1,175 @@
+---
+import ArrowRightIcon from './icons/ArrowRightIcon.astro';
+import type { ArticlePost } from '~/data/cms';
+import CmsRichText from './CmsRichText.astro';
+
+interface Props {
+  sectionId?: string;
+  eyebrow: string;
+  heading: string;
+  ctaLabel: string;
+  ctaUrl: string;
+  posts: ArticlePost[];
+}
+
+const { sectionId, eyebrow, heading, ctaLabel, ctaUrl, posts } = Astro.props;
+---
+
+<section class="relative mx-auto max-w-6xl px-4 py-12 md:py-20" id={sectionId}>
+  <div
+    class="border-t border-b border-base-content/20 py-16"
+    x-data="{
+      scrollProgress: 0,
+      hasScrollable: false,
+      updateScrollState() {
+        const container = this.$refs.scrollContainer;
+        if (!container) return;
+        const { scrollLeft, scrollWidth, clientWidth } = container;
+        const maxScroll = scrollWidth - clientWidth;
+        this.hasScrollable = maxScroll > 0;
+        this.scrollProgress = maxScroll > 0 ? scrollLeft / maxScroll : 0;
+      }
+    }"
+    x-init="
+      updateScrollState();
+      const resizeObserver = new ResizeObserver(() => updateScrollState());
+      resizeObserver.observe($refs.scrollContainer);
+    "
+    @resize.window="updateScrollState()"
+  >
+    <!-- Section header -->
+    <div
+      class="mb-4 flex flex-col gap-2 md:mb-12 md:flex-row md:items-end md:justify-between"
+    >
+      <div>
+        <p class="mb-1 text-sm font-semibold tracking-widest text-primary uppercase">
+          <CmsRichText value={eyebrow} />
+        </p>
+        <h2 class="text-2xl font-semibold text-base-content md:text-3xl">
+          <CmsRichText value={heading} />
+        </h2>
+      </div>
+      <a
+        href={ctaUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center text-sm font-medium text-primary decoration-2 hover:underline"
+      >
+        <CmsRichText value={ctaLabel} />
+        <ArrowRightIcon class="ml-1 h-4 w-4" />
+      </a>
+    </div>
+
+    <!-- LinkedIn embeds -->
+    <div
+      x-ref="scrollContainer"
+      @scroll.passive="updateScrollState()"
+      class="articles-scroll-container flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-2 md:pb-6"
+    >
+      {
+        posts.map((post, i) => (
+          <div
+            class="li-embed-wrapper relative w-[85vw] shrink-0 snap-start overflow-hidden rounded-xl sm:w-[380px] md:w-[400px]"
+            style={`min-height:${post.height}px;`}
+          >
+            {/* Fallback card - shown by default, hidden via JS once iframe loads */}
+            <a
+              href={post.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="li-fallback absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-xl border border-base-content/10 bg-base-100 p-8 text-center transition hover:shadow-md"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                class="h-10 w-10 text-[#0A66C2]"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+              </svg>
+              <p class="text-sm leading-snug font-medium text-base-content/70">
+                <CmsRichText value={post.fallbackTitle} />
+              </p>
+              <span class="flex items-center gap-1 text-xs font-semibold text-primary">
+                View on LinkedIn
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-3.5 w-3.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M7 17L17 7M7 7h10v10" />
+                </svg>
+              </span>
+            </a>
+
+            {/* The actual iframe */}
+            <iframe
+              src={post.src}
+              height={post.height}
+              width={post.width}
+              loading="lazy"
+              sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms"
+              referrerpolicy="no-referrer"
+              allowfullscreen
+              title={post.title}
+              data-index={i}
+              class="li-iframe pointer-events-none relative z-10 opacity-0 transition-opacity duration-300"
+              style={`width:100%;height:${post.height}px;border:none;`}
+            />
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Custom Scroll Progress Bar -->
+    <div x-show="hasScrollable" class="mt-2 flex justify-center md:hidden">
+      <div class="relative h-1 w-48 overflow-hidden rounded-full bg-base-content/20">
+        <div
+          class="absolute top-0 bottom-0 rounded-full bg-primary transition-all duration-75"
+          :style="`width: 30%; left: ${scrollProgress * (100 - 30)}%`"
+        >
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupLinkedInEmbeds() {
+    document.querySelectorAll<HTMLIFrameElement>('.li-iframe').forEach((iframe) => {
+      if (iframe.dataset.initialized) return;
+      iframe.dataset.initialized = 'true';
+      iframe.addEventListener(
+        'load',
+        () => {
+          // If the iframe loaded a same-origin empty document (about:blank),
+          // it was blocked by a privacy extension - keep the fallback visible.
+          try {
+            if (iframe.contentDocument && !iframe.contentDocument.body?.childElementCount)
+              return;
+          } catch {
+            // SecurityError = cross-origin = real LinkedIn content loaded
+          }
+
+          const wrapper = iframe.closest('.li-embed-wrapper');
+          const fallback = wrapper?.querySelector<HTMLElement>('.li-fallback');
+          if (fallback) fallback.style.display = 'none';
+          iframe.classList.remove('opacity-0', 'pointer-events-none');
+          iframe.classList.add('opacity-100');
+        },
+        { once: true },
+      );
+    });
+  }
+
+  // Run immediately so listeners attach before privacy extensions can intervene.
+  setupLinkedInEmbeds();
+  // Re-run after view-transition navigations for newly swapped-in iframes.
+  document.addEventListener('astro:page-load', setupLinkedInEmbeds);
+</script>
