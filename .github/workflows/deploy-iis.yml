@@ -11,13 +11,28 @@ jobs:
     defaults:
       run:
         shell: powershell
+    env:
+      # Avoid git "dubious ownership" when runner service account changes
+      GIT_CONFIG_COUNT: 1
+      GIT_CONFIG_KEY_0: safe.directory
+      GIT_CONFIG_VALUE_0: "*"
 
     steps:
+      - name: Fix work folder ownership
+        run: |
+          git config --system --add safe.directory "*"
+
+          $workRepo = "C:\Users\Administrator\_work\HTIS_Website"
+          if (Test-Path $workRepo) {
+            Write-Host "Removing old work folder owned by previous service account..."
+            Remove-Item -LiteralPath $workRepo -Recurse -Force -ErrorAction SilentlyContinue
+          }
+
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "24"
           cache: npm
