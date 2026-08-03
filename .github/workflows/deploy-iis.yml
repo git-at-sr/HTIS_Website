@@ -31,12 +31,44 @@ jobs:
       - name: Deploy to IIS
         run: |
           $dest = "C:\inetpub\wwwroot\HTISWebsite"
+          $siteName = "HTISWebsite"
 
           if (-not (Test-Path $dest)) {
             New-Item -ItemType Directory -Path $dest -Force | Out-Null
           }
 
-          Get-ChildItem $dest -Force | Remove-Item -Recurse -Force
-          Copy-Item -Path "dist\*" -Destination $dest -Recurse -Force
+          Import-Module WebAdministration -ErrorAction SilentlyContinue
+          $appPool = $null
+          if (Get-Command Get-Website -ErrorAction SilentlyContinue) {
+            $site = Get-Website -Name $siteName -ErrorAction SilentlyContinue
+            if ($site) {
+              $appPool = $site.applicationPool
+              Write-Host "Stopping app pool: $appPool"
+              if ((Get-WebAppPoolState -Name $appPool).Value -ne "Stopped") {
+                Stop-WebAppPool -Name $appPool
+                $timeout = (Get-Date).AddSeconds(30)
+                do {
+                  Start-Sleep -Seconds 1
+                  $state = (Get-WebAppPoolState -Name $appPool).Value
+                } while ($state -ne "Stopped" -and (Get-Date) -lt $timeout)
+              }
+            } else {
+              Write-Host "IIS site '$siteName' not found; deploying without stopping an app pool."
+            }
+          }
+
+          # Mirror build output into the IIS folder (more reliable than Remove-Item while IIS holds files)
+          $robocopy = robocopy "dist" $dest /MIR /R:5 /W:2 /NFL /NDL /NJH /NJS /NP
+          $code = $LASTEXITCODE
+          Write-Host "robocopy exit code: $code"
+          # robocopy: 0-7 = success/partial success; 8+ = failure
+          if ($code -ge 8) {
+            throw "robocopy failed with exit code $code"
+          }
+
+          if ($appPool) {
+            Write-Host "Starting app pool: $appPool"
+            Start-WebAppPool -Name $appPool
+          }
 
           Write-Host "Deployed to $dest"
