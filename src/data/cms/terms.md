@@ -9,7 +9,7 @@ pageHeader:
     url: /
 ---
 
-Welcome to **HTIS Telecom Pvt. Ltd.** By accessing our website, [htis.in](https://website.htistelecom.in), you agree to comply with and be bound by the following terms and conditions. Please read them carefully.
+Welcome to **HTIS Telecom Pvt. Ltd.** By accessing our website, [htis.in](https://htis.in), you agree to comply with and be bound by the following terms and conditions. Please read them carefully.
 
 ## Acceptance of Terms
 

@@ -11,7 +11,7 @@ pageHeader:
 
 Welcome to **HTIS Telecom** ("Company", "we", "our", or "us").
 
-This Privacy Policy explains how we collect, use, disclose, and protect your information when you visit our website, [htis.in](https://website.htistelecom.in).
+This Privacy Policy explains how we collect, use, disclose, and protect your information when you visit our website, [htis.in](https://htis.in).
 
 By using our website, you consent to the practices described in this Privacy Policy.
 
@@ -153,6 +153,6 @@ If you have questions, concerns, privacy-related requests, or data deletion requ
 
 **HTIS Telecom**
 
-Website: [htis.in](https://website.htistelecom.in)
+Website: [htis.in](https://htis.in)
 
 Email: [help@htis.in](mailto:help@htis.in)

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://website.htistelecom.in/sitemap-index.xml
+Sitemap: https://htis.in/sitemap-index.xml
