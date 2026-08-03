@@ -30,45 +30,46 @@ jobs:
 
       - name: Deploy to IIS
         run: |
+          $ErrorActionPreference = "Continue"
           $dest = "C:\inetpub\wwwroot\HTISWebsite"
-          $siteName = "HTISWebsite"
+          # Change if your IIS app pool name is different
+          $appPoolName = "HTISWebsite"
+          $appPoolStopped = $false
 
           if (-not (Test-Path $dest)) {
             New-Item -ItemType Directory -Path $dest -Force | Out-Null
           }
 
-          Import-Module WebAdministration -ErrorAction SilentlyContinue
-          $appPool = $null
-          if (Get-Command Get-Website -ErrorAction SilentlyContinue) {
-            $site = Get-Website -Name $siteName -ErrorAction SilentlyContinue
-            if ($site) {
-              $appPool = $site.applicationPool
-              Write-Host "Stopping app pool: $appPool"
-              if ((Get-WebAppPoolState -Name $appPool).Value -ne "Stopped") {
-                Stop-WebAppPool -Name $appPool
-                $timeout = (Get-Date).AddSeconds(30)
-                do {
-                  Start-Sleep -Seconds 1
-                  $state = (Get-WebAppPoolState -Name $appPool).Value
-                } while ($state -ne "Stopped" -and (Get-Date) -lt $timeout)
-              }
+          # Prefer appcmd (works when runner runs as Local System / admin)
+          $appcmd = "$env:windir\System32\inetsrv\appcmd.exe"
+          if (Test-Path $appcmd) {
+            Write-Host "Stopping app pool via appcmd: $appPoolName"
+            & $appcmd stop apppool /apppool.name:"$appPoolName"
+            if ($LASTEXITCODE -eq 0) {
+              $appPoolStopped = $true
+              Start-Sleep -Seconds 2
             } else {
-              Write-Host "IIS site '$siteName' not found; deploying without stopping an app pool."
+              Write-Host "Could not stop app pool (exit $LASTEXITCODE). Continuing with robocopy retries."
             }
           }
 
-          # Mirror build output into the IIS folder (more reliable than Remove-Item while IIS holds files)
-          $robocopy = robocopy "dist" $dest /MIR /R:5 /W:2 /NFL /NDL /NJH /NJS /NP
-          $code = $LASTEXITCODE
-          Write-Host "robocopy exit code: $code"
-          # robocopy: 0-7 = success/partial success; 8+ = failure
-          if ($code -ge 8) {
-            throw "robocopy failed with exit code $code"
+          $code = 0
+          for ($attempt = 1; $attempt -le 3; $attempt++) {
+            Write-Host "Deploy attempt $attempt..."
+            & robocopy "dist" $dest /MIR /R:5 /W:2 /NFL /NDL /NJH /NJS /NP
+            $code = $LASTEXITCODE
+            Write-Host "robocopy exit code: $code"
+            if ($code -lt 8) { break }
+            Start-Sleep -Seconds 3
           }
 
-          if ($appPool) {
-            Write-Host "Starting app pool: $appPool"
-            Start-WebAppPool -Name $appPool
+          if ($appPoolStopped -and (Test-Path $appcmd)) {
+            Write-Host "Starting app pool via appcmd: $appPoolName"
+            & $appcmd start apppool /apppool.name:"$appPoolName"
+          }
+
+          if ($code -ge 8) {
+            throw "robocopy failed with exit code $code. Grant the runner service Local System (or an admin account) and write access to $dest."
           }
 
           Write-Host "Deployed to $dest"
