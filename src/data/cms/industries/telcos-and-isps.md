@@ -56,6 +56,8 @@ caseStudyClients:
       logoSrc: src/assets/logo-reliance-industries-limited.png
     - name: Vodafone Idea
       logoSrc: src/assets/logo-vodafone-Idea.png
+    - name: Radisys
+      logoSrc: src/assets/radisys-logo.png
   caseStudies:
     - eyebrow: HTIS Industry Solutions
       title: Virtualized Hyperconverged Compute
