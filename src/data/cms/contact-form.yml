@@ -1,9 +1,3 @@
 heading: Have a question or need assistance? Send us a message.
-postUrl: https://wfmsv2api.htistelecom.in
-categories:
-  - Sales & New Business Inquiries
-  - Grievances & Escalations
-  - Careers & Job Applications
-  - Partnerships & Vendor Relations
-  - Technical Support & Client Services
-  - General Business Inquiries
+postUrl: https://wfmsv2api.htistelecom.in/api/Enquiry/SubmitEnquiry
+categoryDdlUrl: https://wfmsv2api.htistelecom.in/api/Enquiry/GetEnquiryCategoryDDL

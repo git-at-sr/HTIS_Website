@@ -1039,7 +1039,7 @@ export const footer = footerYaml as {
 export const contactForm = contactFormYaml as {
   heading: string;
   postUrl: string;
-  categories: string[];
+  categoryDdlUrl: string;
 };
 
 export const home = (() => {

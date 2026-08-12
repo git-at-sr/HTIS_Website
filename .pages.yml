@@ -256,10 +256,9 @@ content:
             label: POST API call URL
             type: string
             required: true
-          - name: categories
-            label: Dropdown menu options
+          - name: categoryDdlUrl
+            label: Category dropdown API URL
             type: string
-            list: true
             required: true
 
       - name: footer
