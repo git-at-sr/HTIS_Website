@@ -56,7 +56,14 @@ caseStudyClients:
       logoSrc: src/assets/gurugram-metro-rail-logo-1.jpg
     - name: HPGIC
       logoSrc: src/assets/hpgic-logo-1.jpg
-    - {}
+    - name: HVPN
+      logoSrc: src/assets/hvpn-logo-2.jpg
+    - name: MCA
+      logoSrc: src/assets/mca-logo-1.webp
+    - name: "New India Assurance "
+      logoSrc: src/assets/newindiaassurance-logo-1.webp
+    - name: UJVNL
+      logoSrc: src/assets/ujvnl-1.jpg
   caseStudies:
     - eyebrow: HTIS Industry Solutions
       title: Virtualized Hyperconverged Compute
