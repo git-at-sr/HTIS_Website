@@ -51,6 +51,10 @@ caseStudyClients:
   clientLogos:
     - name: "Sangrur central "
       logoSrc: src/assets/sangrur-central-cooperative-bank-logo.png
+    - name: "Ropar Central Bank "
+      logoSrc: src/assets/ropar-central-bank-logo-1.png
+    - name: "Kangra Central Bank "
+      logoSrc: src/assets/kangra-central-bank.png
   caseStudies:
     - eyebrow: HTIS Industry Solutions
       title: Virtualized Hyperconverged Compute
