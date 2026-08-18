@@ -54,7 +54,13 @@ caseStudyClients:
     - name: "Ropar Central Bank "
       logoSrc: src/assets/ropar-central-bank-logo-1.png
     - name: "Kangra Central Bank "
-      logoSrc: src/assets/kangra-central-bank.png
+      logoSrc: src/assets/kangra-central-bank-1.png
+    - name: PNB
+      logoSrc: src/assets/punjabnationalbanknewlogosvg.webp
+    - name: Central bank of india
+      logoSrc: src/assets/centralbankofindialogo.png
+    - name: PSB
+      logoSrc: src/assets/psb.jpg
   caseStudies:
     - eyebrow: HTIS Industry Solutions
       title: Virtualized Hyperconverged Compute
