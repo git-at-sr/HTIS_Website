@@ -8,60 +8,63 @@ metadata:
   iconName: HeartPulse
 hero:
   id: hero
-  heroEyebrowPill: 'Industry Solution: Healthcare & Edu'
+  heroEyebrowPill: "Industry Solution: Healthcare & Edu"
   heroEyebrowMuted: HTIS Industry Solutions
   backgroundImage: src/assets/industry-hero-bg.png
   title: Empowering Healthcare & Education
-  summary: Bridging distances with high-capacity telemedicine networks, cloud-managed clinical platforms, and interactive smart classroom environments.
+  summary: Bridging distances with high-capacity telemedicine networks,
+    cloud-managed clinical platforms, and interactive smart classroom
+    environments.
   metrics:
     - Smart Classrooms
     - Custom LMS Systems
     - Telehealth Wireless
   ctaLabel: Explore Capabilities
-  ctaUrl: '#capabilities'
+  ctaUrl: "#capabilities"
   secondaryCtaLabel: Contact Experts
   secondaryCtaUrl: /#contact
 techStack:
   enabled: true
   id: tech-stack
   title: Technologies & Frameworks
-  description: We architect secure infrastructures matching international compliance standards and state-of-the-art tech platforms.
+  description: We architect secure infrastructures matching international
+    compliance standards and state-of-the-art tech platforms.
   items:
     - label: Smart Classrooms
-      url: '#contact'
+      url: "#contact"
     - label: Custom LMS Systems
-      url: '#contact'
+      url: "#contact"
     - label: Telehealth Wireless
-      url: '#contact'
+      url: "#contact"
     - label: HIPAA Secure Storage
-      url: '#contact'
+      url: "#contact"
     - label: Encrypted WAN Networks
-      url: '#contact'
+      url: "#contact"
     - label: Samsung Display Arrays
-      url: '#contact'
+      url: "#contact"
 caseStudyClients:
   enabled: true
   id: case-study-clients
   title: Trusted by companies like yours
-  description: We partner with forward-thinking organizations to deliver impactful solutions and measurable results.
+  description: We partner with forward-thinking organizations to deliver impactful
+    solutions and measurable results.
   clientLogos:
-    - name: Cisco
-      logoSrc: src/assets/logo-cisco.png
-    - name: Airtel
-      logoSrc: src/assets/logo-airtel.png
-    - name: Jio
-      logoSrc: src/assets/logo-reliance-industries-limited.png
-    - name: Dell Technologies
-      logoSrc: src/assets/logo-dell.png
-    - name: HCL
-    - name: IBM
-      logoSrc: src/assets/ibm.png
-    - name: HP
-      logoSrc: src/assets/logo-HP.png
+    - name: AIIMS
+      logoSrc: src/assets/aiims-logo.svg
+    - name: IIT Delhi
+      logoSrc: src/assets/iit-delhi-logo.png
+    - name: LPU
+      logoSrc: src/assets/lpu.jpg
+    - name: PLAKSHA
+      logoSrc: src/assets/plaksha-logo.webp
+    - name: Thapar
+      logoSrc: src/assets/thapar.png
   caseStudies:
     - eyebrow: HTIS Industry Solutions
       title: Virtualized Hyperconverged Compute
-      description: Migrated legacy administrative systems into an ultra-resilient hyperconverged infrastructure across 750+ government offices, completely eliminating data corruption and application timeouts.
+      description: Migrated legacy administrative systems into an ultra-resilient
+        hyperconverged infrastructure across 750+ government offices, completely
+        eliminating data corruption and application timeouts.
       image: src/assets/physical-layer-1.png
       url: /case-study/data-center-modernisation
       stats:
@@ -75,7 +78,9 @@ caseStudyClients:
           label: Data Loss
     - eyebrow: HTIS Network Engineering
       title: State-Wide Active Optical Fiber Ring
-      description: Designed and implemented dual-ring active path redundancy utilizing BGP and OSPF protocols, ensuring robust network connectivity across remote district offices.
+      description: Designed and implemented dual-ring active path redundancy utilizing
+        BGP and OSPF protocols, ensuring robust network connectivity across
+        remote district offices.
       image: src/assets/physical-layer-1.png
       url: /case-study/national-broadband-rollout
       stats:
@@ -89,7 +94,9 @@ caseStudyClients:
           label: Path Redundancy
     - eyebrow: HTIS Security Stack
       title: Unified Cyber-Defence Architecture
-      description: Deployed perimeter-to-endpoint next-generation firewalls and identity access management frameworks to secure critical citizen registries against advanced threats.
+      description: Deployed perimeter-to-endpoint next-generation firewalls and
+        identity access management frameworks to secure critical citizen
+        registries against advanced threats.
       image: src/assets/physical-layer-1.png
       url: /case-study/airport-security-enhancement
       stats:
@@ -102,13 +109,20 @@ caseStudyClients:
         - value: GDPR
           label: Compliance Level
   testimonials:
-    - quote: The website is getting better day by day. On behalf of the Principal, we are thankful to the team. The data was submitted and updated perfectly as per our requirements, reflecting the team's excellent work, commitment, and dedication.
+    - quote: The website is getting better day by day. On behalf of the Principal, we
+        are thankful to the team. The data was submitted and updated perfectly
+        as per our requirements, reflecting the team's excellent work,
+        commitment, and dedication.
       name: Jhon doe
       title: Cisco | HOD
-    - quote: Thanks to the HTIS team for their outstanding efforts in deploying our datacenter stack. Your dedication, round-the-clock support, and execution planning are truly inspiring.
+    - quote: Thanks to the HTIS team for their outstanding efforts in deploying our
+        datacenter stack. Your dedication, round-the-clock support, and
+        execution planning are truly inspiring.
       name: Bharat Sharma
       title: HP Para Veterinary Council
-    - quote: The reporting dashboard is exceptionally well-designed and visually appealing. It comprehensively covers all key parameters and demonstrates remarkable attention to detail. Great work!
+    - quote: The reporting dashboard is exceptionally well-designed and visually
+        appealing. It comprehensively covers all key parameters and demonstrates
+        remarkable attention to detail. Great work!
       name: Vinod Kumar
       title: IT Head | Municipal Corporation Shimla
 sections:
@@ -118,33 +132,43 @@ sections:
     iconName: AlertTriangle
     eyebrow: Sector Headwinds
     title: Key Industry Challenges We Resolve
-    description: Healthcare and education environments need secure, reliable systems without sacrificing user access.
+    description: Healthcare and education environments need secure, reliable systems
+      without sacrificing user access.
     content:
       variant: template3-list-card
       items:
         - title: Rigid Medical Privacy Rules
-          text: Engineering file systems and databases that fully satisfy strict healthcare privacy acts (like HIPAA) without slowing down physician access.
+          text: Engineering file systems and databases that fully satisfy strict
+            healthcare privacy acts (like HIPAA) without slowing down physician
+            access.
         - title: Unequal Remote Network Quality
-          text: Providing crisp, high-definition educational streams and telehealth links to under-connected village clinics and rural classrooms.
+          text: Providing crisp, high-definition educational streams and telehealth links
+            to under-connected village clinics and rural classrooms.
         - title: Unengaged Legacy Learning
-          text: Transitioning static local schools away from traditional chalkboards into immersive, interactive, and cloud-connected learning grids.
+          text: Transitioning static local schools away from traditional chalkboards into
+            immersive, interactive, and cloud-connected learning grids.
   - id: capabilities
     layout: no-image
     accentColor: green
     iconName: ShieldCheck
     eyebrow: Core Competencies
     title: Our Solutions & Capabilities
-    description: We deliver connected care, learning infrastructure, and secure data environments.
+    description: We deliver connected care, learning infrastructure, and secure data
+      environments.
     content:
       variant: template5-icon-card
       items:
         - iconName: Monitor
           title: Interactive Smart Classrooms
-          text: Architecting and deploying large-scale connected learning rooms featuring digital displays, high-fidelity media, and customized software systems.
+          text: Architecting and deploying large-scale connected learning rooms featuring
+            digital displays, high-fidelity media, and customized software
+            systems.
         - iconName: Wifi
           title: High-Capacity Telemedicine Networks
-          text: Connecting remote healthcare centers directly to expert urban medical hubs with stable, high-bandwidth streaming channels.
+          text: Connecting remote healthcare centers directly to expert urban medical hubs
+            with stable, high-bandwidth streaming channels.
         - iconName: Lock
           title: HIPAA-Compliant Patient Data Systems
-          text: Constructing secure, encrypted database environments designed to store, manage, and retrieve highly private electronic health records.
+          text: Constructing secure, encrypted database environments designed to store,
+            manage, and retrieve highly private electronic health records.
 ---
