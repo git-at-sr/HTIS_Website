@@ -90,10 +90,10 @@ offices:
       email: MUM@htis.in
     - name: kazakhstan
       companyName: HTIS International
-      address: " Astana city, Nura district, Seksek Ata street, building 11, index
-        010000, Kazakhstan"
+      address: Astana city, Nura district, Seksek Ata street, building 11, index
+        010000, Kazakhstan
       phone: "8699954005"
-      email: nfo@
+      email: info@htis.international
 globalPresence:
   heading: Global presence
   ctaLabel: Know more
