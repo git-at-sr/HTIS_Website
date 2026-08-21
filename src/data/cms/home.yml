@@ -537,14 +537,15 @@ testimonials:
         execution were commendable. Keep up the good work!”
       name: "Madhuraj Pramod kumar "
       title: Vodafone Idea Limited
-    - quote: “Outstanding support and seamless integration. The team demonstrated deep
-        technical expertise throughout the entire project lifecycle.”
-      name: Emily Rodriguez
-      title: Nexus Systems | Director
-    - quote: “From planning to execution, their professionalism is unmatched. The
-        customized network deployment exceeded all our expectations.”
-      name: Robert Taylor
-      title: InnovaTech | CEO
+    - quote: '"I want to thank and appreciate all of you for your support in achieving
+        the Jul-26 target closure. Special appreciation to my CO-Team—Field
+        Engineers, L2 Engineers and Coordinators, who are our real heroes and
+        worked hard to achieve this milestone. Special appreciation to Rohit &
+        team for their patience, support and real-time handling of ground-level
+        issues, which contributed significantly to the successful closure of the
+        goal."'
+      name: Umesh Kumar
+      title: AVACEND SOLUTIONS PRIVATE LIMITED at Cisco
 articles:
   enabled: false
   sectionId: articles
