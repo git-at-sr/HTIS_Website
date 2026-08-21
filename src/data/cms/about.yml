@@ -92,10 +92,6 @@ team:
       role: Sr. Manager Sales
       dept: System Integration
       image: src/assets/harmeet-kohli.png
-    - name: Rajeev Sharma
-      role: Manager Sales
-      dept: System Integration
-      image: src/assets/rajeev-sharma.png
 ourPresence:
   sectionId: our-presence
   title: Our [Presence]{color=primary}
@@ -113,37 +109,43 @@ ourPresence:
       lat: 32.4595
       lng: 76.7179
       isHQ: true
-      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
     - name: United Kingdom
       address: 30 St Mary Axe, London EC3A 8BF, United Kingdom
       lat: 51.5074
       lng: -0.1278
       isHQ: false
-      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
     - name: South Africa
       address: Sandton City, Johannesburg 2196, South Africa
       lat: -26.2041
       lng: 28.0473
       isHQ: false
-      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
     - name: Nigeria
       address: Victoria Island, Lagos 101241, Nigeria
       lat: 6.5244
       lng: 3.3792
       isHQ: false
-      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
     - name: Bangladesh
       address: Gulshan-2, Dhaka 1212, Bangladesh
       lat: 23.8103
       lng: 90.4125
       isHQ: false
-      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
     - name: Sri Lanka
       address: World Trade Center, Colombo 01, Sri Lanka
       lat: 6.9271
       lng: 79.8612
       isHQ: false
-      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
+    - name: Kazakhstan
+      address: Astana city, Nura district, Seksek Ata street, building 11, index
+        010000, Kazakhstan
+      lat: 51.1302
+      lng: 71.2866
+      isHQ: false
   indiaOffices:
     - name: Mohali (HQ)
       address: E 94, 1st Floor, ELTOP Industrial Area, Phase 8, Mohali - 160055,
@@ -153,7 +155,7 @@ ourPresence:
       lat: 30.7046
       lng: 76.7179
       isHQ: true
-      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
     - name: Gurgaon
       address: PHS Business Center, 353/18, Civil Lines, Gurgaon - 122001 Haryana, India
       phone: 0124-27243598
@@ -161,7 +163,7 @@ ourPresence:
       lat: 28.4595
       lng: 77.0266
       isHQ: false
-      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
     - name: Shimla
       address: Flat A-01, Verma Apartment, near ISBT Tutikandi, Shimla - 171004, India
       phone: "9817038008"
@@ -169,7 +171,7 @@ ourPresence:
       lat: 31.1048
       lng: 77.1734
       isHQ: false
-      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
     - name: J&K
       address: Rather Complex, Baba Dharam Dass, Munwarabad, Srinagar - 190001, India
       phone: "7006520020"
@@ -177,7 +179,7 @@ ourPresence:
       lat: 34.0837
       lng: 74.7973
       isHQ: false
-      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
     - name: Dehradun
       address: S-6, Tula Palace Araghar Chowk, Haridwar Road, Dehradun - 248001, India
       phone: "9639194590"
@@ -185,7 +187,7 @@ ourPresence:
       lat: 30.3165
       lng: 78.0322
       isHQ: false
-      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
     - name: Chennai
       address: 2f, 1st Floor, Rajarajan Street, Navarathna Garden Main Road,
         Ekkattuthangal, Chennai - 600032, India
@@ -194,7 +196,7 @@ ourPresence:
       lat: 13.0116
       lng: 80.2039
       isHQ: false
-      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
     - name: Mumbai
       address: Mumbai, India (UPCOMING)
       phone: "8699954005"
@@ -202,7 +204,7 @@ ourPresence:
       lat: 19.076
       lng: 72.8777
       isHQ: false
-      mapUrl: 'https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D'
+      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
 principles:
   image: src/assets/about-principles.png
   imageAlt: Telecom tower and architectural technology elements
