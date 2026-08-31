@@ -54,6 +54,8 @@ caseStudyClients:
       logoSrc: src/assets/pro-brick-space.png
     - name: Studio XP Management Consultants Private Limited
       logoSrc: src/assets/studio-xp.png
+    - name: SKV
+      logoSrc: src/assets/skv-logo.png
   caseStudies:
     - eyebrow: HTIS Industry Solutions
       title: Virtualized Hyperconverged Compute
