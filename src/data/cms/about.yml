@@ -68,6 +68,10 @@ team:
       role: Head of Department
       dept: Software Development
       image: src/assets/kuldeep-singh.png
+    - name: Atul Yadav
+      role: Sales Head
+      dept: System Integration
+      image: src/assets/atul-yadav.jpg
     - name: Satender Singh
       role: General Manager Sales
       dept: System Integration
