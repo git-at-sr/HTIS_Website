@@ -58,6 +58,8 @@ caseStudyClients:
       logoSrc: src/assets/logo-vodafone-Idea.png
     - name: Radisys
       logoSrc: src/assets/radisys-logo.png
+    - name: Indus Tower
+      logoSrc: src/assets/indus-towers-logo.jpg
   caseStudies:
     - eyebrow: HTIS Industry Solutions
       title: Virtualized Hyperconverged Compute

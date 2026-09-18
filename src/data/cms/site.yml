@@ -10,6 +10,6 @@ seo:
   ogImage: src/assets/og_image.png
   robots: index, follow
 globalToast:
-  enabled: true
+  enabled: false
   message: This website is under development. Some information may be incomplete,
     inaccurate, or subject to change.
