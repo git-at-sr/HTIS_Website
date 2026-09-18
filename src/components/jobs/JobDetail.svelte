@@ -1,6 +1,6 @@
 <script lang="ts">
   import JobApplyModal from '~/components/jobs/JobApplyModal.svelte';
-  import { fetchHiringJobFromList, type HiringApiJob } from '~/data/jobApi';
+  import { fetchHiringJobDetail, type HiringApiJob } from '~/data/jobApi';
   import { takeSelectedJob } from '~/utils/jobSelection';
   import { renderMarkdown } from '~/utils/markdown';
 
@@ -20,7 +20,7 @@
   let job = $derived(selectedJob ?? initialJob);
   let role = $derived(job.title?.trim() || 'Job opportunity');
   let location = $derived(job.location?.trim() || 'Remote');
-  let department = $derived(job.skills?.trim() || 'Other');
+  let department = $derived(job.department?.trim() || 'Other');
   let experience = $derived.by(() => {
     if (job.minExperience != null && job.maxExperience != null) {
       return `${job.minExperience}-${job.maxExperience} Years of Experience`;
@@ -37,25 +37,80 @@
     return job.jobDescriptionMarkdown?.trim() || job.description?.trim() || '';
   }
 
+  /**
+   * Keeps the page JobTitle as the only title. Markdown often starts with either
+   * the same title heading, or a "Job Title" label + role name — strip both.
+   */
+  function stripDuplicateTitleHeading(html: string, title: string): string {
+    if (!html.trim() || typeof DOMParser === 'undefined') return html;
+
+    const normalizedTitle = title.trim().toLocaleLowerCase();
+    const document = new DOMParser().parseFromString(html, 'text/html');
+    const body = document.body;
+    const firstHeading = body.querySelector('h1, h2, h3');
+    if (!firstHeading) return html;
+
+    const headingText = firstHeading.textContent?.trim().toLocaleLowerCase() ?? '';
+    const isJobTitleLabel =
+      headingText === 'job title' ||
+      headingText === 'title' ||
+      headingText === 'role' ||
+      headingText === 'position';
+    const isDuplicateTitle = !!normalizedTitle && headingText === normalizedTitle;
+
+    if (!isJobTitleLabel && !isDuplicateTitle) {
+      return html;
+    }
+
+    if (isDuplicateTitle) {
+      firstHeading.remove();
+      return body.innerHTML;
+    }
+
+    // Remove "Job Title" + role name until the next real content section
+    // e.g. Job Title → Assistant Sales Manager → stop at About the Role
+    const contentSectionPattern =
+      /^(about\b|key responsibilities|technology\b|required\b|leadership\b|qualifications\b|what we offer|location\b|equal opportunity)/i;
+
+    const nodesToRemove: ChildNode[] = [];
+    let node: ChildNode | null = firstHeading;
+    while (node) {
+      if (
+        node !== firstHeading &&
+        node instanceof Element &&
+        /^H[1-6]$/.test(node.tagName) &&
+        contentSectionPattern.test(node.textContent?.trim() ?? '')
+      ) {
+        break;
+      }
+      nodesToRemove.push(node);
+      node = node.nextSibling;
+    }
+
+    for (const item of nodesToRemove) {
+      item.parentNode?.removeChild(item);
+    }
+
+    return body.innerHTML;
+  }
+
   function showJob(job: HiringApiJob) {
     selectedJob = job;
-    descriptionHtml = renderMarkdown(getDescription(job));
+    const title = job.title?.trim() || 'Job opportunity';
+    descriptionHtml = stripDuplicateTitleHeading(
+      renderMarkdown(getDescription(job)),
+      title,
+    );
   }
 
   $effect(() => {
     const transferredJob = takeSelectedJob(jobId);
-
-    if (transferredJob) {
-      showJob(transferredJob);
-      isReady = true;
-      return;
-    }
-
     const controller = new AbortController();
-    showJob(initialJob);
+
+    showJob(transferredJob ?? initialJob);
     isReady = true;
 
-    void fetchHiringJobFromList(jobId, { signal: controller.signal })
+    void fetchHiringJobDetail(jobId, { signal: controller.signal })
       .then((liveJob) => {
         showJob(liveJob);
         refreshError = null;

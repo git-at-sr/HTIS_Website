@@ -908,6 +908,9 @@ interface JobsYaml {
     applyJobEndpoint: string;
     noticePeriodDdlEndpoint: string;
     technicalSkillAutoFillEndpoint: string;
+    locationDdlEndpoint: string;
+    departmentDdlEndpoint: string;
+    statusEndpoint: string;
   };
 }
 

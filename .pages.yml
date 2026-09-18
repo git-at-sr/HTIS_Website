@@ -2262,6 +2262,18 @@ content:
                 label: Technical skill autocomplete endpoint
                 type: string
                 required: true
+              - name: locationDdlEndpoint
+                label: Location dropdown endpoint
+                type: string
+                required: true
+              - name: departmentDdlEndpoint
+                label: Department dropdown endpoint
+                type: string
+                required: true
+              - name: statusEndpoint
+                label: Hiring API status endpoint
+                type: string
+                required: true
 
       - name: privacy
         label: Privacy Policy

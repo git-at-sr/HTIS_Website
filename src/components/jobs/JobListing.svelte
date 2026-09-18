@@ -1,34 +1,83 @@
 <script lang="ts">
-  import { Search, ChevronDown } from '@lucide/svelte';
+  import { Search, ChevronDown, ChevronLeft, ChevronRight } from '@lucide/svelte';
   import {
-    fetchHiringJobs,
+    checkHiringApiStatus,
+    fetchDepartments,
+    fetchHiringJobsPage,
+    fetchLocations,
     mapApiJobToListItem,
+    type DepartmentOption,
     type HiringApiJob,
     type JobListItem,
+    type LocationOption,
   } from '~/data/jobApi';
   import { storeSelectedJob } from '~/utils/jobSelection';
 
   type JobListRow = JobListItem & { apiJob: HiringApiJob };
 
+  const PAGE_SIZE = 10;
+
   let jobs = $state<JobListRow[]>([]);
+  let totalCount = $state(0);
+  let currentPage = $state(1);
+  let departments = $state<DepartmentOption[]>([]);
+  let locations = $state<LocationOption[]>([]);
   let isLoading = $state(true);
+  let isLoadingFilters = $state(true);
   let error = $state<string | null>(null);
 
-  async function fetchJobs(signal: AbortSignal) {
+  let searchQuery = $state('');
+  let selectedDepartmentIds = $state<number[]>([]);
+  let selectedLocationIds = $state<number[]>([]);
+
+  let deptDetailsRef = $state<HTMLDetailsElement | null>(null);
+  let locDetailsRef = $state<HTMLDetailsElement | null>(null);
+
+  async function loadFilterOptions(signal: AbortSignal) {
+    isLoadingFilters = true;
     try {
-      const apiJobs = await fetchHiringJobs({ signal });
-      jobs = apiJobs.map((apiJob) => ({
+      const [deptOptions, locOptions] = await Promise.all([
+        fetchDepartments({ signal }),
+        fetchLocations({ signal }),
+      ]);
+      departments = deptOptions;
+      locations = locOptions;
+    } catch (err: unknown) {
+      if (err instanceof DOMException && err.name === 'AbortError') return;
+      console.error('Unable to load hiring filter dropdowns:', err);
+    } finally {
+      isLoadingFilters = false;
+    }
+  }
+
+  async function fetchJobs(signal: AbortSignal, pageNumber: number) {
+    isLoading = true;
+    try {
+      const result = await fetchHiringJobsPage({
+        signal,
+        pageNumber,
+        pageSize: PAGE_SIZE,
+        departmentIds: selectedDepartmentIds,
+        locationIds: selectedLocationIds,
+        fetchAllPages: false,
+      });
+      jobs = result.jobs.map((apiJob) => ({
         ...mapApiJobToListItem(apiJob),
         apiJob,
       }));
+      totalCount = result.totalCount;
       error = null;
     } catch (err: unknown) {
       if (err instanceof DOMException && err.name === 'AbortError') {
         return;
       }
 
-      error =
-        err instanceof Error ? err.message : 'An error occurred while fetching jobs';
+      const apiUp = await checkHiringApiStatus({ signal }).catch(() => false);
+      error = apiUp
+        ? err instanceof Error
+          ? err.message
+          : 'An error occurred while fetching jobs'
+        : 'Hiring API is currently unavailable. Please try again later.';
     } finally {
       isLoading = false;
     }
@@ -36,19 +85,26 @@
 
   $effect(() => {
     const controller = new AbortController();
-    void fetchJobs(controller.signal);
-
-    return () => {
-      controller.abort();
-    };
+    void loadFilterOptions(controller.signal);
+    return () => controller.abort();
   });
 
-  let searchQuery = $state('');
-  let selectedDepartments = $state<string[]>([]);
-  let selectedLocations = $state<string[]>([]);
+  // Reset to first page whenever department/location filters change.
+  $effect(() => {
+    selectedDepartmentIds;
+    selectedLocationIds;
+    currentPage = 1;
+  });
 
-  let deptDetailsRef = $state<HTMLDetailsElement | null>(null);
-  let locDetailsRef = $state<HTMLDetailsElement | null>(null);
+  $effect(() => {
+    const page = currentPage;
+    selectedDepartmentIds;
+    selectedLocationIds;
+
+    const controller = new AbortController();
+    void fetchJobs(controller.signal, page);
+    return () => controller.abort();
+  });
 
   function handleWindowClick(event: MouseEvent) {
     const target = event.target as Node;
@@ -70,42 +126,55 @@
 
   let filteredJobs = $derived(
     jobs.filter((job) => {
-      const matchSearch =
-        searchQuery === '' || job.role.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchDept =
-        selectedDepartments.length === 0 || selectedDepartments.includes(job.department);
-      const matchLoc =
-        selectedLocations.length === 0 || selectedLocations.includes(job.location);
-      return matchSearch && matchDept && matchLoc;
+      return (
+        searchQuery === '' || job.role.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     }),
   );
 
+  let totalPages = $derived(Math.max(1, Math.ceil(totalCount / PAGE_SIZE)));
+
+  let pageNumbers = $derived.by(() => {
+    const pages: number[] = [];
+    const windowSize = 5;
+    let start = Math.max(1, currentPage - Math.floor(windowSize / 2));
+    let end = Math.min(totalPages, start + windowSize - 1);
+    start = Math.max(1, end - windowSize + 1);
+    for (let page = start; page <= end; page++) pages.push(page);
+    return pages;
+  });
+
   let hasFilters = $derived(
-    searchQuery !== '' || selectedDepartments.length > 0 || selectedLocations.length > 0,
+    searchQuery !== '' ||
+      selectedDepartmentIds.length > 0 ||
+      selectedLocationIds.length > 0,
   );
 
   function clearFilters() {
     searchQuery = '';
-    selectedDepartments = [];
-    selectedLocations = [];
+    selectedDepartmentIds = [];
+    selectedLocationIds = [];
+    currentPage = 1;
   }
 
-  let departments = $derived([...new Set(jobs.map((j) => j.department))]);
-  let locations = $derived([...new Set(jobs.map((j) => j.location))]);
+  function goToPage(page: number) {
+    if (page < 1 || page > totalPages || page === currentPage) return;
+    currentPage = page;
+  }
 
-  function toggleDepartment(dept: string) {
-    if (selectedDepartments.includes(dept)) {
-      selectedDepartments = selectedDepartments.filter((d) => d !== dept);
+  function toggleDepartment(departmentId: number) {
+    if (selectedDepartmentIds.includes(departmentId)) {
+      selectedDepartmentIds = selectedDepartmentIds.filter((id) => id !== departmentId);
     } else {
-      selectedDepartments = [...selectedDepartments, dept];
+      selectedDepartmentIds = [...selectedDepartmentIds, departmentId];
     }
   }
 
-  function toggleLocation(loc: string) {
-    if (selectedLocations.includes(loc)) {
-      selectedLocations = selectedLocations.filter((l) => l !== loc);
+  function toggleLocation(locationId: number) {
+    if (selectedLocationIds.includes(locationId)) {
+      selectedLocationIds = selectedLocationIds.filter((id) => id !== locationId);
     } else {
-      selectedLocations = [...selectedLocations, loc];
+      selectedLocationIds = [...selectedLocationIds, locationId];
     }
   }
 
@@ -137,28 +206,34 @@
         class="btn btn-outline border-base-300 w-full justify-between font-normal bg-base-100 hover:bg-base-200 text-base-content/70 hover:border-base-300"
       >
         <span class="truncate">
-          {selectedDepartments.length > 0
-            ? `${selectedDepartments.length} Selected`
-            : 'Department'}
+          {selectedDepartmentIds.length > 0
+            ? `${selectedDepartmentIds.length} Selected`
+            : isLoadingFilters
+              ? 'Loading departments...'
+              : 'Department'}
         </span>
         <ChevronDown class="h-4 w-4 shrink-0" />
       </summary>
       <ul
         class="dropdown-content z-1 menu p-2 shadow bg-base-100 rounded-box w-full mt-1 border border-base-200 max-h-60 overflow-y-auto block"
       >
-        {#each departments as dept}
-          <li>
-            <label class="label cursor-pointer justify-start gap-3 w-full">
-              <input
-                type="checkbox"
-                class="checkbox checkbox-sm checkbox-primary"
-                checked={selectedDepartments.includes(dept)}
-                onchange={() => toggleDepartment(dept)}
-              />
-              <span class="label-text">{dept}</span>
-            </label>
-          </li>
-        {/each}
+        {#if departments.length === 0}
+          <li class="px-3 py-2 text-sm text-base-content/60">No departments available</li>
+        {:else}
+          {#each departments as dept (dept.departmentId)}
+            <li>
+              <label class="label cursor-pointer justify-start gap-3 w-full">
+                <input
+                  type="checkbox"
+                  class="checkbox checkbox-sm checkbox-primary"
+                  checked={selectedDepartmentIds.includes(Number(dept.departmentId))}
+                  onchange={() => toggleDepartment(Number(dept.departmentId))}
+                />
+                <span class="label-text">{dept.departmentName}</span>
+              </label>
+            </li>
+          {/each}
+        {/if}
       </ul>
     </details>
 
@@ -168,28 +243,34 @@
         class="btn btn-outline border-base-300 w-full justify-between font-normal bg-base-100 hover:bg-base-200 text-base-content/70 hover:border-base-300"
       >
         <span class="truncate">
-          {selectedLocations.length > 0
-            ? `${selectedLocations.length} Selected`
-            : 'Location'}
+          {selectedLocationIds.length > 0
+            ? `${selectedLocationIds.length} Selected`
+            : isLoadingFilters
+              ? 'Loading locations...'
+              : 'Location'}
         </span>
         <ChevronDown class="h-4 w-4 shrink-0" />
       </summary>
       <ul
         class="dropdown-content z-1 menu p-2 shadow bg-base-100 rounded-box w-full mt-1 border border-base-200 max-h-60 overflow-y-auto block"
       >
-        {#each locations as loc}
-          <li>
-            <label class="label cursor-pointer justify-start gap-3 w-full">
-              <input
-                type="checkbox"
-                class="checkbox checkbox-sm checkbox-primary"
-                checked={selectedLocations.includes(loc)}
-                onchange={() => toggleLocation(loc)}
-              />
-              <span class="label-text">{loc}</span>
-            </label>
-          </li>
-        {/each}
+        {#if locations.length === 0}
+          <li class="px-3 py-2 text-sm text-base-content/60">No locations available</li>
+        {:else}
+          {#each locations as loc (loc.locationId)}
+            <li>
+              <label class="label cursor-pointer justify-start gap-3 w-full">
+                <input
+                  type="checkbox"
+                  class="checkbox checkbox-sm checkbox-primary"
+                  checked={selectedLocationIds.includes(Number(loc.locationId))}
+                  onchange={() => toggleLocation(Number(loc.locationId))}
+                />
+                <span class="label-text">{loc.locationName}</span>
+              </label>
+            </li>
+          {/each}
+        {/if}
       </ul>
     </details>
   </div>
@@ -248,7 +329,7 @@
               </td>
             </tr>
           {:else}
-            {#each filteredJobs as job, index}
+            {#each filteredJobs as job, index (job.id)}
               <tr
                 class={`relative transition-colors hover:bg-base-200/50 ${index % 2 !== 0 ? 'bg-base-200/30' : 'bg-base-100'}`}
               >
@@ -269,5 +350,44 @@
         </tbody>
       </table>
     </div>
+
+    {#if totalCount > PAGE_SIZE}
+      <div class="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
+        <p class="text-sm text-base-content/60">
+          Showing {(currentPage - 1) * PAGE_SIZE + (filteredJobs.length > 0 ? 1 : 0)}–{(currentPage - 1) * PAGE_SIZE + filteredJobs.length}
+          of {totalCount}
+        </p>
+        <div class="join">
+          <button
+            type="button"
+            class="btn btn-sm join-item"
+            disabled={currentPage <= 1}
+            aria-label="Previous page"
+            onclick={() => goToPage(currentPage - 1)}
+          >
+            <ChevronLeft class="h-4 w-4" />
+          </button>
+          {#each pageNumbers as page (page)}
+            <button
+              type="button"
+              class={`btn btn-sm join-item ${page === currentPage ? 'btn-primary' : ''}`}
+              aria-current={page === currentPage ? 'page' : undefined}
+              onclick={() => goToPage(page)}
+            >
+              {page}
+            </button>
+          {/each}
+          <button
+            type="button"
+            class="btn btn-sm join-item"
+            disabled={currentPage >= totalPages}
+            aria-label="Next page"
+            onclick={() => goToPage(currentPage + 1)}
+          >
+            <ChevronRight class="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    {/if}
   {/if}
 </div>

@@ -82,11 +82,20 @@ const contactFormCategoryDdlUrl = JSON.stringify(contactForm.categoryDdlUrl);
           })
         });
 
-        if (!response.ok) {
-          throw new Error('Enquiry submit failed');
+        let result = null;
+        try {
+          result = await response.json();
+        } catch (_) {
+          result = null;
         }
 
-        this.toastMessage = 'Your response has been recorded, we will get back to you soon';
+        if (!response.ok || result?.success === false) {
+          throw new Error(result?.message || 'Enquiry submit failed');
+        }
+
+        this.toastMessage =
+          result?.message ||
+          'Your response has been recorded, we will get back to you soon';
         this.toastType = 'success';
         this.fullName = '';
         this.phone = '';
@@ -95,7 +104,10 @@ const contactFormCategoryDdlUrl = JSON.stringify(contactForm.categoryDdlUrl);
         this.message = '';
       } catch (error) {
         console.log('Contact form API call failed:', error);
-        this.toastMessage = 'Something went wrong. Please try again.';
+        this.toastMessage =
+          error instanceof Error && error.message
+            ? error.message
+            : 'Something went wrong. Please try again.';
         this.toastType = 'error';
       } finally {
         this.showToast = true;

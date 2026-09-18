@@ -146,11 +146,12 @@
     skillSearch = '';
     skillSuggestions = [];
     activeSkillIndex = -1;
-    validationErrors.skills = '';
+    clearFieldError('skills');
   }
 
   function removeSkill(skillToRemove: string) {
     selectedSkills = selectedSkills.filter((skill) => skill !== skillToRemove);
+    if (selectedSkills.length > 0) clearFieldError('skills');
   }
 
   function getSkillOptionId(index: number): string | undefined {
@@ -227,21 +228,65 @@
     addSkill(exactSuggestion?.technicalSkillName ?? query);
   }
 
+  function clearFieldError(field: string) {
+    if (!validationErrors[field]) return;
+    const { [field]: _removed, ...rest } = validationErrors;
+    validationErrors = rest;
+  }
+
+  function sanitizeContact() {
+    contact = contact.replace(/[^0-9]/g, '').slice(0, 10);
+    clearFieldError('contact');
+  }
+
   function handleFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       resumeFile = input.files[0];
-      if (validationErrors.resume) {
-        validationErrors.resume = '';
-      }
+      clearFieldError('resume');
     }
+  }
+
+  function getAgeYears(dateOfBirth: string): number {
+    const birth = new Date(dateOfBirth);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age -= 1;
+    }
+    return age;
   }
 
   function validate(): boolean {
     const errors: Record<string, string> = {};
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+    const trimmedAddress = address.trim();
+    const trimmedSocial = socialMediaUrl.trim();
 
-    if (!name.trim()) errors.name = 'Full name is required';
-    if (!dob) errors.dob = 'Date of birth is required';
+    if (!trimmedName) {
+      errors.name = 'Full name is required';
+    } else if (trimmedName.length < 2) {
+      errors.name = 'Full name must be at least 2 characters';
+    } else if (!/^[a-zA-Z\s.'-]+$/.test(trimmedName)) {
+      errors.name = 'Full name can only contain letters, spaces, and . \' -';
+    }
+
+    if (!dob) {
+      errors.dob = 'Date of birth is required';
+    } else {
+      const birthDate = new Date(dob);
+      if (Number.isNaN(birthDate.getTime())) {
+        errors.dob = 'Please enter a valid date of birth';
+      } else if (birthDate > new Date()) {
+        errors.dob = 'Date of birth cannot be in the future';
+      } else if (getAgeYears(dob) < 16) {
+        errors.dob = 'Applicant must be at least 16 years old';
+      } else if (getAgeYears(dob) > 80) {
+        errors.dob = 'Please enter a valid date of birth';
+      }
+    }
 
     if (!contact) {
       errors.contact = 'Contact number is required';
@@ -249,45 +294,115 @@
       errors.contact = 'Contact number must be exactly 10 digits';
     }
 
-    if (!email) {
+    if (!trimmedEmail) {
       errors.email = 'Email address is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errors.email = 'Invalid email address format';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      errors.email = 'Please enter a valid email address';
     }
 
-    if (!address.trim()) errors.address = 'Address is required';
-    if (!gender) errors.gender = 'Gender is required';
-    if (totalExperience !== undefined && totalExperience < 0)
-      errors.totalExperience = 'Total experience cannot be negative';
-    if (currentCTC !== undefined && currentCTC < 0)
-      errors.currentCTC = 'Current CTC cannot be negative';
-    if (expectedCTC !== undefined && expectedCTC < 0)
-      errors.expectedCTC = 'Expected CTC cannot be negative';
-    if (noticePeriodId !== undefined && !Number.isInteger(noticePeriodId))
-      errors.noticePeriodId = 'Notice period ID must be a whole number';
-    if (selectedSkills.length === 0) errors.skills = 'At least one skill is required';
+    if (!trimmedAddress) {
+      errors.address = 'Address is required';
+    } else if (trimmedAddress.length < 5) {
+      errors.address = 'Please enter a complete address';
+    }
 
-    if (socialMediaUrl) {
-      try {
-        new URL(socialMediaUrl);
-      } catch (_) {
-        errors.socialMediaUrl =
-          'Please enter a valid URL (e.g. https://linkedin.com/in/username)';
+    if (!gender) errors.gender = 'Gender is required';
+
+    if (totalExperience !== undefined && totalExperience !== null) {
+      if (Number.isNaN(Number(totalExperience)) || Number(totalExperience) < 0) {
+        errors.totalExperience = 'Total experience cannot be negative';
+      } else if (Number(totalExperience) > 60) {
+        errors.totalExperience = 'Please enter a realistic total experience';
+      }
+    }
+
+    if (currentCTC !== undefined && currentCTC !== null) {
+      if (Number.isNaN(Number(currentCTC)) || Number(currentCTC) < 0) {
+        errors.currentCTC = 'Current CTC cannot be negative';
+      }
+    }
+
+    if (expectedCTC !== undefined && expectedCTC !== null) {
+      if (Number.isNaN(Number(expectedCTC)) || Number(expectedCTC) < 0) {
+        errors.expectedCTC = 'Expected CTC cannot be negative';
+      }
+    }
+
+    if (
+      currentCTC !== undefined &&
+      expectedCTC !== undefined &&
+      !errors.currentCTC &&
+      !errors.expectedCTC &&
+      Number(expectedCTC) < Number(currentCTC)
+    ) {
+      errors.expectedCTC = 'Expected CTC should not be less than current CTC';
+    }
+
+    if (
+      noticePeriodId !== undefined &&
+      noticePeriodId !== null &&
+      !Number.isInteger(Number(noticePeriodId))
+    ) {
+      errors.noticePeriodId = 'Please select a valid notice period';
+    }
+
+    if (selectedSkills.length === 0) {
+      errors.skills = 'At least one skill is required';
+    } else {
+      const duplicates = selectedSkills.filter(
+        (skill, index) =>
+          selectedSkills.findIndex(
+            (item) => item.toLocaleLowerCase() === skill.toLocaleLowerCase(),
+          ) !== index,
+      );
+      if (duplicates.length > 0) {
+        errors.skills = 'Duplicate skills are not allowed';
+      }
+    }
+
+    if (trimmedSocial) {
+      if (!/^https?:\/\//i.test(trimmedSocial)) {
+        errors.socialMediaUrl = 'URL must start with http:// or https://';
+      } else {
+        try {
+          new URL(trimmedSocial);
+        } catch (_) {
+          errors.socialMediaUrl =
+            'Please enter a valid URL (e.g. https://linkedin.com/in/username)';
+        }
       }
     }
 
     if (!resumeFile) {
       errors.resume = 'Resume / CV file is required';
     } else {
-      const maxSizeBytes = 10 * 1024 * 1024; // 10MB
-      if (resumeFile.size > maxSizeBytes) {
+      const maxSizeBytes = 5 * 1024 * 1024; // 5MB — matches ApplyJob API
+      const extension = resumeFile.name.includes('.')
+        ? `.${resumeFile.name.split('.').pop()?.toLowerCase()}`
+        : '';
+      if (!['.pdf', '.doc', '.docx'].includes(extension)) {
+        errors.resume = 'Only PDF, DOC, or DOCX files are allowed';
+      } else if (resumeFile.size <= 0) {
+        errors.resume = 'Please upload a valid resume. Empty files are not allowed.';
+      } else if (resumeFile.size > maxSizeBytes) {
         const fileSizeMB = (resumeFile.size / (1024 * 1024)).toFixed(2);
-        errors.resume = `File size exceeds the 10MB limit (your file is ${fileSizeMB}MB)`;
+        errors.resume = `Resume file size should not exceed 5 MB (your file is ${fileSizeMB}MB)`;
       }
     }
 
     validationErrors = errors;
-    return Object.keys(errors).length === 0;
+
+    if (Object.keys(errors).length > 0) {
+      const firstField = Object.keys(errors)[0];
+      window.requestAnimationFrame(() => {
+        document
+          .querySelector(`[data-field="${firstField}"]`)
+          ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+      return false;
+    }
+
+    return true;
   }
 
   async function handleSubmit(event: SubmitEvent) {
@@ -308,7 +423,7 @@
         name: name.trim(),
         dob: new Date(dob).toISOString(),
         contact,
-        email,
+        email: email.trim(),
         address: address.trim(),
         previousCompany: previousCompany.trim() || undefined,
         previousDesignation: previousDesignation.trim() || undefined,
@@ -357,7 +472,17 @@
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(errorText || 'Server responded with an error');
+        let apiMessage = 'Server responded with an error';
+        try {
+          const parsed = JSON.parse(errorText) as {
+            message?: string;
+            title?: string;
+          };
+          apiMessage = parsed.message || parsed.title || apiMessage;
+        } catch {
+          if (errorText.trim()) apiMessage = errorText.trim();
+        }
+        throw new Error(apiMessage);
       }
 
       const result = await response.json();
@@ -366,11 +491,12 @@
       } else {
         throw new Error(result.message || 'Failed to submit application');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error applying for job:', err);
       errorMessage =
-        err.message ||
-        'An error occurred while submitting your application. Please try again.';
+        err instanceof Error && err.message
+          ? err.message
+          : 'An error occurred while submitting your application. Please try again.';
     } finally {
       isSubmitting = false;
     }
@@ -491,14 +617,18 @@
           </div>
         {/if}
 
-        <form onsubmit={handleSubmit} class="space-y-5">
+        <form onsubmit={handleSubmit} class="space-y-5" novalidate>
+          <p class="text-xs text-base-content/50 -mt-1">
+            Fields marked with <span class="text-error">*</span> are required.
+          </p>
+
           <!-- Two-column grid for fields -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Full Name -->
-            <fieldset class="fieldset w-full">
-              <legend class="fieldset-legend font-semibold text-base-content/80"
-                >Full Name</legend
-              >
+            <fieldset class="fieldset w-full" data-field="name">
+              <legend class="fieldset-legend font-semibold text-base-content/80">
+                Full Name <span class="text-error" aria-hidden="true">*</span>
+              </legend>
               <input
                 type="text"
                 placeholder="John Doe"
@@ -506,8 +636,10 @@
                   ? 'input-error'
                   : ''}"
                 bind:value={name}
+                oninput={() => clearFieldError('name')}
                 disabled={isSubmitting}
                 required
+                aria-required="true"
               />
               {#if validationErrors.name}
                 <span class="text-xs text-error mt-1">{validationErrors.name}</span>
@@ -515,10 +647,10 @@
             </fieldset>
 
             <!-- Email Address -->
-            <fieldset class="fieldset w-full">
-              <legend class="fieldset-legend font-semibold text-base-content/80"
-                >Email Address</legend
-              >
+            <fieldset class="fieldset w-full" data-field="email">
+              <legend class="fieldset-legend font-semibold text-base-content/80">
+                Email Address <span class="text-error" aria-hidden="true">*</span>
+              </legend>
               <input
                 type="email"
                 placeholder="john.doe@example.com"
@@ -526,8 +658,10 @@
                   ? 'input-error'
                   : ''}"
                 bind:value={email}
+                oninput={() => clearFieldError('email')}
                 disabled={isSubmitting}
                 required
+                aria-required="true"
               />
               {#if validationErrors.email}
                 <span class="text-xs text-error mt-1">{validationErrors.email}</span>
@@ -535,19 +669,24 @@
             </fieldset>
 
             <!-- Contact Number -->
-            <fieldset class="fieldset w-full">
-              <legend class="fieldset-legend font-semibold text-base-content/80"
-                >Contact Number</legend
-              >
+            <fieldset class="fieldset w-full" data-field="contact">
+              <legend class="fieldset-legend font-semibold text-base-content/80">
+                Contact Number <span class="text-error" aria-hidden="true">*</span>
+              </legend>
               <input
                 type="tel"
+                inputmode="numeric"
                 placeholder="9876543210"
+                maxlength="10"
+                pattern="[0-9]{10}"
                 class="input input-bordered w-full bg-base-100 {validationErrors.contact
                   ? 'input-error'
                   : ''}"
                 bind:value={contact}
+                oninput={sanitizeContact}
                 disabled={isSubmitting}
                 required
+                aria-required="true"
               />
               {#if validationErrors.contact}
                 <span class="text-xs text-error mt-1">{validationErrors.contact}</span>
@@ -555,18 +694,20 @@
             </fieldset>
 
             <!-- Date of Birth -->
-            <fieldset class="fieldset w-full">
-              <legend class="fieldset-legend font-semibold text-base-content/80"
-                >Date of Birth</legend
-              >
+            <fieldset class="fieldset w-full" data-field="dob">
+              <legend class="fieldset-legend font-semibold text-base-content/80">
+                Date of Birth <span class="text-error" aria-hidden="true">*</span>
+              </legend>
               <input
                 type="date"
                 class="input input-bordered w-full bg-base-100 {validationErrors.dob
                   ? 'input-error'
                   : ''}"
                 bind:value={dob}
+                oninput={() => clearFieldError('dob')}
                 disabled={isSubmitting}
                 required
+                aria-required="true"
               />
               {#if validationErrors.dob}
                 <span class="text-xs text-error mt-1">{validationErrors.dob}</span>
@@ -574,17 +715,19 @@
             </fieldset>
 
             <!-- Gender -->
-            <fieldset class="fieldset w-full">
-              <legend class="fieldset-legend font-semibold text-base-content/80"
-                >Gender</legend
-              >
+            <fieldset class="fieldset w-full" data-field="gender">
+              <legend class="fieldset-legend font-semibold text-base-content/80">
+                Gender <span class="text-error" aria-hidden="true">*</span>
+              </legend>
               <select
                 class="select select-bordered w-full bg-base-100 {validationErrors.gender
                   ? 'select-error'
                   : ''}"
                 bind:value={gender}
+                onchange={() => clearFieldError('gender')}
                 disabled={isSubmitting}
                 required
+                aria-required="true"
               >
                 <option value="" disabled>Select Gender</option>
                 <option value="Male">Male</option>
@@ -597,7 +740,7 @@
             </fieldset>
 
             <!-- Social Media / LinkedIn URL -->
-            <fieldset class="fieldset w-full">
+            <fieldset class="fieldset w-full" data-field="socialMediaUrl">
               <legend class="fieldset-legend font-semibold text-base-content/80"
                 >LinkedIn / Portfolio URL</legend
               >
@@ -608,6 +751,7 @@
                   ? 'input-error'
                   : ''}"
                 bind:value={socialMediaUrl}
+                oninput={() => clearFieldError('socialMediaUrl')}
                 disabled={isSubmitting}
               />
               {#if validationErrors.socialMediaUrl}
@@ -625,17 +769,10 @@
               <input
                 type="text"
                 placeholder="Acme Inc."
-                class="input input-bordered w-full bg-base-100 {validationErrors.previousCompany
-                  ? 'input-error'
-                  : ''}"
+                class="input input-bordered w-full bg-base-100"
                 bind:value={previousCompany}
                 disabled={isSubmitting}
               />
-              {#if validationErrors.previousCompany}
-                <span class="text-xs text-error mt-1"
-                  >{validationErrors.previousCompany}</span
-                >
-              {/if}
             </fieldset>
 
             <!-- Previous Designation -->
@@ -646,33 +783,28 @@
               <input
                 type="text"
                 placeholder="Software Engineer"
-                class="input input-bordered w-full bg-base-100 {validationErrors.previousDesignation
-                  ? 'input-error'
-                  : ''}"
+                class="input input-bordered w-full bg-base-100"
                 bind:value={previousDesignation}
                 disabled={isSubmitting}
               />
-              {#if validationErrors.previousDesignation}
-                <span class="text-xs text-error mt-1"
-                  >{validationErrors.previousDesignation}</span
-                >
-              {/if}
             </fieldset>
 
             <!-- Total Experience -->
-            <fieldset class="fieldset w-full">
+            <fieldset class="fieldset w-full" data-field="totalExperience">
               <legend class="fieldset-legend font-semibold text-base-content/80"
-                >Total Experience</legend
+                >Total Experience (Years)</legend
               >
               <input
                 type="number"
                 min="0"
+                max="60"
                 step="0.1"
                 placeholder="e.g. 5.5"
                 class="input input-bordered w-full bg-base-100 {validationErrors.totalExperience
                   ? 'input-error'
                   : ''}"
                 bind:value={totalExperience}
+                oninput={() => clearFieldError('totalExperience')}
                 disabled={isSubmitting}
               />
               {#if validationErrors.totalExperience}
@@ -683,7 +815,7 @@
             </fieldset>
 
             <!-- Notice Period -->
-            <fieldset class="fieldset w-full">
+            <fieldset class="fieldset w-full" data-field="noticePeriodId">
               <legend class="fieldset-legend font-semibold text-base-content/80"
                 >Notice Period</legend
               >
@@ -692,6 +824,7 @@
                   ? 'select-error'
                   : ''}"
                 bind:value={noticePeriodId}
+                onchange={() => clearFieldError('noticePeriodId')}
                 disabled={isSubmitting || isLoadingNoticePeriods}
               >
                 <option value={undefined}>
@@ -714,7 +847,7 @@
             </fieldset>
 
             <!-- Current CTC -->
-            <fieldset class="fieldset w-full">
+            <fieldset class="fieldset w-full" data-field="currentCTC">
               <legend class="fieldset-legend font-semibold text-base-content/80"
                 >Current CTC</legend
               >
@@ -727,6 +860,7 @@
                   ? 'input-error'
                   : ''}"
                 bind:value={currentCTC}
+                oninput={() => clearFieldError('currentCTC')}
                 disabled={isSubmitting}
               />
               {#if validationErrors.currentCTC}
@@ -735,7 +869,7 @@
             </fieldset>
 
             <!-- Expected CTC -->
-            <fieldset class="fieldset w-full">
+            <fieldset class="fieldset w-full" data-field="expectedCTC">
               <legend class="fieldset-legend font-semibold text-base-content/80"
                 >Expected CTC</legend
               >
@@ -748,6 +882,7 @@
                   ? 'input-error'
                   : ''}"
                 bind:value={expectedCTC}
+                oninput={() => clearFieldError('expectedCTC')}
                 disabled={isSubmitting}
               />
               {#if validationErrors.expectedCTC}
@@ -774,10 +909,10 @@
           </div>
 
           <!-- Skills (Span full width) -->
-          <fieldset class="fieldset w-full">
-            <legend class="fieldset-legend font-semibold text-base-content/80"
-              >Skills</legend
-            >
+          <fieldset class="fieldset w-full" data-field="skills">
+            <legend class="fieldset-legend font-semibold text-base-content/80">
+              Skills <span class="text-error" aria-hidden="true">*</span>
+            </legend>
             <div class="relative">
               <div
                 class="input input-bordered h-auto min-h-10 w-full flex-wrap gap-2 bg-base-100 py-2 {validationErrors.skills
@@ -817,6 +952,7 @@
                   aria-autocomplete="list"
                   aria-controls="skill-suggestions"
                   aria-label="Search or add a skill"
+                  aria-required="true"
                   aria-expanded={isSkillDropdownOpen && !!skillSearch.trim()}
                   aria-activedescendant={activeSkillOptionId}
                 />
@@ -888,18 +1024,20 @@
           </fieldset>
 
           <!-- Full Address (Span full width) -->
-          <fieldset class="fieldset w-full">
-            <legend class="fieldset-legend font-semibold text-base-content/80"
-              >Full Address</legend
-            >
+          <fieldset class="fieldset w-full" data-field="address">
+            <legend class="fieldset-legend font-semibold text-base-content/80">
+              Full Address <span class="text-error" aria-hidden="true">*</span>
+            </legend>
             <textarea
               placeholder="Your complete address..."
               class="textarea textarea-bordered w-full bg-base-100 h-20 {validationErrors.address
                 ? 'textarea-error'
                 : ''}"
               bind:value={address}
+              oninput={() => clearFieldError('address')}
               disabled={isSubmitting}
               required
+              aria-required="true"
             ></textarea>
             {#if validationErrors.address}
               <span class="text-xs text-error mt-1">{validationErrors.address}</span>
@@ -907,22 +1045,23 @@
           </fieldset>
 
           <!-- Resume Upload (Span full width) -->
-          <fieldset class="fieldset w-full">
-            <legend class="fieldset-legend font-semibold text-base-content/80"
-              >Resume / CV (PDF or Word)</legend
-            >
+          <fieldset class="fieldset w-full" data-field="resume">
+            <legend class="fieldset-legend font-semibold text-base-content/80">
+              Resume / CV (PDF or Word) <span class="text-error" aria-hidden="true">*</span>
+            </legend>
             <input
               type="file"
-              accept=".pdf,.doc,.docx"
+              accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
               class="file-input file-input-bordered w-full bg-base-100 {validationErrors.resume
                 ? 'file-input-error'
                 : ''}"
               onchange={handleFileChange}
               disabled={isSubmitting}
               required
+              aria-required="true"
             />
             <p class="fieldset-label text-base-content/50 mt-1">
-              Accepted formats: PDF, DOC, DOCX. Max size 10MB.
+              Accepted formats: PDF, DOC, DOCX. Max size 5MB.
             </p>
             {#if validationErrors.resume}
               <span class="text-xs text-error mt-1">{validationErrors.resume}</span>
