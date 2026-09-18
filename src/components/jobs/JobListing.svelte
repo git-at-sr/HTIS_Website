@@ -23,7 +23,8 @@
   let departments = $state<DepartmentOption[]>([]);
   let locations = $state<LocationOption[]>([]);
   let isLoading = $state(true);
-  let isLoadingFilters = $state(true);
+  let isLoadingDepartments = $state(true);
+  let isLoadingLocations = $state(true);
   let error = $state<string | null>(null);
 
   let searchQuery = $state('');
@@ -33,21 +34,10 @@
   let deptDetailsRef = $state<HTMLDetailsElement | null>(null);
   let locDetailsRef = $state<HTMLDetailsElement | null>(null);
 
-  async function loadFilterOptions(signal: AbortSignal) {
-    isLoadingFilters = true;
-    try {
-      const [deptOptions, locOptions] = await Promise.all([
-        fetchDepartments({ signal }),
-        fetchLocations({ signal }),
-      ]);
-      departments = deptOptions;
-      locations = locOptions;
-    } catch (err: unknown) {
-      if (err instanceof DOMException && err.name === 'AbortError') return;
-      console.error('Unable to load hiring filter dropdowns:', err);
-    } finally {
-      isLoadingFilters = false;
-    }
+  function sameIdSet(a: number[], b: number[]): boolean {
+    if (a.length !== b.length) return false;
+    const set = new Set(a);
+    return b.every((id) => set.has(id));
   }
 
   async function fetchJobs(signal: AbortSignal, pageNumber: number) {
@@ -83,9 +73,65 @@
     }
   }
 
+  // Locations depend on selected departments (LocationDdl?departmentIds=)
   $effect(() => {
+    const departmentIds = selectedDepartmentIds;
     const controller = new AbortController();
-    void loadFilterOptions(controller.signal);
+    isLoadingLocations = true;
+
+    void (async () => {
+      try {
+        const locOptions = await fetchLocations({
+          signal: controller.signal,
+          departmentIds,
+        });
+        if (controller.signal.aborted) return;
+
+        locations = locOptions;
+        const validIds = new Set(locOptions.map((item) => Number(item.locationId)));
+        const nextSelected = selectedLocationIds.filter((id) => validIds.has(id));
+        if (!sameIdSet(nextSelected, selectedLocationIds)) {
+          selectedLocationIds = nextSelected;
+        }
+      } catch (err: unknown) {
+        if (err instanceof DOMException && err.name === 'AbortError') return;
+        console.error('Unable to load locations:', err);
+      } finally {
+        if (!controller.signal.aborted) isLoadingLocations = false;
+      }
+    })();
+
+    return () => controller.abort();
+  });
+
+  // Departments depend on selected locations (DepartmentDdl?locationIds=)
+  $effect(() => {
+    const locationIds = selectedLocationIds;
+    const controller = new AbortController();
+    isLoadingDepartments = true;
+
+    void (async () => {
+      try {
+        const deptOptions = await fetchDepartments({
+          signal: controller.signal,
+          locationIds,
+        });
+        if (controller.signal.aborted) return;
+
+        departments = deptOptions;
+        const validIds = new Set(deptOptions.map((item) => Number(item.departmentId)));
+        const nextSelected = selectedDepartmentIds.filter((id) => validIds.has(id));
+        if (!sameIdSet(nextSelected, selectedDepartmentIds)) {
+          selectedDepartmentIds = nextSelected;
+        }
+      } catch (err: unknown) {
+        if (err instanceof DOMException && err.name === 'AbortError') return;
+        console.error('Unable to load departments:', err);
+      } finally {
+        if (!controller.signal.aborted) isLoadingDepartments = false;
+      }
+    })();
+
     return () => controller.abort();
   });
 
@@ -122,6 +168,18 @@
     ) {
       locDetailsRef.removeAttribute('open');
     }
+  }
+
+  function openDepartmentDropdown() {
+    locDetailsRef?.removeAttribute('open');
+  }
+
+  function openLocationDropdown() {
+    deptDetailsRef?.removeAttribute('open');
+  }
+
+  function stopMenuEvent(event: Event) {
+    event.stopPropagation();
   }
 
   let filteredJobs = $derived(
@@ -162,7 +220,9 @@
     currentPage = page;
   }
 
-  function toggleDepartment(departmentId: number) {
+  function toggleDepartment(event: Event, departmentId: number) {
+    event.preventDefault();
+    event.stopPropagation();
     if (selectedDepartmentIds.includes(departmentId)) {
       selectedDepartmentIds = selectedDepartmentIds.filter((id) => id !== departmentId);
     } else {
@@ -170,7 +230,9 @@
     }
   }
 
-  function toggleLocation(locationId: number) {
+  function toggleLocation(event: Event, locationId: number) {
+    event.preventDefault();
+    event.stopPropagation();
     if (selectedLocationIds.includes(locationId)) {
       selectedLocationIds = selectedLocationIds.filter((id) => id !== locationId);
     } else {
@@ -186,8 +248,8 @@
 <svelte:window onclick={handleWindowClick} />
 
 <div>
-  <!-- Filters -->
-  <div class="flex flex-col md:flex-row gap-4 mb-4">
+  <!-- Filters: high stacking context so menus sit above stretched row links -->
+  <div class="relative z-30 flex flex-col md:flex-row gap-4 mb-4">
     <div class="relative flex-1">
       <Search
         class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-base-content/50 pointer-events-none z-10"
@@ -201,33 +263,50 @@
     </div>
 
     <!-- Department Dropdown -->
-    <details class="dropdown flex-1" bind:this={deptDetailsRef}>
+    <details
+      class="dropdown flex-1"
+      bind:this={deptDetailsRef}
+      ontoggle={(event) => {
+        if ((event.currentTarget as HTMLDetailsElement).open) openDepartmentDropdown();
+      }}
+    >
       <summary
         class="btn btn-outline border-base-300 w-full justify-between font-normal bg-base-100 hover:bg-base-200 text-base-content/70 hover:border-base-300"
       >
         <span class="truncate">
           {selectedDepartmentIds.length > 0
             ? `${selectedDepartmentIds.length} Selected`
-            : isLoadingFilters
+            : isLoadingDepartments
               ? 'Loading departments...'
               : 'Department'}
         </span>
         <ChevronDown class="h-4 w-4 shrink-0" />
       </summary>
       <ul
-        class="dropdown-content z-1 menu p-2 shadow bg-base-100 rounded-box w-full mt-1 border border-base-200 max-h-60 overflow-y-auto block"
+        class="dropdown-content z-50 menu p-2 shadow-lg bg-base-100 rounded-box w-full mt-1 border border-base-200 max-h-60 overflow-y-auto block"
+        role="listbox"
+        aria-label="Departments"
+        onclick={stopMenuEvent}
+        onmousedown={stopMenuEvent}
+        onpointerdown={stopMenuEvent}
       >
         {#if departments.length === 0}
           <li class="px-3 py-2 text-sm text-base-content/60">No departments available</li>
         {:else}
           {#each departments as dept (dept.departmentId)}
             <li>
-              <label class="label cursor-pointer justify-start gap-3 w-full">
+              <label
+                class="label cursor-pointer justify-start gap-3 w-full"
+                onmousedown={stopMenuEvent}
+                onclick={(event) =>
+                  toggleDepartment(event, Number(dept.departmentId))}
+              >
                 <input
                   type="checkbox"
-                  class="checkbox checkbox-sm checkbox-primary"
+                  class="checkbox checkbox-sm checkbox-primary pointer-events-none"
                   checked={selectedDepartmentIds.includes(Number(dept.departmentId))}
-                  onchange={() => toggleDepartment(Number(dept.departmentId))}
+                  tabindex="-1"
+                  readonly
                 />
                 <span class="label-text">{dept.departmentName}</span>
               </label>
@@ -238,33 +317,49 @@
     </details>
 
     <!-- Location Dropdown -->
-    <details class="dropdown flex-1" bind:this={locDetailsRef}>
+    <details
+      class="dropdown flex-1"
+      bind:this={locDetailsRef}
+      ontoggle={(event) => {
+        if ((event.currentTarget as HTMLDetailsElement).open) openLocationDropdown();
+      }}
+    >
       <summary
         class="btn btn-outline border-base-300 w-full justify-between font-normal bg-base-100 hover:bg-base-200 text-base-content/70 hover:border-base-300"
       >
         <span class="truncate">
           {selectedLocationIds.length > 0
             ? `${selectedLocationIds.length} Selected`
-            : isLoadingFilters
+            : isLoadingLocations
               ? 'Loading locations...'
               : 'Location'}
         </span>
         <ChevronDown class="h-4 w-4 shrink-0" />
       </summary>
       <ul
-        class="dropdown-content z-1 menu p-2 shadow bg-base-100 rounded-box w-full mt-1 border border-base-200 max-h-60 overflow-y-auto block"
+        class="dropdown-content z-50 menu p-2 shadow-lg bg-base-100 rounded-box w-full mt-1 border border-base-200 max-h-60 overflow-y-auto block"
+        role="listbox"
+        aria-label="Locations"
+        onclick={stopMenuEvent}
+        onmousedown={stopMenuEvent}
+        onpointerdown={stopMenuEvent}
       >
         {#if locations.length === 0}
           <li class="px-3 py-2 text-sm text-base-content/60">No locations available</li>
         {:else}
           {#each locations as loc (loc.locationId)}
             <li>
-              <label class="label cursor-pointer justify-start gap-3 w-full">
+              <label
+                class="label cursor-pointer justify-start gap-3 w-full"
+                onmousedown={stopMenuEvent}
+                onclick={(event) => toggleLocation(event, Number(loc.locationId))}
+              >
                 <input
                   type="checkbox"
-                  class="checkbox checkbox-sm checkbox-primary"
+                  class="checkbox checkbox-sm checkbox-primary pointer-events-none"
                   checked={selectedLocationIds.includes(Number(loc.locationId))}
-                  onchange={() => toggleLocation(Number(loc.locationId))}
+                  tabindex="-1"
+                  readonly
                 />
                 <span class="label-text">{loc.locationName}</span>
               </label>
@@ -309,8 +404,8 @@
       <span>{error}</span>
     </div>
   {:else}
-    <!-- Jobs Table -->
-    <div class="overflow-x-auto">
+    <!-- Jobs Table: keep below filter dropdowns -->
+    <div class="relative z-0 overflow-x-auto">
       <table class="table w-full">
         <thead>
           <tr>
