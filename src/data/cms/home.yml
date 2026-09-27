@@ -546,6 +546,19 @@ testimonials:
         goal."'
       name: Umesh Kumar
       title: CISCO
+    - quote: “Commendable efforts by the HTIS team. The queries brought to your notice
+        were resolved on priority, reflecting your dedication and commitment.
+        The website has not only been updated but is also visible on Google
+        Search. Our director-cum-Principal has also conveyed his regards to the
+        entire team. Thank you for the excellent support.”
+      name: Kushal Kumar Bansal
+      title: Government College Sulah
+    - quote: “We successfully completed the first Check Point to FTD firewall
+        migration. Special appreciation to Laxmi Narain and the HTIS team for
+        their valuable coordination, technical support and contribution towards
+        the successful completion of the activity.”
+      name: Khushboo Sharma
+      title: Ericsson
 articles:
   enabled: false
   sectionId: articles
