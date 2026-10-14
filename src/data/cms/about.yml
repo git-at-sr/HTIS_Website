@@ -115,11 +115,11 @@ ourPresence:
       isHQ: true
       mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
     - name: United Kingdom
-      address: 30 St Mary Axe, London EC3A 8BF, United Kingdom
-      lat: 51.5074
-      lng: -0.1278
+      address: 5th Floor, 167-169 Great Portland Street, London, W1W 5PF, United Kingdom
+      lat: 51.521673
+      lng: -0.143705
       isHQ: false
-      mapUrl: https://www.google.com/maps/place/HTIS+Telecom+Private+Limited/@28.4484266,77.0329455,17z/data=!3m1!4b1!4m6!3m5!1s0x390d1837e0ebfce9:0x7f590e5c9529a339!8m2!3d28.4484266!4d77.0329455!16s%2Fg%2F11bx8hly6x?entry=ttu&g_ep=EgoyMDI2MDcxNS4wIKXMDSoASAFQAw%3D%3D
+      mapUrl: https://www.google.com/maps/search/A+D+Patel+%26+Co+Ltd,+167-169+Great+Portland+Street,+LONDON,+W1W+5PF,+UNITED+KINGDOM/@51.5349662,-0.1946731,13z/data=!3m1!4b1?entry=ttu&g_ep=EgoyMDI2MTAxMS4wIKXMDSoASAFQAw%3D%3D
     - name: South Africa
       address: Sandton City, Johannesburg 2196, South Africa
       lat: -26.2041
