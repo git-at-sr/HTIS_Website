@@ -424,8 +424,8 @@ footprint:
         longitude: 28.0473
         size: 0.05
       - name: United Kingdom
-        latitude: 51.5074
-        longitude: -0.1278
+        latitude: 51.521673
+        longitude: -0.143705
         size: 0.05
       - name: Nigeria
         latitude: 6.5244
