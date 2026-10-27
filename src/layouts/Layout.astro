@@ -2,6 +2,7 @@
 import { ClientRouter } from 'astro:transitions';
 import '~/assets/app.css';
 import WhatsAppButton from '~/components/WhatsAppButton.astro';
+import SupportButton from '~/components/SupportButton.astro';
 import { getCmsAssetSrc, site } from '~/data/cms';
 
 interface Props {
@@ -146,6 +147,7 @@ const ogImageUrl = new URL(ogImagePath, `${siteUrl}/`).toString();
     }
     <slot />
     <WhatsAppButton />
+    <SupportButton />
     <script is:inline>
       const TOAST_ELEMENT_ID = 'global-site-toast';
       const TOAST_DISMISSED_KEY = '__htisGlobalToastDismissed';

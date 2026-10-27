@@ -1,0 +1,28 @@
+---
+// Floating Global Support button component — redirects to WFMS support portal
+import { Headset } from '@lucide/astro';
+---
+
+<a
+  href="https://wfms.htistelecom.in/Support/Create"
+  target="_blank"
+  rel="noopener noreferrer"
+  class="fixed bottom-22 right-4 md:bottom-26 md:right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] text-white shadow-[0_4px_14px_rgba(37,211,102,0.4)] hover:shadow-[0_6px_20px_rgba(37,211,102,0.6)] transition-all duration-300 hover:scale-110 active:scale-95 group focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2"
+  aria-label="Global Support"
+>
+  <!-- Background Glow / Pulse Effect -->
+  <span class="absolute inset-0 rounded-full bg-[#25D366] animate-whatsapp-pulse pointer-events-none"></span>
+
+  <!-- Support Headset Icon -->
+  <Headset
+    class="relative z-10 w-7 h-7 stroke-white transition-transform duration-300 group-hover:rotate-12"
+    strokeWidth={2}
+  />
+
+  <!-- Interactive Hover Tooltip -->
+  <span
+    class="absolute right-16 scale-0 origin-right transition-all duration-300 opacity-0 translate-x-2 group-hover:scale-100 group-hover:opacity-100 group-hover:translate-x-0 bg-base-100 text-base-content text-xs font-semibold py-2 px-3 rounded-lg shadow-lg border border-base-200 pointer-events-none whitespace-nowrap"
+  >
+    Contact Global Support
+  </span>
+</a>
